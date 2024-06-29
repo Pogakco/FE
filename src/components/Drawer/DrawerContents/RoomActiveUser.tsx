@@ -13,7 +13,7 @@ const RoomActvieUser = () => {
 
       <div className="userList">
         {Array.from({ length: 17 }).map((_, index) => (
-          <UserListCard key={index} />
+          <UserListCard rank={index} key={index} />
         ))}
       </div>
     </RoomActvieUserStyle>
@@ -47,7 +47,7 @@ const RoomActvieUserStyle = styled.div`
   .userList {
     width: 100%;
     padding: 20px;
-    max-height: 400px;
+    max-height: 500px;
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;

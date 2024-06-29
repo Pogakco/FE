@@ -8,14 +8,14 @@ import UserLogin from "./pages/UserLogin";
 import RoomDetail from "./pages/RoomDetail";
 import "@/style/reset.css";
 import "@/style/font.css";
-import Temp from "./pages/Temp";
 import Header from "./components/Header/Header";
+import Main from "./pages/Main";
 
 const routeList = [
   { path: "/signup", element: <UserSignup /> },
   { path: "/login", element: <UserLogin /> },
   { path: "/roomDetail", element: <RoomDetail />},
-  { path: "/temp", element: <Temp />},
+  { path: "/main", element: <Main />},
 ];
 
 const router = createBrowserRouter(

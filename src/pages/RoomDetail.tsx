@@ -4,6 +4,7 @@ import Timer from "@/components/Timer/Timer";
 import { useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark} from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 /*
@@ -27,11 +28,12 @@ const roomData: IroomData = {
 
 const RoomDetail = () => {
   const [activeSound, setActiveSound] = useState<boolean>(false);
+  const navigate = useNavigate();
   const soundHandler = () => {
     setActiveSound(!activeSound)
   }
   const exitButtonHandler = () => {
-    console.log('exit button clicked')
+    navigate('/main');
   }
   return (
     <RoomDetailStyle>
