@@ -8,7 +8,7 @@ import UserLogin from "./pages/UserLogin";
 import RoomDetail from "./pages/RoomDetail";
 import "@/style/reset.css";
 import "@/style/font.css";
-import Header from "./components/Header/Header";
+import Header from "./components/header/Header";
 import Main from "./pages/Main";
 
 const routeList = [

@@ -1,19 +1,53 @@
 import styled from "styled-components";
-import UserListCard from "./UserListCard";
 import { FaUser } from "react-icons/fa";
+import { IactiveUserData } from "@/models/room.model";
+import UserListBox from "./UserListBox";
 
+const activeUserData : IactiveUserData= {
+  activeParticipants: 5,
+  users: [{
+    nickname: 'changchangwoo',
+    profileImageUrl: 'url',
+    pomodoroCount: 3,
+    isActive: true,
+  },
+  {
+    nickname: 'changchangwoo',
+    profileImageUrl: 'url',
+    pomodoroCount: 3,
+    isActive: true,
+  },
+  {
+    nickname: 'changchangwoo',
+    profileImageUrl: 'url',
+    pomodoroCount: 3,
+    isActive: true,
+  },
+  {
+    nickname: 'changchangwoo',
+    profileImageUrl: 'url',
+    pomodoroCount: 3,
+    isActive: true,
+  },
+  {
+    nickname: 'changchangwoo',
+    profileImageUrl: 'url',
+    pomodoroCount: 3,
+    isActive: true,
+  }]
+}
 const RoomActvieUser = () => {
   return (
     <RoomActvieUserStyle>
       <div className="title">참여중인 유저</div>
       <div className="users">
-        <FaUser />6
+        <FaUser />{activeUserData.activeParticipants}
       </div>
       <hr />
 
       <div className="userList">
-        {Array.from({ length: 17 }).map((_, index) => (
-          <UserListCard rank={index} key={index} />
+        {activeUserData.users.map((user, index)=>(
+          <UserListBox rank={index} user={user} key={index}  />
         ))}
       </div>
     </RoomActvieUserStyle>
@@ -47,7 +81,7 @@ const RoomActvieUserStyle = styled.div`
   .userList {
     width: 100%;
     padding: 20px;
-    max-height: 500px;
+    min-height: 500px;
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;

@@ -9,12 +9,17 @@ import {
   DrawerStyle,
   Overlay
 } from "./DrawerStyle";
+import { IroomData } from "@/models/room.model";
 
 interface IdrawerData {
   id: number;
   title: string;
-  component: React.FC;
+  component: React.FC<{ roomData: IroomData }>;
   icon: React.FC;
+}
+
+interface Props {
+  roomData: IroomData;
 }
 
 const drawerData: IdrawerData[] = [
@@ -38,7 +43,7 @@ const drawerData: IdrawerData[] = [
   }
 ];
 
-const Drawer: React.FC = () => {
+const Drawer = ({ roomData }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [selectDrawer, setSelectDrawer] = useState<string | null>(null);
@@ -69,10 +74,9 @@ const Drawer: React.FC = () => {
       <Overlay open={open} onClick={drawerOverlayClick} />
       <DrawerStyle open={open} ref={drawerRef}>
         <DrawerContents>
-          {drawerData.map(
-            (item) =>
-              selectDrawer === item.title && <item.component key={item.id} />
-          )}
+          {selectDrawer === "info" && <RoomInfo roomData={roomData} />}
+          {selectDrawer === "user" && <RoomActiveUser />}
+          {selectDrawer === "community" && ( <RoomCommunity />)}
         </DrawerContents>
         <DrawerController>
           <ul>

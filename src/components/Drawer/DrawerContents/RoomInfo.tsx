@@ -1,38 +1,53 @@
-import TimerDescriptCard from "@/components/Card/TimerDescriptCard";
+import TimerDescriptCard from "@/components/cards/TimerDescriptCard";
+import { IroomData } from "@/models/room.model";
 import { FaCrown, FaPaperclip, FaUser } from "react-icons/fa";
 import styled from "styled-components";
 
-const RoomInfo = () => {
+interface Props {
+  roomData: IroomData;
+}
+
+const RoomInfo = ({ roomData }: Props) => {
   return (
     <RoomInfoStyle>
-      <div className="title">뽀모도로 정예부대 구해요</div>
-      <span><div className="statusCircle"/><div className="description">휴식중</div></span>
-      <div className="avatar"></div>
+      <div className="title">{roomData.roomTitle}</div>
+      <span>
+        <div className="statusCircle" style={{ backgroundColor: roomData.isRunning ? 'F44444' : '#43F780' }} />
+        <div className="description">{roomData.isRunning ? '집중' : '휴식'}</div>
+      </span>
+      <div className="avatar" style={{ backgroundImage: `url(${roomData.ownerProfileImageUrl})` }} />
       <div className="sub-title">
         <FaCrown />
-        changchangwoo
+        {roomData.ownerName}
       </div>
       <div className="users">
-        <FaUser />6
+        <FaUser />
+        {roomData.currentParticipants}/{roomData.maxParticipants}
       </div>
       <hr />
       <div className="section-title">방 정보</div>
-      <div className="description">
-        더도 말고 우리 딱 코딩으로 연봉 1억 받을 정도로만 열심히해요 내일도
-        오늘도 화이팅 코딩 열심히해서 맛있는 음식도 많이 먹어요
-      </div>
+      <div className="description">{roomData.roomDescription}</div>
       <div className="section-title">타이머 정보</div>
-      <TimerDescriptCard />
+      <TimerDescriptCard
+        totalCycles={roomData.totalCycles}
+        currentCycles={roomData.currentCycles}
+        focusTime={roomData.focusTime}
+        shortBreakTime={roomData.shortBreakTime}
+        longBreakTime={roomData.longBreakTime}
+      />
       <div className="section-title">공유하기</div>
-      <span><FaPaperclip /><div className="description">https://www.figma.com/design</div></span>
+      <span>
+        <FaPaperclip />
+        <div className="description">https://www.figma.com/design</div>
+      </span>
     </RoomInfoStyle>
   );
 };
 
 const RoomInfoStyle = styled.div`
-display: flex;
-flex-direction: column;
-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   span {
     display: flex;
     align-items: center;
@@ -65,7 +80,9 @@ gap: 10px;
     width: 70px;
     height: 70px;
     border-radius: 100px;
-    background-color:  ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.white};
+    background-size: cover;
+    background-position: center;
   }
 
   .users {
@@ -77,7 +94,7 @@ gap: 10px;
   }
 
   hr {
-    background-color:  ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.white};
     height: 1px;
     border: none;
     margin: 10px 0;
@@ -87,8 +104,7 @@ gap: 10px;
     width: 10px;
     height: 10px;
     border-radius: 10px;
-    background-color: #43F780;
-    
   }
 `;
+
 export default RoomInfo;

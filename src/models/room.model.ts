@@ -12,3 +12,13 @@ export interface IroomData {
     ownerName: string;
     ownerProfileImageUrl?: string;
 }
+
+export interface IactiveUserData {
+    activeParticipants: number; // 방에 참여한 사이클을 진행중인(활성) 인원 수
+    users: {
+      nickname: string;
+      profileImageUrl?: string;
+      pomodoroCount: number;
+      isActive: boolean;
+    }[]
+}

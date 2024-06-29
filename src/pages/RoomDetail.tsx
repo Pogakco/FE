@@ -1,13 +1,13 @@
-import CircleButton from "@/components/Button/CircleButton";
-import Drawer from "@/components/Drawer/Drawer";
-import Timer from "@/components/Timer/Timer";
+import CircleButton from "@/components/buttons/CircleButton";
+import Drawer from "@/components/drawer/Drawer";
+import Timer from "@/components/timer/Timer";
+import { IroomData } from "@/models/room.model";
 import { useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark} from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-/*
 const roomData: IroomData = {
   roomTitle: "뽀모도로 정예부대 구해요",
   roomDescription: `더도 말고 우리 딱 코딩으로 연봉 1억 받을 정도로만 
@@ -18,13 +18,12 @@ const roomData: IroomData = {
   focusTime: 25,
   shortBreakTime: 5,
   longBreakTime: 15,
-  isRunning: true,
+  isRunning: false,
   maxParticipants: 20,
   currentParticipants: 15,
   ownerName: "changchangwoo",
   ownerProfileImageUrl: "https://example.com/profile.jpg"
 };
-*/
 
 const RoomDetail = () => {
   const [activeSound, setActiveSound] = useState<boolean>(false);
@@ -40,10 +39,10 @@ const RoomDetail = () => {
       <div className="muteIcon" onClick={soundHandler} >
         {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh /> }
       </div>
-      <Drawer />
+      <Drawer roomData={roomData}/>
       <Timer />
       <div className="exitButton">
-      <CircleButton onClick={exitButtonHandler}>
+      <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
         <RiLogoutBoxRLine  />
       </CircleButton>
       </div>
