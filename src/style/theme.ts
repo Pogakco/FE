@@ -14,6 +14,7 @@ export type TColor =
   | "black"; // #000 대신
 export type TLayoutWidth = "screen" | "auth" | "modal";
 export type TFontSize = "title" | "large" | "medium" | "small";
+export type TBoxShadow = "default";
 
 interface ITheme {
   name: TThemeName;
@@ -25,6 +26,9 @@ interface ITheme {
   };
   fontSize: {
     [key in TFontSize]: string;
+  };
+  boxShadow: {
+    [key in TBoxShadow]: string;
   };
 }
 
@@ -56,5 +60,8 @@ export const light: ITheme = {
     large: "20px",
     medium: "16px",
     small: "13px"
+  },
+  boxShadow: {
+    default: "0 0 8px 2px rgba(0, 0, 0, 0.12)"
   }
 };
