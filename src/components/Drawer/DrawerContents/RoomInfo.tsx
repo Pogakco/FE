@@ -1,11 +1,12 @@
-import { FaCrown, FaUser } from "react-icons/fa";
+import TimerDescriptCard from "@/components/Card/TimerDescriptCard";
+import { FaCrown, FaPaperclip, FaUser } from "react-icons/fa";
 import styled from "styled-components";
 
 const RoomInfo = () => {
   return (
     <RoomInfoStyle>
       <div className="title">뽀모도로 정예부대 구해요</div>
-      <div className="description">휴식</div>
+      <span><div className="statusCircle"/><div className="description">휴식중</div></span>
       <div className="avatar"></div>
       <div className="sub-title">
         <FaCrown />
@@ -21,9 +22,9 @@ const RoomInfo = () => {
         오늘도 화이팅 코딩 열심히해서 맛있는 음식도 많이 먹어요
       </div>
       <div className="section-title">타이머 정보</div>
-      <div className="timer-description"></div>
+      <TimerDescriptCard />
       <div className="section-title">공유하기</div>
-      <div className="description">https://www.figma.com/design</div>
+      <span><FaPaperclip /><div className="description">https://www.figma.com/design</div></span>
     </RoomInfoStyle>
   );
 };
@@ -32,6 +33,11 @@ const RoomInfoStyle = styled.div`
 display: flex;
 flex-direction: column;
 gap: 10px;
+  span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
   .title {
     font-size: ${({ theme }) => theme.fontSize.title};
     font-weight: bold;
@@ -52,7 +58,7 @@ gap: 10px;
 
   .description {
     font-size: ${({ theme }) => theme.fontSize.small};
-    font-weight: 200;
+    font-weight: 400;
   }
 
   .avatar {
@@ -68,7 +74,6 @@ gap: 10px;
     align-items: center;
     gap: 5px;
     justify-content: flex-end;
-    margin-bottom: 10px;
   }
 
   hr {
@@ -78,11 +83,12 @@ gap: 10px;
     margin: 10px 0;
   }
 
-  .timer-description {
-    width: 100%;
-    height: 90px;
-    border-radius: 8px;
-    background-color:  ${({ theme }) => theme.color.white};
+  .statusCircle {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #43F780;
+    
   }
 `;
 export default RoomInfo;

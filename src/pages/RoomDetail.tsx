@@ -1,9 +1,12 @@
+import CircleButton from "@/components/Button/CircleButton";
 import Drawer from "@/components/Drawer/Drawer";
-import Timer from "@/components/RoomDetail/Timer";
-import { IroomData } from "@/models/room.model";
-import { FaVolumeMute } from "react-icons/fa";
+import Timer from "@/components/Timer/Timer";
+import { useState } from "react";
+import { FaVolumeHigh, FaVolumeXmark} from "react-icons/fa6";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 import styled from "styled-components";
 
+/*
 const roomData: IroomData = {
   roomTitle: "뽀모도로 정예부대 구해요",
   roomDescription: `더도 말고 우리 딱 코딩으로 연봉 1억 받을 정도로만 
@@ -20,27 +23,31 @@ const roomData: IroomData = {
   ownerName: "changchangwoo",
   ownerProfileImageUrl: "https://example.com/profile.jpg"
 };
+*/
 
 const RoomDetail = () => {
+  const [activeSound, setActiveSound] = useState<boolean>(false);
+  const soundHandler = () => {
+    setActiveSound(!activeSound)
+  }
+  const exitButtonHandler = () => {
+    console.log('exit button clicked')
+  }
   return (
     <RoomDetailStyle>
-      <MuteIcon>
-        <FaVolumeMute />
-      </MuteIcon>
+      <div className="muteIcon" onClick={soundHandler} >
+        {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh /> }
+      </div>
       <Drawer />
       <Timer />
+      <div className="exitButton">
+      <CircleButton onClick={exitButtonHandler}>
+        <RiLogoutBoxRLine  />
+      </CircleButton>
+      </div>
     </RoomDetailStyle>
   );
 };
-
-const MuteIcon = styled.div`
-  position: absolute;
-  top: 80px;
-  right: 20px;
-  font-size: 50px;
-  color: #ff8080;
-  cursor: pointer;
-`;
 
 const RoomDetailStyle = styled.div`
   width: 100vw;
@@ -50,5 +57,20 @@ const RoomDetailStyle = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+
+  .muteIcon {
+    position: absolute;
+  top: 100px;
+  right: 50px;
+  font-size: 50px;
+  color: #ff8080;
+  cursor: pointer;
+  }
+
+  .exitButton {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+  }
 `;
 export default RoomDetail;

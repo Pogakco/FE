@@ -35,7 +35,7 @@ const UserListCardStyle = styled.div`
     width: 30px;
     height: 30px;
     border-radius: 100px;
-    background-color: green;
+    background-color: grey;
   }
   
   .userName {

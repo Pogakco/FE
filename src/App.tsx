@@ -5,14 +5,17 @@ import { light } from "./style/theme";
 import GlobalStyle from "./style/global";
 import UserSignup from "./pages/UserSignup";
 import UserLogin from "./pages/UserLogin";
+import RoomDetail from "./pages/RoomDetail";
 import "@/style/reset.css";
 import "@/style/font.css";
-import RoomDetail from "./pages/RoomDetail";
+import Temp from "./pages/Temp";
+import Header from "./components/Header/Header";
 
 const routeList = [
   { path: "/signup", element: <UserSignup /> },
   { path: "/login", element: <UserLogin /> },
   { path: "/roomDetail", element: <RoomDetail />},
+  { path: "/temp", element: <Temp />},
 ];
 
 const router = createBrowserRouter(
@@ -28,6 +31,7 @@ function App() {
   return (
     <ThemeProvider theme={light}>
       <GlobalStyle themeName="light" />
+      <Header/>
       <RouterProvider router={router} />
     </ThemeProvider>
   );

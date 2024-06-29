@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle<Props>`
         box-sizing: border-box;
   }
 
-  body {
+  body, button {
       font-family: "Pretendard Variable", Pretendard, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
       font-weight: 400;
       line-height: 1.6;
@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle<Props>`
   h1 {
       margin: 0;
   }
+  
 
 
 `;

@@ -45,7 +45,11 @@ export const DrawerStyle = styled.div<DrawerContainerProps>`
       margin: 20px;
       border-radius: 10px;
       cursor: pointer;
+      transition: all 0.2s;
     }
+    li.active {
+    background-color: ${({ theme }) => theme.color.pink6};
+  }
     li:hover {
       background-color: ${({ theme }) => theme.color.pink6};
     }
