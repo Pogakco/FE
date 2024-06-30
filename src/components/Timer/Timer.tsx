@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 const TimerContainer = styled.div`
     width: 335px;
-    height: 332px;
-    border-radius: 5000px;
+    height: 335px;
+    border-radius: 335px;
     background-color: #FF8080;
     display: flex;
     justify-content: center;
