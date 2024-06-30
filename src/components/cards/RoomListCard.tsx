@@ -6,14 +6,19 @@ import RunningStatus from "../commons/RunningStatus";
 
 interface Props {
   roomData: IroomData;
+  onClick: (roomData: IroomData) => void;
 }
 
-const RoomListCard = ({ roomData }: Props) => {
+const RoomListCard = ({ roomData, onClick }: Props) => {
+  const handleClick = () => {
+    onClick(roomData);
+  };
+
   return (
-    <RoomListCardStyle>
+    <RoomListCardStyle onClick={handleClick}>
       <div className="roomHeader">
         <div className="roomTitle">{roomData.roomTitle}</div>
-        <RunningStatus isRunning={roomData.isRunning}/>
+        <RunningStatus isRunning={roomData.isRunning} />
       </div>
       <TimerDescriptCard
         totalCycles={roomData.totalCycles}

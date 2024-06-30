@@ -32,7 +32,7 @@ const RoomDetail = () => {
     setActiveSound(!activeSound);
   };
   const exitButtonHandler = () => {
-    navigate("/main");
+    navigate("/");
   };
   return (
     <RoomDetailStyle>

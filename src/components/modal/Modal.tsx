@@ -1,21 +1,22 @@
 import styled from "styled-components";
-import RunningStatus from "../commons/RunningStatus";
 import { IoMdClose } from "react-icons/io";
+import { useRef } from "react";
+import { handleOverlayClick } from "@/utils/handleOverlayClick";
 
 interface Props {
   children: React.ReactNode;
+  isModal: boolean;
+  setIsModal : React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
-const Modal = ({children} : Props) => {
+const Modal = ({ children, isModal, setIsModal, onClose }: Props) => {
+  const modalRef = useRef(null);
+
   return (
-    <ModalStyle>
-      <ModalContainer>
-        <div className="exitButton"><IoMdClose /></div>
-        <div className="modalHeader">
-          <h1>뽀모도로 정예부대 구해요</h1>
-          <RunningStatus isRunning={false} />
-          <hr />
-        </div>
+    <ModalStyle onClick={(e) => handleOverlayClick(e, modalRef, setIsModal, onClose)}>
+      <ModalContainer ref={modalRef}>
+        <div className="exitButton" onClick={onClose}><IoMdClose /></div>
         {children}
       </ModalContainer>
     </ModalStyle>
@@ -57,27 +58,6 @@ const ModalContainer = styled.div`
 
     svg {
       color: ${({ theme }) => theme.color.white}
-    }
-  }
-
-  .modalHeader {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap:10px;
-    h1 {
-      text-align: center;
-      font-size: ${({ theme }) => theme.fontSize.large};
-      font-weight: bold;
-    }
-    hr {
-      width: 100%;
-      background-color: ${({ theme }) => theme.color.grey1};
-      height: 1px;
-      border: none;
-      margin-top: 10px;
-      margin-bottom: 30px;
     }
   }
 `;

@@ -8,11 +8,15 @@ import Modal from '@/components/modal/Modal';
 import ModalRoomCreate from '@/components/modal/modalContents/ModalRoomCreate';
 import ModalRoomDetail from '@/components/modal/modalContents/ModalRoomDetail';
 
-type TisRoomType = "all" | "filter"
+type TisRoomType = "all" | "filter";
+type TModalContent = "detail" | "create" | null;
 
 const Main = () => {
   const [isRunningChecked, setIsRunningChecked] = useState<boolean>(false);
   const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<TisRoomType>("all");
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [selectedRoom, setSelectedRoom] = useState<IroomData | null>(null);
+  const [modalContent, setModalContent] = useState<TModalContent>(null);
 
   const handleCheckboxChange = () => {
     setIsRunningChecked(!isRunningChecked);
@@ -22,9 +26,31 @@ const Main = () => {
     setIsRoomTypeChecked(type);
   };
 
+  const handleRoomCardClick = (roomData: IroomData) => {
+    setSelectedRoom(roomData);
+    setModalContent("detail");
+    setIsModal(true);
+  };
+
+  const handleCreateButtonClick = () => {
+    setSelectedRoom(null);
+    setModalContent("create");
+    setIsModal(true);
+  };
+
+  const closeModal = () => {
+    setIsModal(false);
+    setModalContent(null);
+  };
+
   return (
     <MainStyle>
-      <Modal><ModalRoomCreate/></Modal>
+      {isModal &&
+      <Modal setIsModal={setIsModal} onClose={closeModal}>
+        {modalContent === "detail" && selectedRoom && <ModalRoomDetail roomData={selectedRoom} />}
+        {modalContent === "create" && <ModalRoomCreate />}
+      </Modal>
+      }
       <div className="mainContents">
         <h1 className="title">#뽀모도로 친구들</h1>
         <span className="buttonGroup">
@@ -42,11 +68,12 @@ const Main = () => {
         <div className="roomList">
           {roomListDatas.map((roomData, index) => (
             <RoomListCard key={index}
-            roomData={roomData} />
+            roomData={roomData}
+            onClick={handleRoomCardClick} />
           ))}
         </div>
       </div>
-      <div className="createButton">
+      <div className="createButton" onClick={handleCreateButtonClick}>
         <CircleButton buttonSize='large'>
           <IoMdAdd />
         </CircleButton>
