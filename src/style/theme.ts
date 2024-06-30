@@ -24,6 +24,7 @@ export type TButtonColor =
   | "activeHover"
   | "delete";
 export type TSquareButtonSize = "large" | "medium" | "small";
+export type ToverLay = "default"
 
 interface ITheme {
   name: TThemeName;
@@ -63,6 +64,9 @@ interface ITheme {
       fontWeight: string;
     };
   };
+  overlay: {
+    [key in ToverLay]: string;
+  }
 }
 
 export const light: ITheme = {
@@ -97,6 +101,9 @@ export const light: ITheme = {
   boxShadow: {
     default: "0 0 8px 2px rgba(0, 0, 0, 0.12)"
   },
+  overlay: {
+    default: "rgba(0, 0, 0, 0.2)"
+  },
   inputFieldSchema: {
     auth: {
       height: "56px"
@@ -108,6 +115,7 @@ export const light: ITheme = {
   borderRadius: {
     default: "8px"
   },
+
   buttonColor: {
     default: {
       color: "#808080",

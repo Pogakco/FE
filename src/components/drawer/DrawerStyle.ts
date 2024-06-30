@@ -70,6 +70,6 @@ export const DrawerStyle = styled.div<DrawerContainerProps>`
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.2);
+    background: ${({ theme }) => theme.overlay.default};
     display: ${({ open }) => (open ? "block" : "none")};
   `;
