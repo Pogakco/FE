@@ -52,6 +52,11 @@ const RoomListCardStyle = styled.div`
   flex-direction: column;
   justify-content: space-between;
   background-color: ${({ theme }) => theme.color.white};;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    scale: 1.05;
+  }
 
   .roomHeader {
     display: flex;
