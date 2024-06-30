@@ -43,11 +43,10 @@ const HeaderStyle = styled.div`
     padding: 5px 10px;
     height: 40px;
     border: 1px solid ${({ theme }) => theme.color.pink6};
-    border-radius: 8px;
-    font-size: ${({ theme }) => theme.fontSize.medium};
+    border-radius: ${({ theme }) => theme.borderRadius.default};;
+    font-size: ${({ theme }) => theme.fontSize.small};
     color: ${({ theme }) => theme.color.pink6};
     cursor: pointer;
-    font-weight: bold;
     transition: all 0.2s;
 
     svg {

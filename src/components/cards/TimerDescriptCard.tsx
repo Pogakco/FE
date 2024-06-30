@@ -10,38 +10,39 @@ interface Props {
   focusTime: number;
   shortBreakTime: number;
   longBreakTime: number;
+  detail: boolean;
 }
 
-const TimerDescriptCard = ({totalCycles, currentCycles,focusTime,shortBreakTime,longBreakTime } : Props) => {
+const TimerDescriptCard = ({ totalCycles, currentCycles, focusTime, shortBreakTime, longBreakTime, detail }: Props) => {
   return (
-    <TimerDescriptCardStyle>
+    <TimerDescriptCardStyle $detail={detail}>
       <div>
         <FaBook />
-        집중시간 :  <span>{focusTime}분</span>
+        {detail && "집중시간 :"} <span>{focusTime}분</span>
       </div>
       <div>
         <IoIosAlarm />
-        대휴식 : <span>{longBreakTime}분</span>
+        {detail && "대휴식 :"} <span>{longBreakTime}분</span>
       </div>
       <div>
         <CgSandClock />
-        휴식시간 : <span>{shortBreakTime}분</span>
+        {detail && "휴식시간 :"} <span>{shortBreakTime}분</span>
       </div>
       <div>
         <GiTomato />
-        뽀모도로 : <span>{currentCycles}/{totalCycles}회</span>
+        {detail && "뽀모도로 :"} <span>{currentCycles}/{totalCycles}회</span>
       </div>
     </TimerDescriptCardStyle>
   );
 };
 
-const TimerDescriptCardStyle = styled.div`
+const TimerDescriptCardStyle = styled.div<{ $detail : boolean}>`
   width: 100%;
-  height: 90px;
-  border-radius: 8px;
-  padding: 20px 20px;
-  background-color: ${({ theme }) => theme.color.pink6};
-  border: 1px solid ${({ theme }) => theme.color.white};;
+  height: auto;
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+  padding: ${({ $detail }) => $detail ? "20px 20px" : "0"};
+  background-color: ${({ theme, $detail }) => $detail ? theme.color.pink6 : theme.color.white};
+  border: 1px solid ${({ theme }) => theme.color.white};
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
@@ -49,11 +50,12 @@ const TimerDescriptCardStyle = styled.div`
     display: flex;
     gap: 5px;
     align-items: center;
-    color: ${({ theme }) => theme.color.white};
+    color: ${({ theme, $detail }) => $detail ? theme.color.white : theme.color.black};
     font-size: ${({ theme }) => theme.fontSize.small};
     span {
-        font-weight: bold;
+      font-weight : ${({ $detail }) => $detail ? "bold" : ""};
     }
   }
 `;
+
 export default TimerDescriptCard;

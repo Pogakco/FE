@@ -67,7 +67,7 @@ const RoomActvieUserStyle = styled.div`
   .rankBox {
     width: 25px;
     height: 25px;
-    border-radius: 8px;
+    border-radius: ${({ theme }) => theme.borderRadius.default};;
     background-color: ${({ theme }) => theme.color.grey4};
   }
 
@@ -86,7 +86,7 @@ const RoomActvieUserStyle = styled.div`
     overflow-x: hidden;
     box-sizing: border-box;
     background-color: ${({ theme }) => theme.color.white};
-    border-radius: 8px;
+    border-radius: ${({ theme }) => theme.borderRadius.default};;
     border: 1px solid ${({ theme }) => theme.color.grey1};
   }
 

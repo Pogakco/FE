@@ -34,6 +34,7 @@ const RoomInfo = ({ roomData }: Props) => {
         focusTime={roomData.focusTime}
         shortBreakTime={roomData.shortBreakTime}
         longBreakTime={roomData.longBreakTime}
+        detail={true}
       />
       <div className="section-title">공유하기</div>
       <span>
@@ -79,7 +80,7 @@ const RoomInfoStyle = styled.div`
   .avatar {
     width: 70px;
     height: 70px;
-    border-radius: 100px;
+    border-radius: 70px;
     background-color: ${({ theme }) => theme.color.white};
     background-size: cover;
     background-position: center;
