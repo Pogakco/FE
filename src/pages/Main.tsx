@@ -4,6 +4,7 @@ import CircleButton from '@/components/buttons/CircleButton';
 import { IoMdAdd } from 'react-icons/io';
 import { IroomData } from '@/models/room.model';
 import { MainStyle } from './MainStyle';
+import Modal from '@/components/modal/Modal';
 
 
 const Main = () => {
@@ -20,6 +21,7 @@ const Main = () => {
 
   return (
     <MainStyle>
+      <Modal/>
       <div className="mainContents">
         <h1 className="title">#뽀모도로 친구들</h1>
         <span className="buttonGroup">

@@ -102,7 +102,7 @@ export const light: ITheme = {
     default: "0 0 8px 2px rgba(0, 0, 0, 0.12)"
   },
   overlay: {
-    default: "rgba(0, 0, 0, 0.2)"
+    default: "rgba(0, 0, 0, 0.3)"
   },
   inputFieldSchema: {
     auth: {

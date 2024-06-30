@@ -2,6 +2,7 @@ import styled from "styled-components";
 import TimerDescriptCard from "./TimerDescriptCard";
 import { FaCrown, FaUser } from "react-icons/fa";
 import { IroomData } from "@/models/room.model";
+import RunningStatus from "../commons/RunningStatus";
 
 interface Props {
   roomData: IroomData;
@@ -12,13 +13,7 @@ const RoomListCard = ({ roomData }: Props) => {
     <RoomListCardStyle>
       <div className="roomHeader">
         <div className="roomTitle">{roomData.roomTitle}</div>
-        <div className="roomStatus">
-          <div
-            className="statusCircle"
-            style={{ backgroundColor: roomData.isRunning ? "#FF8080" : "#43F780" }}
-          />
-          <div className="description">{roomData.isRunning ? "집중" : "휴식"}</div>
-        </div>
+        <RunningStatus isRunning={roomData.isRunning}/>
       </div>
       <TimerDescriptCard
         totalCycles={roomData.totalCycles}
