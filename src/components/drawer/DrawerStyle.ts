@@ -43,7 +43,7 @@ export const DrawerStyle = styled.div<DrawerContainerProps>`
       font-size: 40px;
       color: white;
       margin: 20px;
-      border-radius: 10px;
+      border-radius: ${({ theme }) => theme.borderRadius.default};;
       cursor: pointer;
       transition: all 0.2s;
     }

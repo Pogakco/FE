@@ -42,7 +42,7 @@ const UserListCardStyle = styled.div<{ $rank: number }>`
   .userRank, .userRankPlaceholder {
     width: 30px;
     height: 30px;
-    border-radius: 8px;
+    border-radius: ${({ theme }) => theme.borderRadius.default};;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,7 +64,7 @@ const UserListCardStyle = styled.div<{ $rank: number }>`
   .userImg {
     width: 30px;
     height: 30px;
-    border-radius: 100px;
+    border-radius: 30px;
     background-color: ${({ theme }) => theme.color.pink6};
   }
 
