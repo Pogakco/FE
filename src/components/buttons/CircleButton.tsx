@@ -21,6 +21,7 @@ const CircleButtonStyle = styled.button<CircleButtonStyleProps>`
   display: inline-flex;
   justify-content: center;
   align-items: center;
+
   width: ${({ $buttonSize }) => ($buttonSize === "large" ? "70px" : "46px")};
   height: ${({ $buttonSize }) => ($buttonSize === "large" ? "70px" : "46px")};
   color: ${({ theme }) => theme.color.pink6};
@@ -31,6 +32,7 @@ const CircleButtonStyle = styled.button<CircleButtonStyleProps>`
     width: 40px;
     height: 40px;
   }
+
   cursor: pointer;
   &:hover {
     color: ${({ theme }) => theme.color.white};
@@ -38,4 +40,6 @@ const CircleButtonStyle = styled.button<CircleButtonStyleProps>`
     border: none;
   }
 `;
+
 export default CircleButton;
+

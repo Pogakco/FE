@@ -12,7 +12,9 @@ const GlobalStyle = createGlobalStyle<Props>`
   body, button {
       font-family: "Pretendard Variable", Pretendard, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
       font-weight: 400;
+      font-size: 16px;
       line-height: 1.6;
+
       margin: 0;
       padding: 0;
       color: ${({ themeName }) =>
@@ -25,6 +27,12 @@ const GlobalStyle = createGlobalStyle<Props>`
       margin: 0;
   }
   
+
+  fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
 
 
 `;
