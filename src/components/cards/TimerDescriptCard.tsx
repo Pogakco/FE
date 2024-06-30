@@ -37,7 +37,7 @@ const TimerDescriptCard = ({ totalCycles, currentCycles, focusTime, shortBreakTi
 };
 
 const TimerDescriptCardStyle = styled.div<{ $detail : boolean}>`
-  width: 100%;
+  width: ${({ $detail }) => $detail ? "100%" : "70%"};
   height: auto;
   border-radius: ${({ theme }) => theme.borderRadius.default};
   padding: ${({ $detail }) => $detail ? "20px 20px" : "0"};

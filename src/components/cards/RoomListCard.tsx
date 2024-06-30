@@ -15,7 +15,7 @@ const RoomListCard = ({ roomData }: Props) => {
         <div className="roomStatus">
           <div
             className="statusCircle"
-            style={{ backgroundColor: roomData.isRunning ? "#F44444" : "#43F780" }}
+            style={{ backgroundColor: roomData.isRunning ? "#FF8080" : "#43F780" }}
           />
           <div className="description">{roomData.isRunning ? "집중" : "휴식"}</div>
         </div>
@@ -35,7 +35,7 @@ const RoomListCard = ({ roomData }: Props) => {
         </p>
         <p>
           <FaUser />
-          {roomData.currentParticipants}/{roomData.maxParticipants}명
+          {roomData.currentParticipants}/{roomData.maxParticipants}
         </p>
       </div>
     </RoomListCardStyle>
@@ -61,6 +61,7 @@ const RoomListCardStyle = styled.div`
   }
 
   .roomTitle {
+    margin-top: 10px;
     font-weight: bold;
     font-size: ${({ theme }) => theme.fontSize.medium};
     display: flex;
