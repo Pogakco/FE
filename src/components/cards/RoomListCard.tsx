@@ -1,36 +1,41 @@
 import styled from "styled-components";
 import TimerDescriptCard from "./TimerDescriptCard";
 import { FaCrown, FaUser } from "react-icons/fa";
+import { IroomData } from "@/models/room.model";
 
-const RoomListCard = () => {
+interface Props {
+  roomData: IroomData;
+}
+
+const RoomListCard = ({ roomData }: Props) => {
   return (
     <RoomListCardStyle>
       <div className="roomHeader">
-        <div className="roomTitle">코딩 잘해지고 싶은 사람만</div>
+        <div className="roomTitle">{roomData.roomTitle}</div>
         <div className="roomStatus">
           <div
             className="statusCircle"
-            style={{ backgroundColor: false ? "#F44444" : "#43F780" }}
+            style={{ backgroundColor: roomData.isRunning ? "#F44444" : "#43F780" }}
           />
-          <div className="description">{false ? "집중" : "휴식"}</div>
+          <div className="description">{roomData.isRunning ? "집중" : "휴식"}</div>
         </div>
       </div>
       <TimerDescriptCard
-        totalCycles={10}
-        currentCycles={3}
-        focusTime={30}
-        shortBreakTime={30}
-        longBreakTime={5}
+        totalCycles={roomData.totalCycles}
+        currentCycles={roomData.currentCycles}
+        focusTime={roomData.focusTime}
+        shortBreakTime={roomData.shortBreakTime}
+        longBreakTime={roomData.longBreakTime}
         detail={false}
       />
       <div className="roomOwner">
         <p>
-        <FaCrown />
-        changchangwoo
+          <FaCrown />
+          {roomData.ownerName}
         </p>
         <p>
-        <FaUser />
-        {3}/{10}회
+          <FaUser />
+          {roomData.currentParticipants}/{roomData.maxParticipants}명
         </p>
       </div>
     </RoomListCardStyle>
@@ -46,6 +51,7 @@ const RoomListCardStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: ${({ theme }) => theme.color.white};;
 
   .roomHeader {
     display: flex;
@@ -86,10 +92,10 @@ const RoomListCardStyle = styled.div`
     gap: 5px;
     color: ${({ theme }) => theme.color.grey3};
     font-size: ${({ theme }) => theme.fontSize.small};
-    p{
-        display: flex;
-        gap: 5px;
-        align-items: center;
+    p {
+      display: flex;
+      gap: 5px;
+      align-items: center;
     }
   }
 `;

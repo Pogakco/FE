@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import RoomListCard from "@/components/cards/RoomListCard";
-import styled from "styled-components";
 import CircleButton from '@/components/buttons/CircleButton';
 import { IoMdAdd } from 'react-icons/io';
+import { IroomData } from '@/models/room.model';
+import { MainStyle } from './MainStyle';
+
 
 const Main = () => {
   const [isRunningChecked, setIsRunningChecked] = useState<boolean>(false);
@@ -33,8 +35,9 @@ const Main = () => {
           <span onClick={handleCheckboxChange}>휴식중인 방만 보기</span>
         </span>
         <div className="roomList">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <RoomListCard key={index} />
+          {roomListDatas.map((roomData, index) => (
+            <RoomListCard key={index}
+            roomData={roomData} />
           ))}
         </div>
       </div>
@@ -47,75 +50,74 @@ const Main = () => {
   );
 };
 
-const MainStyle = styled.div`
-  height: 100vh;
-
-  .mainContents {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin: auto;
-    padding: 120px 20px 0px 20px;
-    max-width: ${({ theme }) => theme.layoutWidth.screen};
+const roomListDatas: IroomData[] = [
+  {
+    roomTitle: "집중의 시간",
+    roomDescription: "집중해서 공부하는 방입니다.",
+    totalCycles: 4,
+    currentCycles: 2,
+    focusTime: 25,
+    shortBreakTime: 5,
+    longBreakTime: 15,
+    isRunning: true,
+    maxParticipants: 10,
+    currentParticipants: 8,
+    ownerName: "김철수",
+    ownerProfileImageUrl: "https://example.com/profile1.jpg"
+  },
+  {
+    roomTitle: "휴식과 업무",
+    roomDescription: "적절한 휴식을 가지며 업무를 합니다.",
+    totalCycles: 6,
+    currentCycles: 4,
+    focusTime: 50,
+    shortBreakTime: 10,
+    longBreakTime: 30,
+    isRunning: false,
+    maxParticipants: 15,
+    currentParticipants: 12,
+    ownerName: "박영희"
+  },
+  {
+    roomTitle: "코딩 마라톤",
+    roomDescription: "코딩을 집중적으로 하는 방입니다.",
+    totalCycles: 8,
+    currentCycles: 5,
+    focusTime: 45,
+    shortBreakTime: 10,
+    longBreakTime: 20,
+    isRunning: true,
+    maxParticipants: 20,
+    currentParticipants: 18,
+    ownerName: "이민수",
+    ownerProfileImageUrl: "https://example.com/profile2.jpg"
+  },
+  {
+    roomTitle: "독서 모임",
+    roomDescription: "함께 책을 읽고 토론하는 방입니다.",
+    totalCycles: 5,
+    currentCycles: 3,
+    focusTime: 30,
+    shortBreakTime: 5,
+    longBreakTime: 15,
+    isRunning: false,
+    maxParticipants: 12,
+    currentParticipants: 10,
+    ownerName: "최수진"
+  },
+  {
+    roomTitle: "운동과 휴식",
+    roomDescription: "운동을 하고 휴식을 취하는 방입니다.",
+    totalCycles: 7,
+    currentCycles: 6,
+    focusTime: 40,
+    shortBreakTime: 10,
+    longBreakTime: 20,
+    isRunning: true,
+    maxParticipants: 8,
+    currentParticipants: 7,
+    ownerName: "홍길동",
+    ownerProfileImageUrl: "https://example.com/profile3.jpg"
   }
-
-  .title {
-    font-size: ${({ theme }) => theme.fontSize.title};
-    color: ${({ theme }) => theme.color.black};
-    font-weight: bold;
-  }
-
-  .buttonGroup {
-    display: flex;
-    gap: 10px;
-  }
-
-  .button {
-    padding: 5px 27px;
-    border: 1px solid ${({ theme }) => theme.color.grey3};
-    border-radius: 20px;
-    color: ${({ theme }) => theme.color.grey3};
-    cursor: pointer;
-
-    &.active {
-      border-color: ${({ theme }) => theme.color.pink6};
-      color: ${({ theme }) => theme.color.pink6};
-    }
-  }
-
-  .options {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    color: ${({ theme }) => theme.color.grey3};
-
-    &.checked {
-      color: ${({ theme }) => theme.color.black};
-      font-weight: bold;
-    }
-
-    input {
-      width: ${({ theme }) => theme.fontSize.medium};
-      height: ${({ theme }) => theme.fontSize.medium};
-      accent-color: ${({ theme }) => theme.color.black};
-    }
-
-    span {
-      cursor: pointer;
-    }
-  }
-
-  .roomList {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
-  }
-
-  .createButton {
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-  }
-`;
-
+];
 export default Main;
