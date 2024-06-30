@@ -22,6 +22,7 @@ const RoomListCard = ({ roomData }: Props) => {
         shortBreakTime={roomData.shortBreakTime}
         longBreakTime={roomData.longBreakTime}
         detail={false}
+        scheme="default"
       />
       <div className="roomOwner">
         <p>
@@ -46,7 +47,7 @@ const RoomListCardStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.color.white};;
+  background-color: ${({ theme }) => theme.color.white};
   cursor: pointer;
   transition: all 0.2s;
   &:hover {

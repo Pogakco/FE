@@ -33,6 +33,7 @@ const RoomInfo = ({ roomData }: Props) => {
         shortBreakTime={roomData.shortBreakTime}
         longBreakTime={roomData.longBreakTime}
         detail={true}
+        scheme="primary"
       />
       <div className="section-title">공유하기</div>
       <span>

@@ -6,22 +6,23 @@ import { IroomData } from '@/models/room.model';
 import { MainStyle } from './MainStyle';
 import Modal from '@/components/modal/Modal';
 
+type TisRoomType = "all" | "filter"
 
 const Main = () => {
   const [isRunningChecked, setIsRunningChecked] = useState<boolean>(false);
-  const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<string>("all");
+  const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<TisRoomType>("all");
 
   const handleCheckboxChange = () => {
     setIsRunningChecked(!isRunningChecked);
   };
 
-  const handleRoomTypeChange = (type: string) => () => {
+  const handleRoomTypeChange = (type: TisRoomType) => () => {
     setIsRoomTypeChecked(type);
   };
 
   return (
     <MainStyle>
-      <Modal/>
+      <Modal />
       <div className="mainContents">
         <h1 className="title">#뽀모도로 친구들</h1>
         <span className="buttonGroup">

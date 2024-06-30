@@ -7,7 +7,7 @@ import styled from "styled-components";
 const ModalRoomDetail = () => {
   return (
     <ModalRoomDetailStyle>
-      <Profile size="medium" url="temp" />
+      <Profile size="medium" url="https://cdn.univ20.com/wp-content/uploads/2015/09/c7697d7b9ec7abe362dbdfc51b355ee5.jpg" />
       <div className="userName">
         <FaCrown /> changchangwoo
       </div>
@@ -15,6 +15,7 @@ const ModalRoomDetail = () => {
         더도 말고 우리 딱 코딩으로 연봉 1억 받을 정도로만 열심히해요 내일도
         오늘도 화이팅 코딩 열심히해서 맛있는 음식도 많이 먹어요
       </div>
+      <span>
       <TimerDescriptCard
         totalCycles={11}
         currentCycles={2}
@@ -22,8 +23,10 @@ const ModalRoomDetail = () => {
         shortBreakTime={4}
         longBreakTime={5}
         detail={true}
+        scheme="default"
       />
-      <SquareButton buttonColor="active" buttonSize="medium">생성하기</SquareButton>
+      </span>
+      <SquareButton buttonColor="active" buttonSize="medium">참가하기</SquareButton>
     </ModalRoomDetailStyle>
   );
 };
@@ -35,6 +38,12 @@ const ModalRoomDetailStyle = styled.div`
   align-items: center;
   gap: 20px;
   padding: 0px 30px;
+
+  span {
+    border: 1px solid ${({ theme }) => theme.color.grey1};
+    border-radius: ${({ theme }) => theme.borderRadius.default};
+
+  }
   .userName {
     display: flex;
     justify-content: center;
