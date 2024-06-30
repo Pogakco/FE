@@ -5,7 +5,7 @@ import styled from "styled-components";
 export interface IInputField {
   icon?: React.ReactNode;
   name: string;
-  placeholder: string;
+  placeholder?: string;
 }
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputfield: IInputField;

@@ -1,9 +1,12 @@
 import styled from "styled-components";
-import ModalRoomDetail from "./modalContents/ModalRoomDetail";
 import RunningStatus from "../commons/RunningStatus";
 import { IoMdClose } from "react-icons/io";
 
-const Modal = () => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const Modal = ({children} : Props) => {
   return (
     <ModalStyle>
       <ModalContainer>
@@ -13,7 +16,7 @@ const Modal = () => {
           <RunningStatus isRunning={false} />
           <hr />
         </div>
-        <ModalRoomDetail />
+        {children}
       </ModalContainer>
     </ModalStyle>
   );
@@ -50,6 +53,7 @@ const ModalContainer = styled.div`
     top: 10px;
     right: 10px;
     padding: 2px;
+    cursor: pointer;
 
     svg {
       color: ${({ theme }) => theme.color.white}
