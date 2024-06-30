@@ -3,7 +3,7 @@ import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
 import { IroomData } from "@/models/room.model";
 import { useState } from "react";
-import { FaVolumeHigh, FaVolumeXmark} from "react-icons/fa6";
+import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -29,22 +29,22 @@ const RoomDetail = () => {
   const [activeSound, setActiveSound] = useState<boolean>(false);
   const navigate = useNavigate();
   const soundHandler = () => {
-    setActiveSound(!activeSound)
-  }
+    setActiveSound(!activeSound);
+  };
   const exitButtonHandler = () => {
-    navigate('/main');
-  }
+    navigate("/main");
+  };
   return (
     <RoomDetailStyle>
-      <div className="muteIcon" onClick={soundHandler} >
-        {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh /> }
+      <div className="muteIcon" onClick={soundHandler}>
+        {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
-      <Drawer roomData={roomData}/>
+      <Drawer roomData={roomData} />
       <Timer />
       <div className="exitButton">
-      <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
-        <RiLogoutBoxRLine  />
-      </CircleButton>
+        <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
+          <RiLogoutBoxRLine />
+        </CircleButton>
       </div>
     </RoomDetailStyle>
   );
@@ -61,11 +61,11 @@ const RoomDetailStyle = styled.div`
 
   .muteIcon {
     position: absolute;
-  top: 100px;
-  right: 50px;
-  font-size: 50px;
-  color: #ff8080;
-  cursor: pointer;
+    top: 100px;
+    right: 50px;
+    font-size: 50px;
+    color: #ff8080;
+    cursor: pointer;
   }
 
   .exitButton {

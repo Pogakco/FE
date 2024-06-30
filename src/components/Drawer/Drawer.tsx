@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { FaInfoCircle, FaRegCommentAlt, FaUser } from "react-icons/fa";
-import RoomInfo from "./DrawerContents/RoomInfo";
-import RoomActiveUser from "./DrawerContents/RoomActiveUser";
-import RoomCommunity from "./DrawerContents/RoomCommunity";
+import RoomInfo from "./drawerContents/RoomInfo";
+import RoomActiveUser from "./drawerContents/RoomActiveUser";
+import RoomCommunity from "./drawerContents/RoomCommunity";
 import {
   DrawerContents,
   DrawerController,
@@ -76,7 +76,7 @@ const Drawer = ({ roomData }: Props) => {
         <DrawerContents>
           {selectDrawer === "info" && <RoomInfo roomData={roomData} />}
           {selectDrawer === "user" && <RoomActiveUser />}
-          {selectDrawer === "community" && ( <RoomCommunity />)}
+          {selectDrawer === "community" && <RoomCommunity />}
         </DrawerContents>
         <DrawerController>
           <ul>
