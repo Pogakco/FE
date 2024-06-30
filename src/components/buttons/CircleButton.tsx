@@ -24,24 +24,22 @@ const CircleButtonStyle = styled.button<CircleButtonStyleProps>`
 
   width: ${({ $buttonSize }) => ($buttonSize === "large" ? "70px" : "46px")};
   height: ${({ $buttonSize }) => ($buttonSize === "large" ? "70px" : "46px")};
-
   color: ${({ theme }) => theme.color.pink6};
   background-color: ${({ theme }) => theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.pink6};
-
   border-radius: 50%;
-
   svg {
     width: 40px;
     height: 40px;
   }
 
   cursor: pointer;
-
   &:hover {
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.pink6};
     border: none;
   }
 `;
+
 export default CircleButton;
+
