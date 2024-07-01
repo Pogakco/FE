@@ -4,7 +4,7 @@ import { CgSandClock } from "react-icons/cg";
 import { FaBook } from "react-icons/fa";
 import { GiTomato } from "react-icons/gi";
 import { IoIosAlarm } from "react-icons/io";
-import styled from "styled-components";
+import { ModalHeader, ModalRoomCreateStyle } from "../ModalStyle";
 
 const roomInfoInput: IInputField[] = [
   {
@@ -41,10 +41,10 @@ const timerInfoInput: IInputField[] = [
 const ModalRoomCreate = () => {
   return (
     <ModalRoomCreateStyle>
-      <div className="modalHeader">
+      <ModalHeader>
         <h1>방 생성하기</h1>
         <hr />
-      </div>
+      </ModalHeader>
       <form>
         <div className="title">방 정보</div>
         {roomInfoInput.map((item, index) => (
@@ -64,55 +64,16 @@ const ModalRoomCreate = () => {
             key={index}
           />
         ))}
-        <ButtonContainer>
+        <div className="buttonContainer">
           <SquareButton buttonColor="active" buttonSize="medium" type="submit">
             생성하기
           </SquareButton>
-        </ButtonContainer>
+        </div>
       </form>
     </ModalRoomCreateStyle>
   );
 };
 
-const ModalRoomCreateStyle = styled.div`
-  display: flex;
-  flex-direction: column;
 
-  .modalHeader {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    h1 {
-      text-align: center;
-      font-size: ${({ theme }) => theme.fontSize.large};
-      font-weight: bold;
-    }
-    hr {
-      width: 100%;
-      background-color: ${({ theme }) => theme.color.grey1};
-      height: 1px;
-      border: none;
-    }
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    .title {
-      margin-top: 20px;
-      font-weight: bold;
-      font-size: ${({ theme }) => theme.fontSize.medium};
-    }
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
 
 export default ModalRoomCreate;

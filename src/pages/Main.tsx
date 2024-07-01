@@ -7,16 +7,15 @@ import { MainStyle } from './MainStyle';
 import Modal from '@/components/modal/Modal';
 import ModalRoomCreate from '@/components/modal/modalContents/ModalRoomCreate';
 import ModalRoomDetail from '@/components/modal/modalContents/ModalRoomDetail';
+import useModal from '@/hooks/useModal';
 
 type TisRoomType = "all" | "filter";
-type TModalContent = "detail" | "create" | null;
 
 const Main = () => {
   const [isRunningChecked, setIsRunningChecked] = useState<boolean>(false);
   const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<TisRoomType>("all");
-  const [isModal, setIsModal] = useState<boolean>(false);
   const [selectedRoom, setSelectedRoom] = useState<IroomData | null>(null);
-  const [modalContent, setModalContent] = useState<TModalContent>(null);
+  const { isModal, modalContent, openModal, closeModal, setIsModal } = useModal();
 
   const handleCheckboxChange = () => {
     setIsRunningChecked(!isRunningChecked);
@@ -28,19 +27,12 @@ const Main = () => {
 
   const handleRoomCardClick = (roomData: IroomData) => {
     setSelectedRoom(roomData);
-    setModalContent("detail");
-    setIsModal(true);
+    openModal('detail')
   };
 
   const handleCreateButtonClick = () => {
     setSelectedRoom(null);
-    setModalContent("create");
-    setIsModal(true);
-  };
-
-  const closeModal = () => {
-    setIsModal(false);
-    setModalContent(null);
+    openModal('create')
   };
 
   return (
