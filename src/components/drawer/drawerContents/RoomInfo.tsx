@@ -1,4 +1,5 @@
 import TimerDescriptCard from "@/components/cards/TimerDescriptCard";
+import RunningStatus from "@/components/commons/RunningStatus";
 import { IroomData } from "@/models/room.model";
 import { FaCrown, FaPaperclip, FaUser } from "react-icons/fa";
 import styled from "styled-components";
@@ -11,10 +12,7 @@ const RoomInfo = ({ roomData }: Props) => {
   return (
     <RoomInfoStyle>
       <div className="title">{roomData.roomTitle}</div>
-      <span>
-        <div className="statusCircle" style={{ backgroundColor: roomData.isRunning ? 'F44444' : '#43F780' }} />
-        <div className="description">{roomData.isRunning ? '집중' : '휴식'}</div>
-      </span>
+      <RunningStatus isRunning={roomData.isRunning}/>
       <div className="avatar" style={{ backgroundImage: `url(${roomData.ownerProfileImageUrl})` }} />
       <div className="sub-title">
         <FaCrown />
@@ -35,6 +33,7 @@ const RoomInfo = ({ roomData }: Props) => {
         shortBreakTime={roomData.shortBreakTime}
         longBreakTime={roomData.longBreakTime}
         detail={true}
+        scheme="primary"
       />
       <div className="section-title">공유하기</div>
       <span>
@@ -101,11 +100,6 @@ const RoomInfoStyle = styled.div`
     margin: 10px 0;
   }
 
-  .statusCircle {
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
-  }
 `;
 
 export default RoomInfo;

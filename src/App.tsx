@@ -15,7 +15,7 @@ const routeList = [
   { path: "/signup", element: <UserSignup /> },
   { path: "/login", element: <UserLogin /> },
   { path: "/roomDetail", element: <RoomDetail />},
-  { path: "/main", element: <Main />},
+  { path: "/", element: <Main />},
 ];
 
 const router = createBrowserRouter(

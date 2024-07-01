@@ -2,23 +2,23 @@ import styled from "styled-components";
 import TimerDescriptCard from "./TimerDescriptCard";
 import { FaCrown, FaUser } from "react-icons/fa";
 import { IroomData } from "@/models/room.model";
+import RunningStatus from "../commons/RunningStatus";
 
 interface Props {
   roomData: IroomData;
+  onClick: (roomData: IroomData) => void;
 }
 
-const RoomListCard = ({ roomData }: Props) => {
+const RoomListCard = ({ roomData, onClick }: Props) => {
+  const handleClick = () => {
+    onClick(roomData);
+  };
+
   return (
-    <RoomListCardStyle>
+    <RoomListCardStyle onClick={handleClick}>
       <div className="roomHeader">
         <div className="roomTitle">{roomData.roomTitle}</div>
-        <div className="roomStatus">
-          <div
-            className="statusCircle"
-            style={{ backgroundColor: roomData.isRunning ? "#FF8080" : "#43F780" }}
-          />
-          <div className="description">{roomData.isRunning ? "집중" : "휴식"}</div>
-        </div>
+        <RunningStatus isRunning={roomData.isRunning} />
       </div>
       <TimerDescriptCard
         totalCycles={roomData.totalCycles}
@@ -27,6 +27,7 @@ const RoomListCard = ({ roomData }: Props) => {
         shortBreakTime={roomData.shortBreakTime}
         longBreakTime={roomData.longBreakTime}
         detail={false}
+        scheme="default"
       />
       <div className="roomOwner">
         <p>
@@ -51,7 +52,7 @@ const RoomListCardStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.color.white};;
+  background-color: ${({ theme }) => theme.color.white};
   cursor: pointer;
   transition: all 0.2s;
   &:hover {
