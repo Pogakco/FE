@@ -10,12 +10,14 @@ import "@/style/reset.css";
 import "@/style/font.css";
 import Header from "./components/header/Header";
 import Main from "./pages/Main";
+import NotFound from "./pages/NotFound";
 
 const routeList = [
   { path: "/signup", element: <UserSignup /> },
   { path: "/login", element: <UserLogin /> },
   { path: "/roomDetail", element: <RoomDetail />},
   { path: "/", element: <Main />},
+  { path: "*", element: <NotFound /> }
 ];
 
 const router = createBrowserRouter(

@@ -15,7 +15,7 @@ export const ModalContainer = styled.div`
   position: relative;
   width: ${({ theme }) => theme.layoutWidth.modal};
   border-radius: ${({ theme }) => theme.borderRadius.default};
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: #FFFFFF;
   padding: 40px 20px;
   box-shadow: ${({ theme }) => theme.boxShadow.default};
 
