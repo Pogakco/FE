@@ -10,12 +10,12 @@ import { ILogin } from "@/models/auth.model";
 const inputfield: IInputField[] = [
   {
     icon: <FaSmile />,
-    name: "이메일",
+    title: "이메일",
     placeholder: "이메일을 입력해주세요"
   },
   {
     icon: <FaKey />,
-    name: "비밀번호",
+    title: "비밀번호",
     placeholder: "15자 이내로 입력해주세요"
   }
 ];
@@ -24,12 +24,11 @@ const UserLogin = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm<ILogin>();
 
   const onSubmit: SubmitHandler<ILogin> = (data) => console.log(data);
-
-  console.log(errors);
 
   return (
     <UserLoginStyle>
@@ -49,6 +48,7 @@ const UserLogin = () => {
           <InputField
             inputfield={inputfield[1]}
             schema="auth"
+            type="password"
             {...register("password", { required: true })}
           />
           {errors?.password?.type === "required" && (
@@ -74,6 +74,7 @@ export const UserLoginStyle = styled.main`
   transform: translate(-50%, -50%);
 
   width: ${({ theme }) => theme.layoutWidth.auth};
+  height: fit-content;
 
   form {
     display: flex;

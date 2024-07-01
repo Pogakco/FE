@@ -4,25 +4,36 @@ import styled from "styled-components";
 
 export interface IInputField {
   icon?: React.ReactNode;
-  name: string;
-  placeholder: string;
+  title: string;
+  placeholder?: string;
 }
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputfield: IInputField;
   schema: TInputFieldSchema;
+  disabled?: boolean;
 }
 const InputField = forwardRef(
   (
-    { inputfield: { icon, name, placeholder, ...props }, schema }: Props,
+    {
+      inputfield: { icon, title, placeholder },
+      schema,
+      disabled,
+      ...props
+    }: Props,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     return (
       <InputFieldStyle $schema={schema}>
         <label>
           {icon && icon}
-          {name}
+          {title}
         </label>
-        <input placeholder={placeholder} {...props} ref={ref} />
+        <input
+          placeholder={placeholder}
+          {...props}
+          ref={ref}
+          disabled={disabled}
+        />
       </InputFieldStyle>
     );
   }

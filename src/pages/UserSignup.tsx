@@ -7,33 +7,33 @@ import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ISignup } from "@/models/auth.model";
 
-const AUTH_REGEX = {
-  nickname: /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/, // 영문/숫자/특수문자(._-)가능. 2-10자 입력
+export const AUTH_REGEX = {
+  nickname: /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/, // 닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 가능
   email:
     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i, //'@' 포함여부와 대문자,소문자를 구분안함
-  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/ // 최소 8 자, 하나 이상의 대문자, 하나의 소문자 및 하나의 숫자
+  password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/ //영문, 숫자, 특수문자((@, $, !, %, *, #, ?, &) 각각 하나 이상 포함, 8~20자리 가능
 };
 
-const inputfield: IInputField[] = [
+export const INPUT_FIELD: IInputField[] = [
   {
     icon: <FaKey />,
-    name: "닉네임",
+    title: "닉네임",
     placeholder: "2~19자 내로 입력해주세요"
   },
   {
     icon: <FaSmile />,
-    name: "이메일",
+    title: "이메일",
     placeholder: "이메일을 입력해주세요"
   },
   {
     icon: <FaKey />,
-    name: "비밀번호",
+    title: "비밀번호",
     placeholder: "15자 이내로 입력해주세요"
   },
 
   {
     icon: <FaKey />,
-    name: "비밀번호 확인",
+    title: "비밀번호 확인",
     placeholder: "비밀번호를 일치하게 입력해주세요"
   }
 ];
@@ -47,16 +47,15 @@ const UserSignup = () => {
 
   const onSubmit: SubmitHandler<ISignup> = (data) => console.log(data);
 
-  console.log(errors);
+  const handleDuplicate = () => {};
 
   return (
     <UserLoginStyle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Title>회원가입</Title>
-
         <fieldset>
           <InputField
-            inputfield={inputfield[0]}
+            inputfield={INPUT_FIELD[0]}
             schema="auth"
             {...register("nickname", {
               required: true,
@@ -68,49 +67,68 @@ const UserSignup = () => {
           )}
           {errors?.nickname?.type === "pattern" && (
             <div className="help-message">
-              영문/숫자/특수문자(._-)가능. 2-10자 입력
+              한글, 영문, 숫자만 가능하며 2-10자리 입력
             </div>
           )}
+          <SquareButton
+            buttonSize="medium"
+            buttonColor="active"
+            onClick={handleDuplicate}
+          >
+            중복확인
+          </SquareButton>
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={inputfield[1]}
+            inputfield={INPUT_FIELD[1]}
             schema="auth"
             {...register("email", {
               required: true,
               pattern: AUTH_REGEX.email
             })}
           />
+          <SquareButton
+            buttonSize="medium"
+            buttonColor="active"
+            onClick={handleDuplicate}
+          >
+            중복확인
+          </SquareButton>
           {errors?.email?.type === "required" && (
             <div className="help-message">이메일을 입력해주세요</div>
           )}
           {errors?.email?.type === "pattern" && (
-            <div className="help-message">이메일 형식에 맞게 입력해주세요</div>
+            <div className="help-message">이메일 형식이 아닙니다</div>
           )}
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={inputfield[2]}
+            inputfield={INPUT_FIELD[2]}
             schema="auth"
+            type="password"
             {...register("password", {
               required: true,
               pattern: AUTH_REGEX.password
             })}
           />
-          {errors.password && (
+          {errors?.password?.type === "required" && (
+            <div className="help-message">패스워드를 입력해주세요</div>
+          )}
+          {errors?.password?.type === "pattern" && (
             <div className="help-message">
-              최소 8 자, 하나 이상의 대문자, 하나의 소문자
+              영문, 숫자, 특수문자를 각각 하나 이상 포함하며 8~20자리 입력
             </div>
           )}
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={inputfield[3]}
+            inputfield={INPUT_FIELD[3]}
             schema="auth"
+            type="password"
             {...register("passwordCheck", { required: true })}
           />
           {errors.passwordCheck && (
-            <div className="help-message">이메일을 입력해주세요</div>
+            <div className="help-message">비밀번호가 일치하지 않습니다.</div>
           )}
         </fieldset>
 

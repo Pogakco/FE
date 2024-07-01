@@ -9,3 +9,7 @@ export interface ISignup {
   password: string;
   passwordCheck: string;
 }
+
+export interface IRessetPassword {
+  passwordCheck: string;
+}
