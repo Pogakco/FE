@@ -10,24 +10,30 @@ export interface IInputField {
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputfield: IInputField;
   schema: TInputFieldSchema;
-  isError?: boolean;
+  disabled?: boolean;
 }
 const InputField = forwardRef(
   (
     {
-      inputfield: { icon, name, placeholder, ...props },
+      inputfield: { icon, name, placeholder },
       schema,
-      isError = false
+      disabled,
+      ...props
     }: Props,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     return (
-      <InputFieldStyle $schema={schema} $isError={isError}>
+      <InputFieldStyle $schema={schema}>
         <label>
           {icon && icon}
           {name}
         </label>
-        <input placeholder={placeholder} {...props} ref={ref} />
+        <input
+          placeholder={placeholder}
+          {...props}
+          ref={ref}
+          disabled={disabled}
+        />
       </InputFieldStyle>
     );
   }
@@ -35,7 +41,6 @@ const InputField = forwardRef(
 
 interface InputFieldStyleProps {
   $schema: TInputFieldSchema;
-  $isError: boolean;
 }
 const InputFieldStyle = styled.div<InputFieldStyleProps>`
   display: flex;
@@ -51,8 +56,7 @@ const InputFieldStyle = styled.div<InputFieldStyleProps>`
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    color: ${({ theme, $isError }) =>
-      $isError ? theme.color.pink6 : theme.color.grey2};
+    color: ${({ theme }) => theme.color.grey2};
     font-size: ${({ theme }) => theme.fontSize.small};
     font-weight: 600;
     margin: 2px 0 0 0;
@@ -63,9 +67,7 @@ const InputFieldStyle = styled.div<InputFieldStyleProps>`
     color: ${({ theme }) => theme.color.black};
     padding: 30px 20px 5px 19px;
 
-    border: 1px solid
-      ${({ theme, $isError }) =>
-        $isError ? theme.color.pink6 : theme.color.grey2};
+    border: 1px solid ${({ theme }) => theme.color.grey2};
     border-radius: ${({ theme }) => theme.borderRadius.default};
 
     outline: none;
@@ -84,15 +86,6 @@ const InputFieldStyle = styled.div<InputFieldStyleProps>`
       color: ${({ theme }) => theme.color.pink6};
     }
   }
-
-  ${({ theme, $isError }) =>
-    $isError &&
-    `
-    input {
-          border-color: ${theme.color.pink6};
-
-    };
-    `}
 `;
 
 export default InputField;
