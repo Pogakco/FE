@@ -16,10 +16,10 @@ import Layout from "./components/layout/Layout";
 const routeList = [
   { path: "/signup", element: <UserSignup /> },
   { path: "/login", element: <UserLogin /> },
-  { path: "/roomDetail", element: <RoomDetail /> },
-  { path: "/main", element: <Main /> },
   { path: "/check-password", element: <UserCheckPassword /> },
   { path: "/profile", element: <UserProfile /> }
+  { path: "/roomDetail", element: <RoomDetail />},
+  { path: "/", element: <Main />},
 ];
 
 const router = createBrowserRouter(

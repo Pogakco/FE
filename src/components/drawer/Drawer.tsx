@@ -10,6 +10,7 @@ import {
   Overlay
 } from "./DrawerStyle";
 import { IroomData } from "@/models/room.model";
+import { handleOverlayClick } from "@/utils/handleOverlayClick";
 
 interface IdrawerData {
   id: number;
@@ -48,15 +49,6 @@ const Drawer = ({ roomData }: Props) => {
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [selectDrawer, setSelectDrawer] = useState<string | null>(null);
 
-  const drawerOverlayClick = (e: React.MouseEvent) => {
-    if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
-      setOpen(false);
-      setTimeout(() => {
-        setSelectDrawer(null);
-      }, 200);
-    }
-  };
-
   const toggleDrawer = (drawerType: string) => {
     if (selectDrawer === drawerType) {
       setOpen(!open);
@@ -69,9 +61,13 @@ const Drawer = ({ roomData }: Props) => {
     }
   };
 
+  const handleSelectDrawer = () => {
+    setSelectDrawer(null);
+  };
+
   return (
     <>
-      <Overlay open={open} onClick={drawerOverlayClick} />
+      <Overlay open={open} onClick={(e) => handleOverlayClick(e, drawerRef, setOpen, handleSelectDrawer)} />
       <DrawerStyle open={open} ref={drawerRef}>
         <DrawerContents>
           {selectDrawer === "info" && <RoomInfo roomData={roomData} />}

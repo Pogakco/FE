@@ -4,6 +4,8 @@ import { GiTomato } from "react-icons/gi";
 import { IoIosAlarm } from "react-icons/io";
 import styled from "styled-components";
 
+type TCardScheme = "primary" | "default";
+
 interface Props {
   totalCycles: number;
   currentCycles: number;
@@ -11,11 +13,20 @@ interface Props {
   shortBreakTime: number;
   longBreakTime: number;
   detail: boolean;
+  scheme: TCardScheme;
 }
 
-const TimerDescriptCard = ({ totalCycles, currentCycles, focusTime, shortBreakTime, longBreakTime, detail }: Props) => {
+const TimerDescriptCard = ({
+  totalCycles,
+  currentCycles,
+  focusTime,
+  shortBreakTime,
+  longBreakTime,
+  detail,
+  scheme
+}: Props) => {
   return (
-    <TimerDescriptCardStyle $detail={detail}>
+    <TimerDescriptCardStyle $detail={detail} $scheme={scheme}>
       <div>
         <FaBook />
         {detail && "집중시간 :"} <span>{focusTime}분</span>
@@ -30,18 +41,26 @@ const TimerDescriptCard = ({ totalCycles, currentCycles, focusTime, shortBreakTi
       </div>
       <div>
         <GiTomato />
-        {detail && "뽀모도로 :"} <span>{currentCycles}/{totalCycles}회</span>
+        {detail && "뽀모도로 :"}{" "}
+        <span>
+          {currentCycles}/{totalCycles}회
+        </span>
       </div>
     </TimerDescriptCardStyle>
   );
 };
 
-const TimerDescriptCardStyle = styled.div<{ $detail : boolean}>`
-  width: ${({ $detail }) => $detail ? "100%" : "70%"};
+interface TimerDescriptCardStyleProps {
+  $detail: boolean;
+  $scheme: TCardScheme;
+}
+const TimerDescriptCardStyle = styled.div<TimerDescriptCardStyleProps>`
+  width: ${({ $detail }) => ($detail ? "100%" : "70%")};
   height: auto;
   border-radius: ${({ theme }) => theme.borderRadius.default};
-  padding: ${({ $detail }) => $detail ? "20px 20px" : "0"};
-  background-color: ${({ theme, $detail }) => $detail ? theme.color.pink6 : theme.color.white};
+  padding: ${({ $detail }) => ($detail ? "20px 20px" : "0")};
+  background-color: ${({ theme, $scheme }) =>
+    $scheme === "primary" ? theme.color.pink6 : theme.color.white};
   border: 1px solid ${({ theme }) => theme.color.white};
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -50,10 +69,13 @@ const TimerDescriptCardStyle = styled.div<{ $detail : boolean}>`
     display: flex;
     gap: 5px;
     align-items: center;
-    color: ${({ theme, $detail }) => $detail ? theme.color.white : theme.color.black};
+    color: ${({ theme, $scheme }) =>
+      $scheme === "primary" ? theme.color.white : theme.color.black};
     font-size: ${({ theme }) => theme.fontSize.small};
+    
     span {
-      font-weight : ${({ $detail }) => $detail ? "bold" : ""};
+      border: none;
+      font-weight: ${({ $detail }) => ($detail ? "bold" : "")};
     }
   }
 `;

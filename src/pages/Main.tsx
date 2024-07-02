@@ -4,22 +4,45 @@ import CircleButton from '@/components/buttons/CircleButton';
 import { IoMdAdd } from 'react-icons/io';
 import { IroomData } from '@/models/room.model';
 import { MainStyle } from './MainStyle';
+import Modal from '@/components/modal/Modal';
+import ModalRoomCreate from '@/components/modal/modalContents/ModalRoomCreate';
+import ModalRoomDetail from '@/components/modal/modalContents/ModalRoomDetail';
+import useModal from '@/hooks/useModal';
 
+type TisRoomType = "all" | "filter";
 
 const Main = () => {
   const [isRunningChecked, setIsRunningChecked] = useState<boolean>(false);
-  const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<string>("all");
+  const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<TisRoomType>("all");
+  const [selectedRoom, setSelectedRoom] = useState<IroomData | null>(null);
+  const { isModal, modalContent, openModal, closeModal, setIsModal } = useModal();
 
   const handleCheckboxChange = () => {
     setIsRunningChecked(!isRunningChecked);
   };
 
-  const handleRoomTypeChange = (type: string) => () => {
+  const handleRoomTypeChange = (type: TisRoomType) => () => {
     setIsRoomTypeChecked(type);
+  };
+
+  const handleRoomCardClick = (roomData: IroomData) => {
+    setSelectedRoom(roomData);
+    openModal('detail')
+  };
+
+  const handleCreateButtonClick = () => {
+    setSelectedRoom(null);
+    openModal('create')
   };
 
   return (
     <MainStyle>
+      {isModal &&
+      <Modal setIsModal={setIsModal} onClose={closeModal}>
+        {modalContent === "detail" && selectedRoom && <ModalRoomDetail roomData={selectedRoom} />}
+        {modalContent === "create" && <ModalRoomCreate />}
+      </Modal>
+      }
       <div className="mainContents">
         <h1 className="title">#뽀모도로 친구들</h1>
         <span className="buttonGroup">
@@ -37,11 +60,12 @@ const Main = () => {
         <div className="roomList">
           {roomListDatas.map((roomData, index) => (
             <RoomListCard key={index}
-            roomData={roomData} />
+            roomData={roomData}
+            onClick={handleRoomCardClick} />
           ))}
         </div>
       </div>
-      <div className="createButton">
+      <div className="createButton" onClick={handleCreateButtonClick}>
         <CircleButton buttonSize='large'>
           <IoMdAdd />
         </CircleButton>
