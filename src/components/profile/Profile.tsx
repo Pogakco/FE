@@ -27,9 +27,9 @@ interface ProfileStyleProps {
 }
 const ProfileStyle = styled.div<ProfileStyleProps>`
   width: ${({ $size }) =>
-    $size === "large" ? "138px" : $size === "medium" ? "75px" : "28px"};
+    $size === "large" ? "238px" : $size === "medium" ? "75px" : "28px"};
   height: ${({ $size }) =>
-    $size === "large" ? "138px" : $size === "medium" ? "75px" : "28px"};
+    $size === "large" ? "238px" : $size === "medium" ? "75px" : "28px"};
 
   .icon {
     width: 100%;
