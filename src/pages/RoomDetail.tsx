@@ -2,25 +2,26 @@ import CircleButton from "@/components/buttons/CircleButton";
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
 import { IroomData } from "@/models/room.model";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
-import { TtimerStatus } from "@/models/timer.model";
+import { getDiffrentTime } from "@/utils/getDiffrentTime";
+import { getTimerTime } from "@/utils/getTimerTime";
 
 const roomData: IroomData = {
   roomTitle: "뽀모도로 정예부대 구해요",
   roomDescription: `더도 말고 우리 딱 코딩으로 연봉 1억 받을 정도로만 
     열심히해요 내일도 오늘도 화이팅 코딩 열심히해서 
     맛있는 음식도 많이 먹어요`,
-  totalCycles: 10,
-  currentCycles: 3,
-  focusTime: 25,
+  totalCycles: 3,
+  currentCycles: 0,
+  focusTime: 8,
   shortBreakTime: 5,
-  longBreakTime: 15,
+  longBreakTime: 10,
   isRunning: false,
   maxParticipants: 20,
   currentParticipants: 15,
@@ -30,16 +31,15 @@ const roomData: IroomData = {
 
 const RoomDetail = () => {
   const [activeSound, setActiveSound] = useState<boolean>(false);
-  const [tempRunning, setTempRunning ] = useState<boolean>(false);
-  const [currentTimerStatus, setCurrentTimerStatus] = useState<TtimerStatus>(null);
+  const [timerTime, setTimerTime] = useState<number>(roomData.focusTime);
 
-  // const {
-  //   syncedIsRunning,
-  //   syncedAllParticipants,
-  //   syncedCurrentCycles,
-  //   syncedStartedAt,
-  //   handleClickCyclesStartButton
-  // } = useEmitSocket();
+  const {
+    syncedIsRunning,
+    syncedAllParticipants,
+    syncedCurrentCycles,
+    syncedStartedAt,
+    handleClickCyclesStartButton
+  } = useEmitSocket();
 
   const navigate = useNavigate();
   const soundHandler = () => {
@@ -49,8 +49,27 @@ const RoomDetail = () => {
     navigate("/");
   };
 
-  console.log(currentTimerStatus)
-  // console.log(syncedIsRunning,syncedAllParticipants,syncedCurrentCycles,syncedStartedAt)
+  useEffect(() => {
+    if (syncedStartedAt) {
+        const interval = setInterval(() => {
+            const differTime = getDiffrentTime(syncedStartedAt);
+            const focusTime = roomData.focusTime;
+            const breakTime = roomData.shortBreakTime;
+            const totalCycles = roomData.totalCycles;
+            const longBreakTime = roomData.longBreakTime;
+
+            const timerTime = getTimerTime(differTime, focusTime, breakTime, totalCycles, longBreakTime);
+            
+            if (timerTime === -1) {
+                setTimerTime(roomData.focusTime);
+            } else {
+                setTimerTime(timerTime);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }
+}, [syncedStartedAt, syncedCurrentCycles, syncedIsRunning, roomData]);
 
   return (
     <RoomDetailStyle>
@@ -58,16 +77,16 @@ const RoomDetail = () => {
         {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
       <Drawer roomData={roomData} />
-      <Timer 
-        focusTime={5}
-        shortBreakTime={6}
-        longBreakTime={7}
-        totalCycles={3}
-        startedAt={"2023:05:13"}
-        isRunning={tempRunning}
-        setCurrentTimerStatus={setCurrentTimerStatus}
+      <Timer
+        timerData={timerTime}
       />
-      <SquareButton buttonColor="active" buttonSize="medium" onClick={()=>setTempRunning(true)}>시작하기</SquareButton>
+      <SquareButton
+        buttonColor="active"
+        buttonSize="medium"
+        onClick={handleClickCyclesStartButton}
+      >
+        시작하기
+      </SquareButton>
       <div className="exitButton">
         <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
           <RiLogoutBoxRLine />
@@ -78,7 +97,6 @@ const RoomDetail = () => {
 };
 
 const RoomDetailStyle = styled.div`
-  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;

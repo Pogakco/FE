@@ -1,1 +1,1 @@
-export type TtimerStatus = "focustTime" | "shortBreakTime" | "longBreakTime" | null; 
+export type TtimerStatus = "focusTime" | "shortBreakTime" | "longBreakTime" | null; 
