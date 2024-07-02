@@ -5,12 +5,19 @@ import Profile from "@/components/profile/Profile";
 import { IroomData } from "@/models/room.model";
 import { FaCrown } from "react-icons/fa";
 import { ModalHeader, ModalRoomDetailStyle } from "../ModalStyle";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   roomData: IroomData;
 }
+const tempRoomId = 2;
 
 const ModalRoomDetail = ({ roomData }: Props) => {
+  const navigate = useNavigate();
+
+  const handleButton = () => {
+    navigate(`/rooms/${tempRoomId}`)
+  }
   return (
     <ModalRoomDetailStyle>
       <ModalHeader>
@@ -37,7 +44,7 @@ const ModalRoomDetail = ({ roomData }: Props) => {
           scheme="default"
         />
       </span>
-      <SquareButton buttonColor="active" buttonSize="medium">
+      <SquareButton buttonColor="active" buttonSize="medium" onClick={handleButton}>
         참가하기
       </SquareButton>
     </ModalRoomDetailStyle>

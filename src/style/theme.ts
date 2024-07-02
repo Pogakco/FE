@@ -11,7 +11,8 @@ export type TColor =
   | "grey3"
   | "grey4"
   | "white" // #fff 대신
-  | "black"; // #000 대신
+  | "black" // #000 대신
+  | "purewhite";
 export type TLayoutWidth = "screen" | "auth" | "modal";
 export type TFontSize = "title" | "large" | "medium" | "small";
 export type TBoxShadow = "default";
@@ -85,7 +86,9 @@ export const light: ITheme = {
     grey4: "#4F4F4F",
 
     white: "#F8F9FA",
-    black: "#333333"
+    black: "#333333",
+
+    purewhite: "#FFFFFF"
   },
   layoutWidth: {
     screen: "1045px",

@@ -16,7 +16,6 @@ padding-top: 100px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
 
   .errorNumber {
     display: flex;
@@ -26,6 +25,7 @@ padding-top: 100px;
     font-size: 40px;
     border-radius: 8px;
     font-weight: bold;
+    margin-bottom: 20px;
     color: ${({theme}) => theme.color.pink6};
   }
 `

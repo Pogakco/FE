@@ -61,7 +61,6 @@ const TimerDescriptCardStyle = styled.div<TimerDescriptCardStyleProps>`
   padding: ${({ $detail }) => ($detail ? "20px 20px" : "0")};
   background-color: ${({ theme, $scheme }) =>
     $scheme === "primary" ? theme.color.pink6 : "#FFFFFF"};
-  border: 1px solid ${({ theme }) => theme.color.white};
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
