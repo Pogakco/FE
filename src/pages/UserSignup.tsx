@@ -18,23 +18,23 @@ export const AUTH_REGEX = {
 export const INPUT_FIELD: IInputField[] = [
   {
     icon: <FaKey />,
-    title: "닉네임",
+    name: "닉네임",
     placeholder: "2~19자 내로 입력해주세요"
   },
   {
     icon: <FaSmile />,
-    title: "이메일",
+    name: "이메일",
     placeholder: "이메일을 입력해주세요"
   },
   {
     icon: <FaKey />,
-    title: "비밀번호",
+    name: "비밀번호",
     placeholder: "15자 이내로 입력해주세요"
   },
 
   {
     icon: <FaKey />,
-    title: "비밀번호 확인",
+    name: "비밀번호 확인",
     placeholder: "비밀번호를 일치하게 입력해주세요"
   }
 ];

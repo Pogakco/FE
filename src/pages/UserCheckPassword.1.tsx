@@ -6,9 +6,9 @@ import { IRessetPassword } from "@/models/auth.model";
 import SquareButton from "@/components/buttons/SquareButton";
 import { FaKey } from "react-icons/fa";
 
-const inputfield: Pick<IInputField, "icon" | "title"> = {
+const inputfield: Pick<IInputField, "icon" | "name"> = {
   icon: <FaKey />,
-  title: "비밀번호 확인"
+  name: "비밀번호 확인"
 };
 export const UserCheckPassword = () => {
   const {

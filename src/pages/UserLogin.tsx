@@ -10,12 +10,12 @@ import { ILogin } from "@/models/auth.model";
 const inputfield: IInputField[] = [
   {
     icon: <FaSmile />,
-    title: "이메일",
+    name: "이메일",
     placeholder: "이메일을 입력해주세요"
   },
   {
     icon: <FaKey />,
-    title: "비밀번호",
+    name: "비밀번호",
     placeholder: "15자 이내로 입력해주세요"
   }
 ];

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export interface IInputField {
   icon?: React.ReactNode;
-  title: string;
+  name: string;
   placeholder?: string;
 }
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -15,7 +15,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 const InputField = forwardRef(
   (
     {
-      inputfield: { icon, title, placeholder },
+      inputfield: { icon, name, placeholder },
       schema,
       disabled,
       ...props
@@ -26,7 +26,7 @@ const InputField = forwardRef(
       <InputFieldStyle $schema={schema}>
         <label>
           {icon && icon}
-          {title}
+          {name}
         </label>
         <input
           placeholder={placeholder}
