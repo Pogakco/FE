@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
+import { TtimerStatus } from "@/models/timer.model";
 
 const roomData: IroomData = {
   roomTitle: "뽀모도로 정예부대 구해요",
@@ -29,13 +30,16 @@ const roomData: IroomData = {
 
 const RoomDetail = () => {
   const [activeSound, setActiveSound] = useState<boolean>(false);
-  const {
-    syncedIsRunning,
-    syncedAllParticipants,
-    syncedCurrentCycles,
-    syncedStartedAt,
-    handleClickCyclesStartButton
-  } = useEmitSocket();
+  const [tempRunning, setTempRunning ] = useState<boolean>(false);
+  const [currentTimerStatus, setCurrentTimerStatus] = useState<TtimerStatus>(null);
+
+  // const {
+  //   syncedIsRunning,
+  //   syncedAllParticipants,
+  //   syncedCurrentCycles,
+  //   syncedStartedAt,
+  //   handleClickCyclesStartButton
+  // } = useEmitSocket();
 
   const navigate = useNavigate();
   const soundHandler = () => {
@@ -45,7 +49,8 @@ const RoomDetail = () => {
     navigate("/");
   };
 
-  console.log(syncedIsRunning,syncedAllParticipants,syncedCurrentCycles,syncedStartedAt)
+  console.log(currentTimerStatus)
+  // console.log(syncedIsRunning,syncedAllParticipants,syncedCurrentCycles,syncedStartedAt)
 
   return (
     <RoomDetailStyle>
@@ -53,8 +58,16 @@ const RoomDetail = () => {
         {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
       <Drawer roomData={roomData} />
-      <Timer />
-      <SquareButton buttonColor="active" buttonSize="medium" onClick={handleClickCyclesStartButton}>시작하기</SquareButton>
+      <Timer 
+        focusTime={5}
+        shortBreakTime={6}
+        longBreakTime={7}
+        totalCycles={3}
+        startedAt={"2023:05:13"}
+        isRunning={tempRunning}
+        setCurrentTimerStatus={setCurrentTimerStatus}
+      />
+      <SquareButton buttonColor="active" buttonSize="medium" onClick={()=>setTempRunning(true)}>시작하기</SquareButton>
       <div className="exitButton">
         <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
           <RiLogoutBoxRLine />

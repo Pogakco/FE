@@ -1,4 +1,4 @@
-import { Participant } from '@/models/timer.model';
+import { IParticipant } from '@/models/room.model';
 import React, { useEffect, useState } from 'react'
 import { Socket, io } from 'socket.io-client';
 
@@ -10,7 +10,7 @@ const useEmitSocket = () => {
       null
     );
     const [syncedAllParticipants, setSyncedAllParticipants] = useState<
-      Participant[] | null
+      IParticipant[] | null
     >(null);
   
     const handleClickCyclesStartButton = () => {
@@ -35,7 +35,7 @@ const useEmitSocket = () => {
       const onSyncedCurrentCycles = (currentCycles: number) => {
         setSyncedCurrentCycles(currentCycles);
       };
-      const onSyncedAllParticipants = (allParticipants: Participant[]) => {
+      const onSyncedAllParticipants = (allParticipants: IParticipant[]) => {
         setSyncedAllParticipants(allParticipants);
       };
       socket.on("sync-is-running", onSyncedIsRunning); // 휴식/집중 여부, 시작버튼 누르면 & 전체 사이클 끝나면 동기화
