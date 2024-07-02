@@ -6,13 +6,14 @@ import styled from "styled-components";
 
 interface Props {
   roomData: IroomData;
+  isRunning : boolean | null;
 }
 
-const RoomInfo = ({ roomData }: Props) => {
+const RoomInfo = ({ roomData, isRunning }: Props) => {
   return (
     <RoomInfoStyle>
       <div className="title">{roomData.roomTitle}</div>
-      <RunningStatus isRunning={roomData.isRunning}/>
+      <RunningStatus isRunning={isRunning}/>
       <div className="avatar" style={{ backgroundImage: `url(${roomData.ownerProfileImageUrl})` }} />
       <div className="sub-title">
         <FaCrown />

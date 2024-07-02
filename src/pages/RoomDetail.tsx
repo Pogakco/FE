@@ -69,14 +69,14 @@ const RoomDetail = () => {
 
         return () => clearInterval(interval);
     }
-}, [syncedStartedAt, syncedCurrentCycles, syncedIsRunning, roomData]);
+}, [syncedStartedAt, syncedCurrentCycles, syncedIsRunning]);
 
   return (
     <RoomDetailStyle>
       <div className="muteIcon" onClick={soundHandler}>
         {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
-      <Drawer roomData={roomData} />
+      <Drawer roomData={roomData} isRunning={syncedIsRunning} />
       <Timer
         timerData={timerTime}
       />
