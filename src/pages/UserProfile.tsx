@@ -15,12 +15,11 @@ const UserProfile = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors }
   } = useForm<TProfile>();
 
   const onSubmit: SubmitHandler<TProfile> = (data) => console.log(data);
-
-  console.log(errors);
 
   return (
     <UserProfileStyle>
@@ -82,7 +81,15 @@ const UserProfile = () => {
           <InputField
             inputfield={INPUT_FIELD[3]}
             schema="auth"
-            {...register("passwordCheck", { required: true })}
+            {...register("passwordCheck", {
+              required: true,
+              validate: {
+                matchPassword: (value) => {
+                  const { password } = getValues();
+                  return password === value;
+                }
+              }
+            })}
           />
           {errors.passwordCheck && (
             <div className="help-message">비밀번호를 다시 입력해주세요</div>

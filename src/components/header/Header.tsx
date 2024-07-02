@@ -19,7 +19,7 @@ const Header = () => {
 };
 
 const HeaderStyle = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 60px;
   padding: 10px 20px;
   position: absolute;
@@ -43,7 +43,7 @@ const HeaderStyle = styled.div`
     padding: 5px 10px;
     height: 40px;
     border: 1px solid ${({ theme }) => theme.color.pink6};
-    border-radius: ${({ theme }) => theme.borderRadius.default};;
+    border-radius: ${({ theme }) => theme.borderRadius.default};
     font-size: ${({ theme }) => theme.fontSize.medium};
     color: ${({ theme }) => theme.color.pink6};
     cursor: pointer;
