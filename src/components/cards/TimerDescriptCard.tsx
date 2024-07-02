@@ -60,8 +60,7 @@ const TimerDescriptCardStyle = styled.div<TimerDescriptCardStyleProps>`
   border-radius: ${({ theme }) => theme.borderRadius.default};
   padding: ${({ $detail }) => ($detail ? "20px 20px" : "0")};
   background-color: ${({ theme, $scheme }) =>
-    $scheme === "primary" ? theme.color.pink6 : theme.color.white};
-  border: 1px solid ${({ theme }) => theme.color.white};
+    $scheme === "primary" ? theme.color.pink6 : "#FFFFFF"};
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 

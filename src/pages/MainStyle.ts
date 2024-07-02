@@ -28,6 +28,7 @@ export const MainStyle = styled.div`
     border: 1px solid ${({ theme }) => theme.color.grey3};
     border-radius: 20px;
     color: ${({ theme }) => theme.color.grey3};
+    background-color: ${({ theme }) => theme.color.purewhite};
     cursor: pointer;
 
     &.active {

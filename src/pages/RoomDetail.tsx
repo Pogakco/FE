@@ -7,6 +7,8 @@ import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import SquareButton from "@/components/buttons/SquareButton";
+import useEmitSocket from "@/hooks/useEmitSocket";
 
 const roomData: IroomData = {
   roomTitle: "뽀모도로 정예부대 구해요",
@@ -27,6 +29,14 @@ const roomData: IroomData = {
 
 const RoomDetail = () => {
   const [activeSound, setActiveSound] = useState<boolean>(false);
+  const {
+    syncedIsRunning,
+    syncedAllParticipants,
+    syncedCurrentCycles,
+    syncedStartedAt,
+    handleClickCyclesStartButton
+  } = useEmitSocket();
+
   const navigate = useNavigate();
   const soundHandler = () => {
     setActiveSound(!activeSound);
@@ -34,6 +44,9 @@ const RoomDetail = () => {
   const exitButtonHandler = () => {
     navigate("/");
   };
+
+  console.log(syncedIsRunning,syncedAllParticipants,syncedCurrentCycles,syncedStartedAt)
+
   return (
     <RoomDetailStyle>
       <div className="muteIcon" onClick={soundHandler}>
@@ -41,6 +54,7 @@ const RoomDetail = () => {
       </div>
       <Drawer roomData={roomData} />
       <Timer />
+      <SquareButton buttonColor="active" buttonSize="medium" onClick={handleClickCyclesStartButton}>시작하기</SquareButton>
       <div className="exitButton">
         <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
           <RiLogoutBoxRLine />

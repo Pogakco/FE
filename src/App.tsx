@@ -9,6 +9,7 @@ import RoomDetail from "./pages/RoomDetail";
 import "@/style/reset.css";
 import "@/style/font.css";
 import Main from "./pages/Main";
+import NotFound from "./pages/NotFound";
 import { UserCheckPassword } from "./pages/UserCheckPassword.1";
 import UserProfile from "./pages/UserProfile";
 import Layout from "./components/layout/Layout";
@@ -16,10 +17,11 @@ import Layout from "./components/layout/Layout";
 const routeList = [
   { path: "/signup", element: <UserSignup /> },
   { path: "/login", element: <UserLogin /> },
+  { path: "/rooms/:id", element: <RoomDetail />},
   { path: "/check-password", element: <UserCheckPassword /> },
   { path: "/profile", element: <UserProfile /> }
-  { path: "/roomDetail", element: <RoomDetail />},
   { path: "/", element: <Main />},
+  { path: "*", element: <NotFound /> }
 ];
 
 const router = createBrowserRouter(
