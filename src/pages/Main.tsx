@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import RoomListCard from "@/components/cards/RoomListCard";
 import CircleButton from '@/components/buttons/CircleButton';
-import { IoMdAdd, IoMdSad } from 'react-icons/io';
+import { IoMdAdd } from 'react-icons/io';
 import { IroomData } from '@/models/room.model';
 import { MainStyle } from './MainStyle';
 import Modal from '@/components/modal/Modal';
@@ -67,9 +67,9 @@ const Main = () => {
           <span onClick={handleCheckboxChange}>휴식중인 방만 보기</span>
         </span>
         <div className="roomList">
-          {isLoading && <div className="loading">로딩 중</div>}
-          {error && <div className="error">오류발생</div>}
-          {!isLoading && !error && (
+          {isLoading && <div>로딩 중</div>}
+          {error && <div>오류발생</div>}
+          {
             filteredRoomList.length > 0 ? (
               filteredRoomList.map((roomData, index) => (
                 <RoomListCard key={index} roomData={roomData} onClick={handleRoomCardClick} />
@@ -77,7 +77,7 @@ const Main = () => {
             ) : (
               <div>현재 방이 없습니다</div>
             )
-          )}
+          }
         </div>
       </div>
       <div className="createButton" onClick={handleCreateButtonClick}>
