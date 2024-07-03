@@ -8,7 +8,7 @@ type TCardScheme = "primary" | "default";
 
 interface Props {
   totalCycles: number;
-  currentCycles: number;
+  currentCycle: number | null;
   focusTime: number;
   shortBreakTime: number;
   longBreakTime: number;
@@ -18,7 +18,7 @@ interface Props {
 
 const TimerDescriptCard = ({
   totalCycles,
-  currentCycles,
+  currentCycle,
   focusTime,
   shortBreakTime,
   longBreakTime,
@@ -43,7 +43,7 @@ const TimerDescriptCard = ({
         <GiTomato />
         {detail && "뽀모도로 :"}{" "}
         <span>
-          {currentCycles}/{totalCycles}회
+          {currentCycle}/{totalCycles}회
         </span>
       </div>
     </TimerDescriptCardStyle>

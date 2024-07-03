@@ -36,7 +36,7 @@ const ModalRoomDetail = ({ roomData }: Props) => {
       <span>
         <TimerDescriptCard
           totalCycles={roomData.totalCycles}
-          currentCycles={roomData.currentCycles}
+          currentCycle={roomData.currentCycles}
           focusTime={roomData.focusTime}
           shortBreakTime={roomData.shortBreakTime}
           longBreakTime={roomData.longBreakTime}

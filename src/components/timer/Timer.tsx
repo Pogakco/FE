@@ -1,24 +1,38 @@
+import { TtimerStatus } from "@/models/timer.model";
 import { formatTime } from "@/utils/formatTime";
 import styled from "styled-components";
 
 interface Props {
-  timerData : number;
+  timerData: number;
+  status: TtimerStatus;
 }
 
-const Timer = ({ timerData }: Props) => {
-
+const Timer = ({ timerData, status }: Props) => {
   return (
-    <TimerContainer $isCritical={timerData <= 3}>
+    <TimerContainer $isCritical={timerData <= 3} $status={status}>
       {formatTime(timerData)}
     </TimerContainer>
   );
 };
 
-const TimerContainer = styled.div<{ $isCritical: boolean }>`
+const getColorByStatus = (status: TtimerStatus, theme: any) => {
+  switch (status) {
+    case "focusTime":
+      return theme.color.pink6;
+    case "shortBreakTime":
+      return theme.color.pink4;
+    case "longBreakTime":
+      return theme.color.grey3;
+    default:
+      return theme.color.pink3;
+  }
+};
+
+const TimerContainer = styled.div<{ $isCritical: boolean; $status: TtimerStatus }>`
   width: 335px;
   height: 335px;
   border-radius: 335px;
-  background-color: #ff8080;
+  background-color: ${({ $status, theme }) => getColorByStatus($status, theme)};
   display: flex;
   justify-content: center;
   align-items: center;

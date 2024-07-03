@@ -11,6 +11,7 @@ import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 import { getDiffrentTime } from "@/utils/getDiffrentTime";
 import { getTimerTime } from "@/utils/getTimerTime";
+import { TtimerStatus } from "@/models/timer.model";
 
 const roomData: IroomData = {
   roomTitle: "뽀모도로 정예부대 구해요",
@@ -32,7 +33,7 @@ const roomData: IroomData = {
 const RoomDetail = () => {
   const [activeSound, setActiveSound] = useState<boolean>(false);
   const [timerTime, setTimerTime] = useState<number>(roomData.focusTime);
-
+  const [status, setStatus] = useState<TtimerStatus>("shortBreakTime");
   const {
     syncedIsRunning,
     syncedAllParticipants,
@@ -49,22 +50,25 @@ const RoomDetail = () => {
     navigate("/");
   };
 
+  // TODO : useEffect 훅으로 분리, 
+  // 중간 참여 로직 반영 안됨, undefined에 처음 초깃값 입력
   useEffect(() => {
-    if (syncedStartedAt) {
+    const startAt = syncedStartedAt ? syncedStartedAt : undefined
+    if (startAt) {
         const interval = setInterval(() => {
-            const differTime = getDiffrentTime(syncedStartedAt);
+            const differTime = getDiffrentTime(startAt);
             const focusTime = roomData.focusTime;
             const breakTime = roomData.shortBreakTime;
             const totalCycles = roomData.totalCycles;
             const longBreakTime = roomData.longBreakTime;
 
-            const timerTime = getTimerTime(differTime, focusTime, breakTime, totalCycles, longBreakTime);
-            
-            if (timerTime === -1) {
-                setTimerTime(roomData.focusTime);
-            } else {
-                setTimerTime(timerTime);
-            }
+            const {status, timerData} = getTimerTime(differTime, focusTime, breakTime, totalCycles, longBreakTime);
+            setStatus(status);
+            if (status === "set") {
+              setTimerTime(roomData.focusTime);
+          } else if (status) {
+              setTimerTime(timerData);
+          }
         }, 1000);
 
         return () => clearInterval(interval);
@@ -76,9 +80,15 @@ const RoomDetail = () => {
       <div className="muteIcon" onClick={soundHandler}>
         {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
-      <Drawer roomData={roomData} isRunning={syncedIsRunning} />
+      <Drawer roomData={roomData} 
+      isRunning={syncedIsRunning ? syncedIsRunning : roomData.isRunning}
+      currentCycle={syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles}
+
+      
+      />
       <Timer
         timerData={timerTime}
+        status={status}
       />
       <SquareButton
         buttonColor="active"

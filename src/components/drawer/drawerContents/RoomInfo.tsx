@@ -7,9 +7,10 @@ import styled from "styled-components";
 interface Props {
   roomData: IroomData;
   isRunning : boolean | null;
+  currentCycle : number | null;
 }
 
-const RoomInfo = ({ roomData, isRunning }: Props) => {
+const RoomInfo = ({ roomData, isRunning, currentCycle }: Props) => {
   return (
     <RoomInfoStyle>
       <div className="title">{roomData.roomTitle}</div>
@@ -29,7 +30,7 @@ const RoomInfo = ({ roomData, isRunning }: Props) => {
       <div className="section-title">타이머 정보</div>
       <TimerDescriptCard
         totalCycles={roomData.totalCycles}
-        currentCycles={roomData.currentCycles}
+        currentCycle={currentCycle}
         focusTime={roomData.focusTime}
         shortBreakTime={roomData.shortBreakTime}
         longBreakTime={roomData.longBreakTime}
