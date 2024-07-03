@@ -1,6 +1,6 @@
 export interface IroomListData {
     data: {
-      roomId: number
+        id: number
       roomTitle: string,
       roomDescription: string,
       totalCycles: number,

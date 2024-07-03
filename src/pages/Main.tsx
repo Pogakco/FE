@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import RoomListCard from "@/components/cards/RoomListCard";
 import CircleButton from '@/components/buttons/CircleButton';
-import { IoMdAdd } from 'react-icons/io';
+import { IoMdAdd, IoMdSad } from 'react-icons/io';
 import { IroomData } from '@/models/room.model';
 import { MainStyle } from './MainStyle';
 import Modal from '@/components/modal/Modal';
 import ModalRoomCreate from '@/components/modal/modalContents/ModalRoomCreate';
 import ModalRoomDetail from '@/components/modal/modalContents/ModalRoomDetail';
 import useModal from '@/hooks/useModal';
-import { fetchRooms } from '@/api/roomList.api';
+import useFetchRooms from '@/hooks/queries/useFetchRooms';
 
 type TisRoomType = "all" | "filter";
 
@@ -17,16 +17,8 @@ const Main = () => {
   const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<TisRoomType>("all");
   const [selectedRoom, setSelectedRoom] = useState<IroomData | null>(null);
   const { isModal, modalContent, openModal, closeModal, setIsModal } = useModal();
-  const [roomListDatas, setRoomListDatas] = useState<IroomData[]>([]);
-
-  console.log(roomListDatas)
-  useEffect(() => {
-    fetchRooms()
-      .then(rooms => {
-        setRoomListDatas(rooms.data);
-      })
-      .catch(error => console.error(error));
-  }, []);
+  const { data: response, isLoading, error } = useFetchRooms();
+  const roomListDatas = response?.data ?? [];
 
   const handleCheckboxChange = () => {
     setIsRunningChecked(!isRunningChecked);
@@ -75,12 +67,16 @@ const Main = () => {
           <span onClick={handleCheckboxChange}>휴식중인 방만 보기</span>
         </span>
         <div className="roomList">
-          {filteredRoomList.length > 0 ? (
-            filteredRoomList.map((roomData, index) => (
-              <RoomListCard key={index} roomData={roomData} onClick={handleRoomCardClick} />
-            ))
-          ) : (
-            <div>비어있습니다</div>
+          {isLoading && <div className="loading">로딩 중</div>}
+          {error && <div className="error">오류발생</div>}
+          {!isLoading && !error && (
+            filteredRoomList.length > 0 ? (
+              filteredRoomList.map((roomData, index) => (
+                <RoomListCard key={index} roomData={roomData} onClick={handleRoomCardClick} />
+              ))
+            ) : (
+              <div>현재 방이 없습니다</div>
+            )
           )}
         </div>
       </div>
