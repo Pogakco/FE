@@ -6,6 +6,7 @@ import SquareButton from "@/components/buttons/SquareButton";
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILogin } from "@/models/auth.model";
+import useAuth from "@/hooks/useAuth";
 
 const inputfield: IInputField[] = [
   {
@@ -28,7 +29,11 @@ const UserLogin = () => {
     formState: { errors }
   } = useForm<ILogin>();
 
-  const onSubmit: SubmitHandler<ILogin> = (data) => console.log(data);
+  const { userLogin } = useAuth();
+
+  const onSubmit: SubmitHandler<ILogin> = (data) => {
+    userLogin(data);
+  };
 
   return (
     <UserLoginStyle>

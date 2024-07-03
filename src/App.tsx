@@ -17,10 +17,10 @@ import Layout from "./components/layout/Layout";
 const routeList = [
   { path: "/signup", element: <UserSignup /> },
   { path: "/login", element: <UserLogin /> },
-  { path: "/rooms/:id", element: <RoomDetail />},
+  { path: "/rooms/:id", element: <RoomDetail /> },
   { path: "/check-password", element: <UserCheckPassword /> },
-  { path: "/profile", element: <UserProfile /> }
-  { path: "/", element: <Main />},
+  { path: "/profile", element: <UserProfile /> },
+  { path: "/", element: <Main /> },
   { path: "*", element: <NotFound /> }
 ];
 

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ISignup } from "@/models/auth.model";
 import { useEffect } from "react";
+import useAuth from "@/hooks/useAuth";
 
 export const AUTH_REGEX = {
   nickname: /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/, // 닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 가능
@@ -50,25 +51,33 @@ const UserSignup = () => {
     formState: { errors }
   } = useForm<ISignup>();
 
-  const onSubmit: SubmitHandler<ISignup> = (data) => console.log(data);
+  const { userSignup } = useAuth();
+
+  const onSubmit: SubmitHandler<ISignup> = (data) => {
+    userSignup({
+      nickname: data.nickname,
+      email: data.email,
+      password: data.password
+    });
+  };
 
   const handleDuplicate = () => {};
 
-  // // [비밀번호] value 수정 시 이미 입력된 [비밀번호 확인] value 도 같이 유효성 체크
-  // useEffect(() => {
-  //   if (
-  //     watch("password") !== watch("passwordCheck") &&
-  //     watch("passwordCheck")
-  //   ) {
-  //     setError("passwordCheck", {
-  //       type: "password-mismatch",
-  //       message: "비밀번호가 일치하지 않습니다"
-  //     });
-  //   } else {
-  //     // 비밀번호 일치시 오류 제거
-  //     clearErrors("passwordCheck");
-  //   }
-  // }, [watch("password"), watch("passwordCheck")]);
+  // [비밀번호] value 수정 시 이미 입력된 [비밀번호 확인] value 도 같이 유효성 체크
+  useEffect(() => {
+    if (
+      watch("password") !== watch("passwordCheck") &&
+      watch("passwordCheck")
+    ) {
+      setError("passwordCheck", {
+        type: "password-mismatch",
+        message: "비밀번호가 일치하지 않습니다"
+      });
+    } else {
+      // 비밀번호 일치시 오류 제거
+      clearErrors("passwordCheck");
+    }
+  }, [watch("password"), watch("passwordCheck")]);
 
   return (
     <UserLoginStyle>
