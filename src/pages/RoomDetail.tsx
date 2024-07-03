@@ -54,7 +54,10 @@ const RoomDetail = () => {
   // 중간 참여 로직 반영 안됨, undefined에 처음 초깃값 입력
   useEffect(() => {
     const startAt = syncedStartedAt ? syncedStartedAt : undefined
-    if (startAt) {
+    const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
+    if(!isRunning) setTimerTime(roomData.focusTime);
+
+    if (startAt && isRunning) {
         const interval = setInterval(() => {
             const differTime = getDiffrentTime(startAt);
             const focusTime = roomData.focusTime;
