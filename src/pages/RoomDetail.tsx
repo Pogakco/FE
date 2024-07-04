@@ -11,6 +11,7 @@ import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 
 const roomData: IroomData = {
+  id : 1,
   roomTitle: "뽀모도로 정예부대 구해요",
   roomDescription: `더도 말고 우리 딱 코딩으로 연봉 1억 받을 정도로만 
     열심히해요 내일도 오늘도 화이팅 코딩 열심히해서 

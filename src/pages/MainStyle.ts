@@ -60,13 +60,14 @@ export const MainStyle = styled.div`
   }
 
   .roomList {
+    min-height: 520px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
   }
 
   .createButton {
-    position: fixed;
+    position: absolute;
     bottom: 50px;
     right: 50px;
   }
