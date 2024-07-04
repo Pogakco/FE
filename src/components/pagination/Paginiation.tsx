@@ -12,18 +12,11 @@ interface Props {
   }
 }
 
-const TemppaginationData = {
-  currentPage: 1,
-  limit: 10,
-  totalElements: 100,
-  totalPages: 10,
-};
-
 const Pagination = ({ pagination } : Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = pagination.currentPage || 1;
   const currentPageGroup = Math.ceil(currentPage / 5);
-
+  
   const handleClickPage = (page : number) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", page.toString());
@@ -52,7 +45,7 @@ const Pagination = ({ pagination } : Props) => {
   }
 
   const nextPage = () => {
-    if (currentPage < TemppaginationData.totalPages) {
+    if (currentPage < pagination.totalPages) {
       handleClickPage(currentPage + 1)
     }
   }
@@ -62,7 +55,7 @@ const Pagination = ({ pagination } : Props) => {
         <button className='controllButton' onClick={prevPage}>
         <PiCaretLeft />
         </button>
-        {pageButtonRender(TemppaginationData.totalPages)}
+        {pageButtonRender(pagination.totalPages)}
         <button className='controllButton' onClick={nextPage}>
         <PiCaretRight />
         </button>

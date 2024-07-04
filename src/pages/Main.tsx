@@ -18,7 +18,7 @@ type TisRoomType = "all" | "filter";
 
 const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isRunningChecked, setIsRunningChecked] = useState<boolean>(false);
+  const [isRunningChecked, setIsRunningChecked] = useState<boolean>(true);
   const [isRoomTypeChecked, setIsRoomTypeChecked] =
     useState<TisRoomType>("all");
   const [selectedRoom, setSelectedRoom] = useState<IroomData | null>(null);
@@ -92,10 +92,10 @@ const Main = () => {
               참여한 방
             </button>
           </span>
-          <span className={`options ${isRunningChecked ? "checked" : ""}`}>
+          <span className={`options ${isRunningChecked ? "" : "checked"}`}>
             <input
               type="checkbox"
-              checked={isRunningChecked}
+              checked={!isRunningChecked}
               onChange={handleCheckboxChange}
             />
             <span onClick={handleCheckboxChange}>휴식중인 방만 보기</span>
