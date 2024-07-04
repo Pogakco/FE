@@ -13,7 +13,7 @@ const Footer = () => {
         <div className="links">
           <Link to="">팀 소개</Link>
           <Link to="">뽀각코 팀에게 피드백 전달하기</Link>
-          <Link to="" className="i-github">
+          <Link to="https://github.com/Pogakco" className="i-github">
             <BsGithub />
           </Link>
         </div>

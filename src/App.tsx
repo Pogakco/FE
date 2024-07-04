@@ -1,5 +1,5 @@
 import { ThemeProvider } from "styled-components";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
 import { light } from "./style/theme";
 import GlobalStyle from "./style/global";
@@ -14,25 +14,46 @@ import { UserCheckPassword } from "./pages/UserCheckPassword.1";
 import UserProfile from "./pages/UserProfile";
 import Layout from "./components/layout/Layout";
 
-const routeList = [
-  { path: "/signup", element: <UserSignup /> },
-  { path: "/login", element: <UserLogin /> },
-  { path: "/rooms/:id", element: <RoomDetail />},
-  { path: "/check-password", element: <UserCheckPassword /> },
-  { path: "/profile", element: <UserProfile /> },
-  { path: "/", element: <Main />},
-  { path: "*", element: <NotFound /> },
-];
-
-const router = createBrowserRouter(
-  routeList.map((route) => {
-    return {
-      ...route,
-      element: <Layout>{route.element}</Layout>,
-      errorElement: <main>error 페이지</main>
-    };
-  })
-);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <Layout>
+        <Outlet />
+      </Layout>
+    ),
+    children: [
+      {
+        path: "/signup",
+        element: <UserSignup />
+      },
+      {
+        path: "/login",
+        element: <UserLogin />
+      },
+      {
+        path: "/check-password",
+        element: <UserCheckPassword />
+      },
+      {
+        path: "/profile",
+        element: <UserProfile />
+      },
+      {
+        path: "/",
+        element: <Main />
+      },
+      {
+        path: "/rooms/:id",
+        element: <RoomDetail />
+      },
+      {
+        path: "*",
+        element: <NotFound />
+      }
+    ]
+  }
+]);
 
 function App() {
   return (

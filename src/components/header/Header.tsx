@@ -1,15 +1,47 @@
 import { FaMoon } from "react-icons/fa";
 import styled from "styled-components";
+import { useAuthStore } from "@/store/authStore";
+import useAlert from "@/hooks/useAlert";
+import { useNavigate } from "react-router-dom";
+import useAuth from "@/hooks/useAuth";
 
 const Header = () => {
+  const { isLoggedIn } = useAuthStore();
+  const { showConfirm } = useAlert();
+  const navigate = useNavigate();
+  const { userLogout } = useAuth();
+
+  const handleButtons = (type: "logo" | "profile" | "log") => {
+    const todo = type === "log" ? (isLoggedIn ? "logout" : "login") : type;
+    const buttonCase = {
+      logo: () => {
+        navigate("/");
+      },
+      profile: () => {
+        navigate("/profile");
+      },
+      login: () => {
+        navigate("/login");
+      },
+      logout: () => {
+        showConfirm("로그아웃하시겠습니까?", () => userLogout());
+      }
+    };
+    buttonCase[todo]();
+  };
+
   return (
     <HeaderStyle>
       <div className="leftSection">
-        <button>로고</button>
+        <button onClick={() => handleButtons("logo")}>로고</button>
       </div>
       <div className="rigthSection">
-        <button>마이페이지</button>
-        <button>로그아웃</button>
+        {isLoggedIn && (
+          <button onClick={() => handleButtons("profile")}>마이페이지</button>
+        )}
+        <button onClick={() => handleButtons("log")}>
+          {isLoggedIn ? "로그아웃" : "로그인"}
+        </button>
         <button>
           <FaMoon />
         </button>
