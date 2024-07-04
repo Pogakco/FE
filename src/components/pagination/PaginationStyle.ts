@@ -1,11 +1,12 @@
-const PaginationStyle = styled.div`
+import styled from "styled-components";
+
+export const PaginationStyle = styled.div`
   width: 100%;
   margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  
+  gap: 10px;  
   .controllButton {
     border: none;
     font-size: ${({ theme }) => theme.fontSize.title};
@@ -29,12 +30,15 @@ const PaginationStyle = styled.div`
     font-weight: bold;
     border-radius: 40px;
     cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: ${({ theme}) => theme.color.grey2};;
+    }
   }
-  
-  .pageButton.active {
+    .pageButton.active {
     background-color: ${({ theme}) => theme.color.pink4};
     color: ${({ theme }) => theme.color.black};
-    transition: background-color 0.2s;
   }
   
   li {
@@ -46,11 +50,6 @@ const PaginationStyle = styled.div`
     cursor: pointer;
     padding: 5px 10px;
     border: 1px solid #ccc;
-    background-color: white;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #f0f0f0;
+    background-color: ${({ theme }) => theme.color.white};;
   }
 `;

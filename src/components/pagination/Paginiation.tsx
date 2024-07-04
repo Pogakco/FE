@@ -1,7 +1,7 @@
 import React from 'react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import { PaginationStyle } from './PaginationStyle';
+import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 
 interface Props {
   pagination: {
@@ -60,11 +60,11 @@ const Pagination = ({ pagination } : Props) => {
   return (
     <PaginationStyle>
         <button className='controllButton' onClick={prevPage}>
-          <FaChevronLeft />
+        <PiCaretLeft />
         </button>
         {pageButtonRender(TemppaginationData.totalPages)}
         <button className='controllButton' onClick={nextPage}>
-          <FaChevronRight />
+        <PiCaretRight />
         </button>
     </PaginationStyle>
   )
