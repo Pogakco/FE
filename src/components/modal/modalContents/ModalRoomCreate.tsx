@@ -51,7 +51,6 @@ const ModalRoomCreate = () => {
           <InputField
             inputfield={item}
             schema="auth"
-            isError={false}
             key={index}
           />
         ))}
@@ -60,7 +59,6 @@ const ModalRoomCreate = () => {
           <InputField
             inputfield={item}
             schema="auth"
-            isError={false}
             key={index}
           />
         ))}

@@ -19,9 +19,9 @@ const routeList = [
   { path: "/login", element: <UserLogin /> },
   { path: "/rooms/:id", element: <RoomDetail />},
   { path: "/check-password", element: <UserCheckPassword /> },
-  { path: "/profile", element: <UserProfile /> }
+  { path: "/profile", element: <UserProfile /> },
   { path: "/", element: <Main />},
-  { path: "*", element: <NotFound /> }
+  { path: "*", element: <NotFound /> },
 ];
 
 const router = createBrowserRouter(
