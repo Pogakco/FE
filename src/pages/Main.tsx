@@ -21,17 +21,16 @@ const Main = () => {
   const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<TisRoomType>("all");
   const [selectedRoom, setSelectedRoom] = useState<IroomData | null>(null);
   const { isModal, modalContent, openModal, closeModal, setIsModal } = useModal();
-
   const page = searchParams.get("page") || "1";
 
-  const { data: response, isLoading, error, refetch } = useFetchRooms(page);
+  const { data: response, isLoading, error, refetch } = useFetchRooms(page, isRunningChecked);
 
   const roomListDatas = response?.data ?? [];
   const pagination = response?.pagination ?? null;
 
   useEffect(() => {
     refetch();
-  }, [searchParams]);
+  }, [searchParams, isRunningChecked]);
 
   const handleCheckboxChange = () => {
     setIsRunningChecked(!isRunningChecked);
@@ -39,10 +38,9 @@ const Main = () => {
 
   const handleRoomTypeChange = (type: TisRoomType) => () => {
     setIsRoomTypeChecked(type);
-    // const newSearchParams = new URLSearchParams(searchParams);
-    // newSearchParams.set("page", "1");
-    // setSearchParams(newSearchParams);
-    // 만약 아이디에 따른 방 참여 구분할 경우 활성화
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("page", "1");
+    setSearchParams(newSearchParams);
   };
 
   const handleRoomCardClick = (roomData: IroomData) => {
@@ -53,13 +51,6 @@ const Main = () => {
   const handleCreateButtonClick = () => {
     openModal("create");
   };
-
-  const filteredRoomList = roomListDatas.filter((room) => {
-    if (isRunningChecked && room.isRunning) {
-      return false;
-    }
-    return true;
-  });
 
   return (
     <MainStyle>
@@ -98,8 +89,8 @@ const Main = () => {
         <div className="roomList">
           {isLoading && <div>로딩 중</div>}
           {error && <div>오류발생</div>}
-          {filteredRoomList.length > 0 ? (
-            filteredRoomList.map((roomData, index) => (
+          {roomListDatas.length > 0 ? (
+            roomListDatas.map((roomData, index) => (
               <RoomListCard
                 key={index}
                 roomData={roomData}
