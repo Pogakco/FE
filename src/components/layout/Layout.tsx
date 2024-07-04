@@ -22,7 +22,7 @@ const Layout = ({ children }: Props) => {
       <LayoutStyle>
         <Header />
         <main className="main">{children}</main>
-        <Footer />
+        {shouldShowFooter && <Footer />}
       </LayoutStyle>
     </ErrorBoundary>
   );
