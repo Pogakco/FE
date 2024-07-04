@@ -51,7 +51,7 @@ const UserSignup = () => {
     formState: { errors }
   } = useForm<ISignup>();
 
-  const { userSignup } = useAuth();
+  const { userSignup, isError } = useAuth();
 
   const onSubmit: SubmitHandler<ISignup> = (data) => {
     userSignup({
@@ -174,6 +174,11 @@ const UserSignup = () => {
           회원가입
         </SquareButton>
       </form>
+      {isError && (
+        <div className="help-message">
+          이미 존재하는 이메일 혹은 닉네임입니다.
+        </div>
+      )}
       <div className="login-check">
         계정이 이미 있으신가요? <Link to="/login">로그인</Link>
       </div>

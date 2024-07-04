@@ -15,32 +15,14 @@ export const createClient = (config?: AxiosRequestConfig) => {
     ...config
   });
 
-  axiosInstance.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      if (error.response) {
-        const status = error.response.status;
-        const errorMessage = error.response.data.message;
-
-        switch (status) {
-          case 401:
-            console.error(`${errorMessage}`);
-            window.location.href = "/login";
-            // 에러 처리
-            break;
-          case 403:
-            console.error(`${errorMessage}`);
-            // 에러 처리
-            break;
-        }
-      } else {
-        console.error("통신 중 문제 발생");
-      }
-      return Promise.reject(error);
-    }
-  );
+  // axiosInstance.interceptors.response.use(
+  //   (response) => {
+  //     return response;
+  //   },
+  //   (error) => {
+  //     return Promise.reject(error);
+  //   }
+  // );
 
   return axiosInstance;
 };

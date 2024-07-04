@@ -29,7 +29,7 @@ const UserLogin = () => {
     formState: { errors }
   } = useForm<ILogin>();
 
-  const { userLogin } = useAuth();
+  const { userLogin, isError } = useAuth();
 
   const onSubmit: SubmitHandler<ILogin> = (data) => {
     userLogin(data);
@@ -64,6 +64,9 @@ const UserLogin = () => {
           로그인
         </SquareButton>
       </form>
+      {isError && (
+        <div className="help-message">이메일 또는 비밀번호가 틀렸습니다.</div>
+      )}
       <div className="login-check">
         계정이 없으신가요? <Link to="/signup">회원가입</Link>
       </div>
@@ -95,13 +98,13 @@ export const UserLoginStyle = styled.main`
         top: 8px;
         right: -122px;
       }
-
-      .help-message {
-        margin: 8px 9px 0px 9px;
-        font-size: ${({ theme }) => theme.fontSize.small};
-        color: #ff0000;
-      }
     }
+  }
+
+  .help-message {
+    margin: 8px 9px 0px 9px;
+    font-size: ${({ theme }) => theme.fontSize.small};
+    color: #ff0000;
   }
 
   .login-check {
