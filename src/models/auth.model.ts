@@ -7,7 +7,7 @@ export interface ISignup {
   nickname: string;
   email: string;
   password: string;
-  passwordCheck: string;
+  passwordCheck?: string;
 }
 
 export interface IRessetPassword {

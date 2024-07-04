@@ -1,4 +1,29 @@
+export interface IroomListData {
+    data: {
+        id: number
+      roomTitle: string,
+      roomDescription: string,
+      totalCycles: number,
+      currentCycles: number,
+      focusTime: number,
+      shortBreakTime: number,
+      longBreakTime: number,
+      isRunning: boolean,
+        maxParticipants: number,
+      currentParticipants: number,
+      ownerName: string,
+      ownerProfileImageUrl?: string,
+    }[],
+    pagination: {
+      currentPage: number,
+      totalPages: number,
+      totalElements: number,
+      limit: number,
+    }
+  }
+
 export interface IroomData {
+    id : number;
     roomTitle: string;
     roomDescription: string;
     totalCycles: number;

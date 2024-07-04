@@ -8,14 +8,14 @@ export const MainStyle = styled.div`
     flex-direction: column;
     gap: 20px;
     margin: auto;
-    padding: 120px 20px 0px 20px;
+    padding: 40px 20px 0px 20px;
     max-width: ${({ theme }) => theme.layoutWidth.screen};
   }
 
   .title {
     font-size: ${({ theme }) => theme.fontSize.title};
     color: ${({ theme }) => theme.color.black};
-    font-weight: bolder;
+    font-weight: 800;
   }
 
   .buttonGroup {
@@ -25,7 +25,7 @@ export const MainStyle = styled.div`
 
   .button {
     padding: 5px 27px;
-    border: 1px solid ${({ theme }) => theme.color.grey3};
+    border: 1px solid ${({ theme }) => theme.color.grey3}; 
     border-radius: 20px;
     color: ${({ theme }) => theme.color.grey3};
     background-color: ${({ theme }) => theme.color.purewhite};
@@ -60,6 +60,7 @@ export const MainStyle = styled.div`
   }
 
   .roomList {
+    min-height: 520px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;

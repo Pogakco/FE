@@ -10,13 +10,12 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   roomData: IroomData;
 }
-const tempRoomId = 2;
 
 const ModalRoomDetail = ({ roomData }: Props) => {
   const navigate = useNavigate();
 
   const handleButton = () => {
-    navigate(`/rooms/${tempRoomId}`)
+    navigate(`/rooms/${roomData.id}`)
   }
   return (
     <ModalRoomDetailStyle>

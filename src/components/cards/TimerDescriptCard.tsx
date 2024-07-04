@@ -1,3 +1,4 @@
+import React from "react";
 import { CgSandClock } from "react-icons/cg";
 import { FaBook } from "react-icons/fa";
 import { GiTomato } from "react-icons/gi";
