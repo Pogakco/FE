@@ -15,15 +15,6 @@ export const createClient = (config?: AxiosRequestConfig) => {
     ...config
   });
 
-  // axiosInstance.interceptors.response.use(
-  //   (response) => {
-  //     return response;
-  //   },
-  //   (error) => {
-  //     return Promise.reject(error);
-  //   }
-  // );
-
   return axiosInstance;
 };
 
