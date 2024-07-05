@@ -13,7 +13,6 @@ import NotFound from "./pages/NotFound";
 import { UserCheckPassword } from "./pages/UserCheckPassword.1";
 import UserProfile from "./pages/UserProfile";
 import Layout from "./components/layout/Layout";
-import Header from "./components/header/Header";
 
 const router = createBrowserRouter([
   {

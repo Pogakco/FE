@@ -29,8 +29,6 @@ const Main = () => {
     refetch
   } = useFetchRooms(page, isRunningChecked);
 
-  if(error) throw error;
-
   const roomListDatas = response?.data ?? [];
   const pagination = response?.pagination ?? null;
 
@@ -57,6 +55,9 @@ const Main = () => {
   const handleCreateButtonClick = () => {
     openModal("create");
   };
+
+  if(error) throw error;
+
 
   return (
     <>

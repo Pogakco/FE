@@ -33,7 +33,6 @@ const RoomDetail = () => {
     navigate("/");
   };
 
-
   if (isLoading) {
     return <div>로딩중</div>;
   }
@@ -58,7 +57,7 @@ const RoomDetail = () => {
           syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles
         }
       />
-      <Timer timerData={timerTime} status={status} />
+      <Timer timerTime={timerTime} status={status} />
       <SquareButton
         buttonColor="active"
         buttonSize="medium"

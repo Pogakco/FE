@@ -11,7 +11,8 @@ interface IuseTimer {
     syncedCurrentCycles : number | null;
 }
 
-const useTimer = ({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles} : IuseTimer)  => {
+const useTimer = ({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles} : IuseTimer) 
+: {timerTime : number, status : TtimerStatus} => {
     const [timerTime, setTimerTime] = useState<number>(0);
     const [status, setStatus] = useState<TtimerStatus>("shortBreakTime");
 

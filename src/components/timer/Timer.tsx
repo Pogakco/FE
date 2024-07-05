@@ -3,14 +3,14 @@ import { formatTime } from "@/utils/formatTime";
 import styled from "styled-components";
 
 interface Props {
-  timerData: number;
+  timerTime: number;
   status: TtimerStatus;
 }
 
-const Timer = ({ timerData, status }: Props) => {
+const Timer = ({ timerTime, status }: Props) => {
   return (
-    <TimerContainer $isCritical={timerData <= 3} $status={status}>
-      {formatTime(timerData)}
+    <TimerContainer $isCritical={timerTime <= 3} $status={status}>
+      {formatTime(timerTime)}
     </TimerContainer>
   );
 };
