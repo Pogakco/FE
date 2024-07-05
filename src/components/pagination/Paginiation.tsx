@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSearchParams } from 'react-router-dom';
 import { PaginationStyle } from './PaginationStyle';
 import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
@@ -12,10 +11,12 @@ interface Props {
   }
 }
 
+const PAGE_GROUP_NUM = 5;
+
 const Pagination = ({ pagination } : Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = pagination.currentPage || 1;
-  const currentPageGroup = Math.ceil(currentPage / 5);
+  const currentPageGroup = Math.ceil(currentPage / PAGE_GROUP_NUM);
   
   const handleClickPage = (page : number) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -24,7 +25,7 @@ const Pagination = ({ pagination } : Props) => {
   };
 
   const pageButtonRender = (totalPages : number) => {
-    const startPage = (currentPageGroup - 1) * 5 + 1;
+    const startPage = (currentPageGroup - 1) * PAGE_GROUP_NUM + 1;
     const endPage = Math.min(5 * currentPageGroup, totalPages);
     const pageNumbers = [];
     for (let i = startPage; i <= endPage; i++) {

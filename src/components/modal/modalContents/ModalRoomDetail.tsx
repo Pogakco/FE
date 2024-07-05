@@ -12,8 +12,8 @@ interface Props {
 }
 
 const ModalRoomDetail = ({ roomData }: Props) => {
+    
   const navigate = useNavigate();
-
   const handleButton = () => {
     navigate(`/rooms/${roomData.id}`)
   }
