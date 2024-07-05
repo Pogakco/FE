@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import TimerDescriptCard from "./TimerDescriptCard";
 import { FaCrown, FaUser } from "react-icons/fa";
-import { IroomData } from "@/models/room.model";
+import { IroomCardData } from "@/models/room.model";
 import RunningStatus from "../commons/RunningStatus";
 
+
 interface Props {
-  roomData: IroomData;
-  onClick: (roomData: IroomData) => void;
+  roomData: IroomCardData
+  onClick: (roomData: IroomCardData) => void;
 }
 
 const RoomListCard = ({ roomData, onClick }: Props) => {

@@ -2,13 +2,13 @@ import SquareButton from "@/components/buttons/SquareButton";
 import TimerDescriptCard from "@/components/cards/TimerDescriptCard";
 import RunningStatus from "@/components/commons/RunningStatus";
 import Profile from "@/components/profile/Profile";
-import { IroomData } from "@/models/room.model";
+import { IroomCardData } from "@/models/room.model";
 import { FaCrown } from "react-icons/fa";
 import { ModalHeader, ModalRoomDetailStyle } from "../ModalStyle";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  roomData: IroomData;
+  roomData: IroomCardData;
 }
 
 const ModalRoomDetail = ({ roomData }: Props) => {

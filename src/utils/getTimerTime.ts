@@ -3,11 +3,11 @@ import { ItimerStatus } from "@/models/timer.model";
 export const getTimerTime = (
     differTime: number, 
     focusTime: number,
-    breakTime: number,
+    shortBreakTime: number,
     totalCycles: number,
     longBreakTime: number
 ): ItimerStatus => {
-    const cycleDuration = focusTime + breakTime;
+    const cycleDuration = focusTime + shortBreakTime;
     const totalCycleTime = cycleDuration * totalCycles; 
     const totalCycleAndLongBreakTime = totalCycleTime + longBreakTime; 
 

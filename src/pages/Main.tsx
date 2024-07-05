@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import RoomListCard from "@/components/cards/RoomListCard";
 import CircleButton from "@/components/buttons/CircleButton";
 import { IoMdAdd } from "react-icons/io";
-import { IroomData } from "@/models/room.model";
+import { IroomCardData, IroomData } from "@/models/room.model";
 import { MainStyle } from "./MainStyle";
 import Modal from "@/components/modal/Modal";
 import ModalRoomCreate from "@/components/modal/modalContents/ModalRoomCreate";
@@ -21,7 +21,7 @@ const Main = () => {
   const [isRunningChecked, setIsRunningChecked] = useState<boolean>(true);
   const [isRoomTypeChecked, setIsRoomTypeChecked] =
     useState<TisRoomType>("all");
-  const [selectedRoom, setSelectedRoom] = useState<IroomData | null>(null);
+  const [selectedRoom, setSelectedRoom] = useState<IroomCardData | null>(null);
   const { isModal, modalContent, openModal, closeModal, setIsModal } =
     useModal();
   const page = searchParams.get("page") || "1";
@@ -51,7 +51,7 @@ const Main = () => {
     setSearchParams(newSearchParams);
   };
 
-  const handleRoomCardClick = (roomData: IroomData) => {
+  const handleRoomCardClick = (roomData: IroomCardData) => {
     setSelectedRoom(roomData);
     openModal("detail");
   };

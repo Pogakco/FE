@@ -19,9 +19,8 @@ const useEmitSocket = () => {
     };
 
     useEffect(() => {
-      console.log(syncedIsRunning, syncedStartedAt, syncedCurrentCycles,syncedAllParticipants )
       const roomId = location.pathname.match(/\/rooms\/(\d+)/)![1];
-      const socket = io(`http://localhost:3000/rooms/${roomId}`, {
+      const socket = io(`/socket/${roomId}`, {
         withCredentials: true,
       });
       setSocket(socket);

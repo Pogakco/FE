@@ -12,3 +12,5 @@ export const fetchRooms = async (page: string = "1", isRunningChecked?: boolean)
     
     return await requestHandler<IroomListData>("get", url);
 }
+
+// 참여 방 조회 API
