@@ -20,7 +20,7 @@ const useEmitSocket = () => {
 
     useEffect(() => {
       const roomId = location.pathname.match(/\/rooms\/(\d+)/)![1];
-      const socket = io(`/socket/${roomId}`, {
+      const socket = io(`http://localhost:3000/rooms/${roomId}`, {
         withCredentials: true,
       });
       setSocket(socket);

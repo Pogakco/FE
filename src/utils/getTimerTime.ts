@@ -11,8 +11,8 @@ export const getTimerTime = (
     const totalCycleTime = cycleDuration * totalCycles; 
     const totalCycleAndLongBreakTime = totalCycleTime + longBreakTime; 
 
-    if (differTime > totalCycleAndLongBreakTime) { 
-        return {status : "set", timerData : -1}
+    if (differTime >= totalCycleAndLongBreakTime) { 
+        return {status : "set", timerData : -9999}
     } else if (differTime >= totalCycleTime) {
         return  {status : "longBreakTime", timerData : totalCycleAndLongBreakTime-differTime};
     }

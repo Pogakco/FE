@@ -39,17 +39,21 @@ const RoomDetail = () => {
   };
 
   useEffect(() => {
+    console.log(roomData)
     if (!roomData) return;
-    setTimerTime(roomData?.focusTime);
-
+    console.log(roomData.startedAt, roomData.isRunning);
     const startAt = syncedStartedAt ? syncedStartedAt : roomData.startedAt;
     const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
+    if (!isRunning) {
+      setTimerTime(roomData.focusTime);
+      setStatus("shortBreakTime")
+    }
 
     if (startAt && isRunning) {
       const interval = setInterval(() => {
         const differTime = getDiffrentTime(startAt);
-        const { focusTime, shortBreakTime, totalCycles, longBreakTime } =
-          roomData;
+        console.log('차이시간', differTime)
+        const { focusTime, shortBreakTime, totalCycles, longBreakTime } = roomData;
         const { status, timerData } = getTimerTime(
           differTime,
           focusTime,
@@ -61,6 +65,7 @@ const RoomDetail = () => {
 
         if (status === "set") {
           setTimerTime(roomData.focusTime);
+          clearInterval(interval);
         } else if (status) {
           setTimerTime(timerData);
         }
