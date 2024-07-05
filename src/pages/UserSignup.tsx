@@ -1,44 +1,15 @@
 import { UserLoginStyle } from "./UserLogin";
 import Title from "@/components/user/Title";
-import { FaKey, FaSmile } from "react-icons/fa";
-import InputField, { IInputField } from "@/components/inputField/InputField";
+
+import InputField from "@/components/inputField/InputField";
 import SquareButton from "@/components/buttons/SquareButton";
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ISignup } from "@/models/auth.model";
 import { useEffect } from "react";
 import useAuth from "@/hooks/useAuth";
-
-export const AUTH_REGEX = {
-  nickname: /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/, // 닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 가능
-  email:
-    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i, //'@' 포함여부와 대문자,소문자를 구분안함
-  password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/ //영문, 숫자, 특수문자((@, $, !, %, *, #, ?, &) 각각 하나 이상 포함, 8~20자리 가능
-};
-
-export const INPUT_FIELD: IInputField[] = [
-  {
-    icon: <FaKey />,
-    name: "닉네임",
-    placeholder: "2~19자 내로 입력해주세요"
-  },
-  {
-    icon: <FaSmile />,
-    name: "이메일",
-    placeholder: "이메일을 입력해주세요"
-  },
-  {
-    icon: <FaKey />,
-    name: "비밀번호",
-    placeholder: "15자 이내로 입력해주세요"
-  },
-
-  {
-    icon: <FaKey />,
-    name: "비밀번호 확인",
-    placeholder: "비밀번호를 일치하게 입력해주세요"
-  }
-];
+import { AUTH_REGEX } from "@/utils/regex";
+import { AUTH_INPUT_FIELD } from "@/utils/inputField";
 
 const UserSignup = () => {
   const {
@@ -85,7 +56,7 @@ const UserSignup = () => {
         <Title>회원가입</Title>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[0]}
+            inputfield={AUTH_INPUT_FIELD[0]}
             schema="auth"
             {...register("nickname", {
               required: true,
@@ -110,7 +81,7 @@ const UserSignup = () => {
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[1]}
+            inputfield={AUTH_INPUT_FIELD[1]}
             schema="auth"
             {...register("email", {
               required: true,
@@ -133,7 +104,7 @@ const UserSignup = () => {
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[2]}
+            inputfield={AUTH_INPUT_FIELD[2]}
             schema="auth"
             type="password"
             {...register("password", {
@@ -152,7 +123,7 @@ const UserSignup = () => {
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[3]}
+            inputfield={AUTH_INPUT_FIELD[3]}
             schema="auth"
             type="password"
             {...register("passwordCheck", {

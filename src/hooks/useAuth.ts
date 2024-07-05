@@ -2,7 +2,7 @@ import { login, signup, logout, auth } from "@/api/auth.api";
 import { ILogin, ISignup } from "@/models/auth.model";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { AxiosError } from "axios";
 import { isTokenError, isConflictError } from "@/utils/error";
@@ -53,24 +53,24 @@ const useAuth = () => {
       });
   };
 
-  const userInitializeAuth = useCallback(() => {
-    auth()
-      .then((res) => {
-        if (res.isLogin === true) {
-          storeLogin();
-        } else {
-          storeLogout();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [storeLogin, storeLogout]);
+  // const userInitializeAuth = useCallback(() => {
+  //   auth()
+  //     .then((res) => {
+  //       if (res.isLogin === true) {
+  //         storeLogin();
+  //       } else {
+  //         storeLogout();
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [storeLogin, storeLogout]);
 
-  /** 최초 1회 실행 */
-  useEffect(() => {
-    userInitializeAuth();
-  }, [userInitializeAuth]);
+  // /** 최초 1회 실행 */
+  // useEffect(() => {
+  //   userInitializeAuth();
+  // }, [userInitializeAuth]);
 
   return { userSignup, userLogin, userLogout, isError };
 };

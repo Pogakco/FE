@@ -7,7 +7,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import styled from "styled-components";
 import { UserLoginStyle } from "./UserLogin";
-import { AUTH_REGEX, INPUT_FIELD } from "./UserSignup";
+import { AUTH_REGEX } from "@/utils/regex";
+import { AUTH_INPUT_FIELD } from "@/utils/inputField";
 
 type TProfile = Omit<ISignup, "email">;
 
@@ -32,14 +33,14 @@ const UserProfile = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[1]}
+            inputfield={AUTH_INPUT_FIELD[1]}
             schema="auth"
             disabled={true}
           />
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[0]}
+            inputfield={AUTH_INPUT_FIELD[0]}
             schema="auth"
             {...register("nickname", {
               required: true,
@@ -60,7 +61,7 @@ const UserProfile = () => {
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[2]}
+            inputfield={AUTH_INPUT_FIELD[2]}
             schema="auth"
             type="password"
             {...register("password", {
@@ -79,7 +80,7 @@ const UserProfile = () => {
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[3]}
+            inputfield={AUTH_INPUT_FIELD[3]}
             schema="auth"
             {...register("passwordCheck", {
               required: true,

@@ -13,6 +13,8 @@ import NotFound from "./pages/NotFound";
 import { UserCheckPassword } from "./pages/UserCheckPassword.1";
 import UserProfile from "./pages/UserProfile";
 import Layout from "./components/layout/Layout";
+import useInitialize from "./hooks/useInitialize";
+import { useEffect } from "react";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { userInitializeAuth } = useInitialize();
+
+  useEffect(() => {
+    userInitializeAuth();
+  }, [userInitializeAuth]);
+
   return (
     <ThemeProvider theme={light}>
       <GlobalStyle themeName="light" />
