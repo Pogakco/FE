@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import { UserCheckPassword } from "./pages/UserCheckPassword.1";
 import UserProfile from "./pages/UserProfile";
 import Layout from "./components/layout/Layout";
+import Test from "./pages/Test";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/rooms/:id",
         element: <RoomDetail />
+      },
+      {
+        path: "/test",
+        element: <Test />
       },
       {
         path: "*",
