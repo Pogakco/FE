@@ -1,25 +1,20 @@
 import CircleButton from "@/components/buttons/CircleButton";
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
-import { getDiffrentTime } from "@/utils/getDiffrentTime";
-import { getTimerTime } from "@/utils/getTimerTime";
-import { TtimerStatus } from "@/models/timer.model";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
+import useTimer from "@/hooks/useTimer";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [activeSound, setActiveSound] = useState<boolean>(false);
   const { data: roomData, isLoading, error } = useFetchRoomDetail(id);
-  const [timerTime, setTimerTime] = useState<number>(0);
-  const [status, setStatus] = useState<TtimerStatus>("shortBreakTime");
-
   const {
     syncedIsRunning,
     syncedAllParticipants,
@@ -27,9 +22,9 @@ const RoomDetail = () => {
     syncedStartedAt,
     handleClickCyclesStartButton
   } = useEmitSocket();
-
   const navigate = useNavigate();
 
+  const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
   const soundHandler = () => {
     setActiveSound(!activeSound);
   };
@@ -38,42 +33,6 @@ const RoomDetail = () => {
     navigate("/");
   };
 
-  useEffect(() => {
-    console.log(roomData)
-    if (!roomData) return;
-    console.log(roomData.startedAt, roomData.isRunning);
-    const startAt = syncedStartedAt ? syncedStartedAt : roomData.startedAt;
-    const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
-    if (!isRunning) {
-      setTimerTime(roomData.focusTime);
-      setStatus("shortBreakTime")
-    }
-
-    if (startAt && isRunning) {
-      const interval = setInterval(() => {
-        const differTime = getDiffrentTime(startAt);
-        console.log('차이시간', differTime)
-        const { focusTime, shortBreakTime, totalCycles, longBreakTime } = roomData;
-        const { status, timerData } = getTimerTime(
-          differTime,
-          focusTime,
-          shortBreakTime,
-          totalCycles,
-          longBreakTime
-        );
-        setStatus(status);
-
-        if (status === "set") {
-          setTimerTime(roomData.focusTime);
-          clearInterval(interval);
-        } else if (status) {
-          setTimerTime(timerData);
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [syncedStartedAt, syncedCurrentCycles, syncedIsRunning, roomData]);
 
   if (isLoading) {
     return <div>로딩중</div>;
