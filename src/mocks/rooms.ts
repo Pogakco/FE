@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 
-export const mock_fetchRooms = http.get("/api/Mockrooms", () => {
+export const mock_fetchRooms = http.get("/api/mocks/rooms", () => {
     return HttpResponse.json({
         data: [
             {

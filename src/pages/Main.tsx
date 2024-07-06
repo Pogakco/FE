@@ -11,7 +11,6 @@ import useModal from "@/hooks/useModal";
 import useFetchRooms from "@/hooks/queries/useFetchRooms";
 import Pagination from "@/components/pagination/Paginiation";
 import { useSearchParams } from "react-router-dom";
-import React from "react";
 import MainSlider from "@/components/slider/Slider";
 
 type TisRoomType = "all" | "filter";
