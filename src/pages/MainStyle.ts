@@ -25,7 +25,7 @@ export const MainStyle = styled.div`
 
   .button {
     padding: 5px 27px;
-    border: 1px solid ${({ theme }) => theme.color.grey3};
+    border: 1px solid ${({ theme }) => theme.color.grey3}; 
     border-radius: 20px;
     color: ${({ theme }) => theme.color.grey3};
     background-color: ${({ theme }) => theme.color.purewhite};

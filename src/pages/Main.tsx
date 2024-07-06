@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import RoomListCard from "@/components/cards/RoomListCard";
 import CircleButton from "@/components/buttons/CircleButton";
 import { IoMdAdd } from "react-icons/io";
-import { IroomData } from "@/models/room.model";
+import { IroomCardData } from "@/models/room.model";
 import { MainStyle } from "./MainStyle";
 import Modal from "@/components/modal/Modal";
 import ModalRoomCreate from "@/components/modal/modalContents/ModalRoomCreate";
@@ -11,7 +11,6 @@ import useModal from "@/hooks/useModal";
 import useFetchRooms from "@/hooks/queries/useFetchRooms";
 import Pagination from "@/components/pagination/Paginiation";
 import { useSearchParams } from "react-router-dom";
-import React from "react";
 import MainSlider from "@/components/slider/Slider";
 
 type TisRoomType = "all" | "filter";
@@ -19,13 +18,10 @@ type TisRoomType = "all" | "filter";
 const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isRunningChecked, setIsRunningChecked] = useState<boolean>(true);
-  const [isRoomTypeChecked, setIsRoomTypeChecked] =
-    useState<TisRoomType>("all");
-  const [selectedRoom, setSelectedRoom] = useState<IroomData | null>(null);
-  const { isModal, modalContent, openModal, closeModal, setIsModal } =
-    useModal();
+  const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<TisRoomType>("all");
+  const [selectedRoom, setSelectedRoom] = useState<IroomCardData | null>(null);
+  const { isModal, modalContent, openModal, closeModal, setIsModal } = useModal();
   const page = searchParams.get("page") || "1";
-
   const {
     data: response,
     isLoading,
@@ -51,7 +47,7 @@ const Main = () => {
     setSearchParams(newSearchParams);
   };
 
-  const handleRoomCardClick = (roomData: IroomData) => {
+  const handleRoomCardClick = (roomData: IroomCardData) => {
     setSelectedRoom(roomData);
     openModal("detail");
   };
@@ -59,6 +55,9 @@ const Main = () => {
   const handleCreateButtonClick = () => {
     openModal("create");
   };
+
+  if(error) throw error;
+
 
   return (
     <>
@@ -101,9 +100,9 @@ const Main = () => {
             <span onClick={handleCheckboxChange}>휴식중인 방만 보기</span>
           </span>
           <div className="roomList">
-            {isLoading && <div>로딩 중</div>}
-            {error && <div>오류발생</div>}
-            {roomListDatas.length > 0 ? (
+            {isLoading ? (
+              <div>로딩 중</div>
+            ) : roomListDatas.length > 0 ? (
               roomListDatas.map((roomData, index) => (
                 <RoomListCard
                   key={index}
@@ -112,7 +111,7 @@ const Main = () => {
                 />
               ))
             ) : (
-              <div>현재 방이 없습니다</div>
+              <div>방이 없습니다.</div>
             )}
           </div>
           {pagination && <Pagination pagination={pagination} />}

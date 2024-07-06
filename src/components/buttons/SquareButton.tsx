@@ -29,6 +29,7 @@ interface SquareButtonStyleProps {
   $buttonSize: TSquareButtonSize;
 }
 export const SquareButtonStyle = styled.button<SquareButtonStyleProps>`
+  transition: all 0.2s;
   color: ${({ theme, $buttonColor }) => theme.buttonColor[$buttonColor].color};
   background-color: ${({ theme, $buttonColor }) =>
     theme.buttonColor[$buttonColor].background};

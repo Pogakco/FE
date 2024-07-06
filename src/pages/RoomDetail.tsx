@@ -1,35 +1,20 @@
 import CircleButton from "@/components/buttons/CircleButton";
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { IroomData } from "@/models/room.model";
 import { useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
-
-const roomData: IroomData = {
-  id : 1,
-  roomTitle: "뽀모도로 정예부대 구해요",
-  roomDescription: `더도 말고 우리 딱 코딩으로 연봉 1억 받을 정도로만 
-    열심히해요 내일도 오늘도 화이팅 코딩 열심히해서 
-    맛있는 음식도 많이 먹어요`,
-  totalCycles: 10,
-  currentCycles: 3,
-  focusTime: 25,
-  shortBreakTime: 5,
-  longBreakTime: 15,
-  isRunning: false,
-  maxParticipants: 20,
-  currentParticipants: 15,
-  ownerName: "changchangwoo",
-  ownerProfileImageUrl: "https://example.com/profile.jpg"
-};
+import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
+import useTimer from "@/hooks/useTimer";
 
 const RoomDetail = () => {
+  const { id } = useParams<{ id: string }>();
   const [activeSound, setActiveSound] = useState<boolean>(false);
+  const { data: roomData, isLoading, error } = useFetchRoomDetail(id);
   const {
     syncedIsRunning,
     syncedAllParticipants,
@@ -37,25 +22,49 @@ const RoomDetail = () => {
     syncedStartedAt,
     handleClickCyclesStartButton
   } = useEmitSocket();
-
   const navigate = useNavigate();
+
+  const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
   const soundHandler = () => {
     setActiveSound(!activeSound);
   };
+
   const exitButtonHandler = () => {
     navigate("/");
   };
 
-  console.log(syncedIsRunning,syncedAllParticipants,syncedCurrentCycles,syncedStartedAt)
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+
+  if (error) {
+    return <div>에러 {error.message}</div>;
+  }
+
+  if (!roomData) {
+    return <div>방 정보 없음</div>;
+  }
 
   return (
     <RoomDetailStyle>
       <div className="muteIcon" onClick={soundHandler}>
         {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
-      <Drawer roomData={roomData} />
-      <Timer />
-      <SquareButton buttonColor="active" buttonSize="medium" onClick={handleClickCyclesStartButton}>시작하기</SquareButton>
+      <Drawer
+        roomData={roomData}
+        isRunning={syncedIsRunning ? syncedIsRunning : roomData.isRunning}
+        currentCycle={
+          syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles
+        }
+      />
+      <Timer timerTime={timerTime} status={status} />
+      <SquareButton
+        buttonColor="active"
+        buttonSize="medium"
+        onClick={handleClickCyclesStartButton}
+      >
+        시작하기
+      </SquareButton>
       <div className="exitButton">
         <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
           <RiLogoutBoxRLine />
@@ -66,7 +75,6 @@ const RoomDetail = () => {
 };
 
 const RoomDetailStyle = styled.div`
-  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;

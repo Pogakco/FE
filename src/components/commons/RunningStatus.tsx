@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface Props {
-  isRunning: boolean;
+  isRunning: boolean | null;
 }
 
 const RunningStatus = ({ isRunning }: Props) => {

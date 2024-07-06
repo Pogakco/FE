@@ -9,16 +9,12 @@ interface SliderWrapperProps {
     padding-top: 60px;
     width: 100%;
     border-bottom: 1px solid ${({ theme }) => theme.color.grey1};
-  
     button {
   
       font-size: 30px;
       z-index: 100;
       margin: 0px 100px 0px 100px;
     }
-  
-    
-  
     .slick-slide {
       display: flex;
       justify-content: center;
@@ -30,7 +26,6 @@ interface SliderWrapperProps {
         $currentSlide % 2 === 0 ? theme.color.black : theme.color.purewhite};
       transition: all 1s;
     }
-  
     .sliderContent {
       display: flex;
       justify-content: center;
@@ -72,7 +67,6 @@ interface SliderWrapperProps {
         }
       }
     }
-  
     .slick-dots li button:before {
       color: ${({ theme }) => theme.color.grey1};
     }
