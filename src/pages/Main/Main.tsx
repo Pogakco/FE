@@ -12,36 +12,41 @@ import useFetchRooms from "@/hooks/queries/useFetchRooms";
 import Pagination from "@/components/pagination/Paginiation";
 import { useSearchParams } from "react-router-dom";
 import MainSlider from "@/components/slider/Slider";
+import { useAuthStore } from "@/store/authStore";
+import RoomList from "./RoomList";
 
-type TisRoomType = "all" | "filter";
+type TisRoomType = "all" | "myRoom";
 
 const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isRunningChecked, setIsRunningChecked] = useState<boolean>(true);
-  const [isRoomTypeChecked, setIsRoomTypeChecked] = useState<TisRoomType>("all");
+  const [isRunning, setIsRunning] = useState<boolean>(true);
+  const [roomType, setRoomType] = useState<TisRoomType>("all");
   const [selectedRoom, setSelectedRoom] = useState<IroomCardData | null>(null);
-  const { isModal, modalContent, openModal, closeModal, setIsModal } = useModal();
+  const { isModal, modalContent, openModal, closeModal, setIsModal } =
+    useModal();
+  const isLoggedIn = useAuthStore<boolean>((state) => state.isLoggedIn);
   const page = searchParams.get("page") || "1";
   const {
     data: response,
     isLoading,
     error,
     refetch
-  } = useFetchRooms(page, isRunningChecked);
+  } = useFetchRooms(page, isRunning, roomType);
 
   const roomListDatas = response?.data ?? [];
   const pagination = response?.pagination ?? null;
 
   useEffect(() => {
+    if (roomType === "myRoom" && !isLoggedIn) return;
     refetch();
-  }, [searchParams, isRunningChecked]);
+  }, [searchParams, isRunning, roomType]);
 
   const handleCheckboxChange = () => {
-    setIsRunningChecked(!isRunningChecked);
+    setIsRunning(!isRunning);
   };
 
   const handleRoomTypeChange = (type: TisRoomType) => () => {
-    setIsRoomTypeChecked(type);
+    setRoomType(type);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", "1");
     setSearchParams(newSearchParams);
@@ -56,8 +61,7 @@ const Main = () => {
     openModal("create");
   };
 
-  if(error) throw error;
-
+  if (error) throw error;
 
   return (
     <>
@@ -76,44 +80,32 @@ const Main = () => {
           <span className="buttonGroup">
             <button
               onClick={handleRoomTypeChange("all")}
-              className={`button ${
-                isRoomTypeChecked === "all" ? "active" : ""
-              }`}
+              className={`button ${roomType === "all" ? "active" : ""}`}
             >
               전체 방
             </button>
             <button
-              onClick={handleRoomTypeChange("filter")}
-              className={`button ${
-                isRoomTypeChecked === "filter" ? "active" : ""
-              }`}
+              onClick={handleRoomTypeChange("myRoom")}
+              className={`button ${roomType === "myRoom" ? "active" : ""}`}
             >
               참여한 방
             </button>
           </span>
-          <span className={`options ${isRunningChecked ? "" : "checked"}`}>
+          <span className={`options ${isRunning ? "" : "checked"}`}>
             <input
               type="checkbox"
-              checked={!isRunningChecked}
+              checked={!isRunning}
               onChange={handleCheckboxChange}
             />
             <span onClick={handleCheckboxChange}>휴식중인 방만 보기</span>
           </span>
-          <div className="roomList">
-            {isLoading ? (
-              <div>로딩 중</div>
-            ) : roomListDatas.length > 0 ? (
-              roomListDatas.map((roomData, index) => (
-                <RoomListCard
-                  key={index}
-                  roomData={roomData}
-                  onClick={handleRoomCardClick}
-                />
-              ))
-            ) : (
-              <div>방이 없습니다.</div>
-            )}
-          </div>
+          <RoomList
+            roomListDatas={roomListDatas}
+            handleRoomCardClick={handleRoomCardClick}
+            isLoading={isLoading}
+            roomType={roomType}
+            isLoggedIn={isLoggedIn}
+          />
           {pagination && <Pagination pagination={pagination} />}
         </div>
         <div className="createButton" onClick={handleCreateButtonClick}>

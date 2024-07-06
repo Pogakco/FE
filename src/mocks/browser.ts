@@ -1,5 +1,5 @@
 import { setupWorker } from "msw/browser";
-import { mock_fetchRooms } from "./rooms";
-const handlers = [mock_fetchRooms];
+import { fetchMyRooms, fetchRooms } from "./rooms";
+const handlers = [fetchMyRooms];
 
 export const worker = setupWorker(...handlers);
