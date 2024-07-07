@@ -65,14 +65,16 @@ export const MainStyle = styled.div`
 `;
 
 export const RoomListStyle = styled.div`
-    min-height: 520px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
-
-`
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-flow: row;
+    align-items: start;
+    align-content: start;
+    height: 520px;
+`;
 
 export const Exception = styled.div`
       min-height: 520px;
-
 `

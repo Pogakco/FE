@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import RoomListCard from "@/components/cards/RoomListCard";
 import CircleButton from "@/components/buttons/CircleButton";
 import { IoMdAdd } from "react-icons/io";
-import { IroomCardData } from "@/models/room.model";
+import { IroomCardData, TRoomType } from "@/models/room.model";
 import { MainStyle } from "./MainStyle";
 import Modal from "@/components/modal/Modal";
 import ModalRoomCreate from "@/components/modal/modalContents/ModalRoomCreate";
@@ -15,12 +14,10 @@ import MainSlider from "@/components/slider/Slider";
 import { useAuthStore } from "@/store/authStore";
 import RoomList from "./RoomList";
 
-type TisRoomType = "all" | "myRoom";
-
 const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isRunning, setIsRunning] = useState<boolean>(true);
-  const [roomType, setRoomType] = useState<TisRoomType>("all");
+  const [roomType, setRoomType] = useState<TRoomType>("all");
   const [selectedRoom, setSelectedRoom] = useState<IroomCardData | null>(null);
   const { isModal, modalContent, openModal, closeModal, setIsModal } =
     useModal();
@@ -45,7 +42,7 @@ const Main = () => {
     setIsRunning(!isRunning);
   };
 
-  const handleRoomTypeChange = (type: TisRoomType) => () => {
+  const handleRoomTypeChange = (type: TRoomType) => () => {
     setRoomType(type);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", "1");
@@ -77,7 +74,7 @@ const Main = () => {
       <MainStyle>
         <div className="mainContents">
           <h1 className="title">#뽀모도로 친구들</h1>
-          <span className="buttonGroup">
+          <div className="buttonGroup">
             <button
               onClick={handleRoomTypeChange("all")}
               className={`button ${roomType === "all" ? "active" : ""}`}
@@ -90,15 +87,15 @@ const Main = () => {
             >
               참여한 방
             </button>
-          </span>
-          <span className={`options ${isRunning ? "" : "checked"}`}>
+          </div>
+          <div className={`options ${isRunning ? "" : "checked"}`}>
             <input
               type="checkbox"
               checked={!isRunning}
               onChange={handleCheckboxChange}
             />
-            <span onClick={handleCheckboxChange}>휴식중인 방만 보기</span>
-          </span>
+            <div onClick={handleCheckboxChange}>휴식중인 방만 보기</div>
+          </div>
           <RoomList
             roomListDatas={roomListDatas}
             handleRoomCardClick={handleRoomCardClick}

@@ -1,12 +1,12 @@
 import { Exception, RoomListStyle } from "./MainStyle";
 import RoomListCard from "@/components/cards/RoomListCard";
-import { IroomCardData } from "@/models/room.model";
+import { IroomCardData, TRoomType } from "@/models/room.model";
 
 interface Props {
     roomListDatas: IroomCardData[];
     handleRoomCardClick : (roomData: IroomCardData) => void;
     isLoading : boolean;
-    roomType : string;
+    roomType : TRoomType;
     isLoggedIn : boolean;
 
 }
