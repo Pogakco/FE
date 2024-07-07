@@ -1,6 +1,10 @@
-export interface Participant {
-    nickname: string;
-    profileImageUrl?: string;
-    pomodoroCount: number;
-    isActive: boolean;
-  }
+export type TtimerStatus =
+  | "focusTime"
+  | "shortBreakTime"
+  | "longBreakTime"
+  | "set";
+
+export interface ItimerStatus {
+  status: TtimerStatus;
+  timerData: number;
+}

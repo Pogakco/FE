@@ -2,18 +2,18 @@ import SquareButton from "@/components/buttons/SquareButton";
 import TimerDescriptCard from "@/components/cards/TimerDescriptCard";
 import RunningStatus from "@/components/commons/RunningStatus";
 import Profile from "@/components/profile/Profile";
-import { IroomData } from "@/models/room.model";
+import { IroomCardData } from "@/models/room.model";
 import { FaCrown } from "react-icons/fa";
 import { ModalHeader, ModalRoomDetailStyle } from "../ModalStyle";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  roomData: IroomData;
+  roomData: IroomCardData;
 }
 
 const ModalRoomDetail = ({ roomData }: Props) => {
+    
   const navigate = useNavigate();
-
   const handleButton = () => {
     navigate(`/rooms/${roomData.id}`)
   }
@@ -35,7 +35,7 @@ const ModalRoomDetail = ({ roomData }: Props) => {
       <span>
         <TimerDescriptCard
           totalCycles={roomData.totalCycles}
-          currentCycles={roomData.currentCycles}
+          currentCycle={roomData.currentCycles}
           focusTime={roomData.focusTime}
           shortBreakTime={roomData.shortBreakTime}
           longBreakTime={roomData.longBreakTime}

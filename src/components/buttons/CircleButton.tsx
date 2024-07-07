@@ -29,6 +29,7 @@ const CircleButtonStyle = styled.button<CircleButtonStyleProps>`
   background-color:${({ theme}) => theme.color.purewhite};
   border: 1px solid ${({ theme }) => theme.color.pink6};
   border-radius: 50%;
+  transition: all 0.2s;
   svg {
     width: 40px;
     height: 40px;

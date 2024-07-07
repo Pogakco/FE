@@ -15,12 +15,14 @@ import { handleOverlayClick } from "@/utils/handleOverlayClick";
 interface IdrawerData {
   id: number;
   title: string;
-  component: React.FC<{ roomData: IroomData }>;
+  component: React.FC<{ roomData: IroomData, isRunning : boolean | null, currentCycle : number | null}>;
   icon: React.FC;
 }
 
 interface Props {
   roomData: IroomData;
+  isRunning : boolean | null;
+  currentCycle : number | null;
 }
 
 const drawerData: IdrawerData[] = [
@@ -44,7 +46,7 @@ const drawerData: IdrawerData[] = [
   }
 ];
 
-const Drawer = ({ roomData }: Props) => {
+const Drawer = ({ roomData, isRunning, currentCycle }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [selectDrawer, setSelectDrawer] = useState<string | null>(null);
@@ -70,7 +72,7 @@ const Drawer = ({ roomData }: Props) => {
       <Overlay open={open} onClick={(e) => handleOverlayClick(e, drawerRef, setOpen, handleSelectDrawer)} />
       <DrawerStyle open={open} ref={drawerRef}>
         <DrawerContents>
-          {selectDrawer === "info" && <RoomInfo roomData={roomData} />}
+          {selectDrawer === "info" && <RoomInfo roomData={roomData} isRunning={isRunning} currentCycle={currentCycle} />}
           {selectDrawer === "user" && <RoomActiveUser />}
           {selectDrawer === "community" && <RoomCommunity />}
         </DrawerContents>

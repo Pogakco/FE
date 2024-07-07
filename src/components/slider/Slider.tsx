@@ -9,7 +9,6 @@ import sliderImg3 from "../../assets/imgs/sliderImg3.svg";
 import sliderImg4 from "../../assets/imgs/sliderImg4.svg";
 import { SliderWrapper } from "./SliderStyle";
 
-// 슬라이더 콘텐츠 타입 정의
 interface SliderContent {
   id: number;
   img: string;
