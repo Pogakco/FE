@@ -7,8 +7,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import styled from "styled-components";
 import { UserLoginStyle } from "./UserLogin";
-import { AUTH_REGEX } from "@/utils/regex";
-import { AUTH_INPUT_FIELD, AUTH_INPUT_FIELD_ERROR } from "@/utils/inputField";
+import { AUTH_REGEX } from "@/constants/regex";
+import {
+  AUTH_INPUT_FIELD,
+  AUTH_INPUT_FIELD_ERROR
+} from "@/constants/inputField";
 
 type TProfile = Omit<ISignup, "email">;
 

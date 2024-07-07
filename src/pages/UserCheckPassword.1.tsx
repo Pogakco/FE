@@ -5,7 +5,10 @@ import InputField from "@/components/inputField/InputField";
 import { IRessetPassword } from "@/models/auth.model";
 import SquareButton from "@/components/buttons/SquareButton";
 
-import { AUTH_INPUT_FIELD, AUTH_INPUT_FIELD_ERROR } from "@/utils/inputField";
+import {
+  AUTH_INPUT_FIELD,
+  AUTH_INPUT_FIELD_ERROR
+} from "@/constants/inputField";
 
 export const UserCheckPassword = () => {
   const {

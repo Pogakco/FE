@@ -1,11 +1,11 @@
-import { login, signup, logout, auth } from "@/api/auth.api";
+import { login, logout, signup } from "@/api/auth.api";
 import { ILogin, ISignup } from "@/models/auth.model";
-import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
+import { isConflictError, isTokenError } from "@/utils/error";
+import { AxiosError } from "axios";
 import { useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { AxiosError } from "axios";
-import { isTokenError, isConflictError } from "@/utils/error";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
   const navigate = useNavigate();
@@ -52,25 +52,6 @@ const useAuth = () => {
         console.log(err);
       });
   };
-
-  // const userInitializeAuth = useCallback(() => {
-  //   auth()
-  //     .then((res) => {
-  //       if (res.isLogin === true) {
-  //         storeLogin();
-  //       } else {
-  //         storeLogout();
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, [storeLogin, storeLogout]);
-
-  // /** 최초 1회 실행 */
-  // useEffect(() => {
-  //   userInitializeAuth();
-  // }, [userInitializeAuth]);
 
   return { userSignup, userLogin, userLogout, isError };
 };

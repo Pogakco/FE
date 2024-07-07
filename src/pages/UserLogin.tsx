@@ -6,26 +6,15 @@ import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILogin } from "@/models/auth.model";
 import useAuth from "@/hooks/useAuth";
-import { AUTH_INPUT_FIELD, AUTH_INPUT_FIELD_ERROR } from "@/utils/inputField";
-
-// const inputfield: IInputField[] = [
-//   {
-//     icon: <FaSmile />,
-//     name: "이메일",
-//     placeholder: "이메일을 입력해주세요"
-//   },
-//   {
-//     icon: <FaKey />,
-//     name: "비밀번호",
-//     placeholder: "15자 이내로 입력해주세요"
-//   }
-// ];
+import {
+  AUTH_INPUT_FIELD,
+  AUTH_INPUT_FIELD_ERROR
+} from "@/constants/inputField";
 
 const UserLogin = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<ILogin>();
 

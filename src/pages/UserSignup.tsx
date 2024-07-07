@@ -8,8 +8,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ISignup } from "@/models/auth.model";
 import { useEffect } from "react";
 import useAuth from "@/hooks/useAuth";
-import { AUTH_REGEX } from "@/utils/regex";
-import { AUTH_INPUT_FIELD, AUTH_INPUT_FIELD_ERROR } from "@/utils/inputField";
+import { AUTH_REGEX } from "@/constants/regex";
+import {
+  AUTH_INPUT_FIELD,
+  AUTH_INPUT_FIELD_ERROR
+} from "@/constants/inputField";
 
 const UserSignup = () => {
   const {
