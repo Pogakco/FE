@@ -7,7 +7,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import styled from "styled-components";
 import { UserLoginStyle } from "./UserLogin";
-import { AUTH_REGEX, INPUT_FIELD } from "./UserSignup";
+import { AUTH_REGEX } from "@/constants/regex";
+import {
+  AUTH_INPUT_FIELD,
+  AUTH_INPUT_FIELD_ERROR
+} from "@/constants/inputField";
 
 type TProfile = Omit<ISignup, "email">;
 
@@ -32,26 +36,23 @@ const UserProfile = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[1]}
+            inputfield={AUTH_INPUT_FIELD.email}
             schema="auth"
             disabled={true}
           />
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[0]}
+            inputfield={AUTH_INPUT_FIELD.nickname}
             schema="auth"
             {...register("nickname", {
               required: true,
               pattern: AUTH_REGEX.nickname
             })}
           />
-          {errors?.nickname?.type === "required" && (
-            <div className="help-message">닉네임을 입력해주세요</div>
-          )}
-          {errors?.nickname?.type === "pattern" && (
+          {errors.nickname && (
             <div className="help-message">
-              영문/숫자/특수문자(._-)가능. 2-10자 입력
+              {AUTH_INPUT_FIELD_ERROR.nickname}
             </div>
           )}
           <SquareButton buttonSize="medium" buttonColor="active" type="button">
@@ -60,7 +61,7 @@ const UserProfile = () => {
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[2]}
+            inputfield={AUTH_INPUT_FIELD.password}
             schema="auth"
             type="password"
             {...register("password", {
@@ -68,18 +69,15 @@ const UserProfile = () => {
               pattern: AUTH_REGEX.password
             })}
           />
-          {errors?.password?.type === "required" && (
-            <div className="help-message">비밀번호를 입력해주세요</div>
-          )}
-          {errors?.password?.type === "pattern" && (
+          {errors.password && (
             <div className="help-message">
-              최소 8 자, 하나 이상의 대문자, 하나의 소문자 및 하나의 숫자
+              {AUTH_INPUT_FIELD_ERROR.password}
             </div>
           )}
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={INPUT_FIELD[3]}
+            inputfield={AUTH_INPUT_FIELD.checkPassword}
             schema="auth"
             {...register("passwordCheck", {
               required: true,
@@ -92,7 +90,9 @@ const UserProfile = () => {
             })}
           />
           {errors.passwordCheck && (
-            <div className="help-message">비밀번호를 다시 입력해주세요</div>
+            <div className="help-message">
+              {AUTH_INPUT_FIELD_ERROR.checkPassword}
+            </div>
           )}
         </fieldset>
         <SquareButton buttonColor="active" buttonSize="large" type="submit">

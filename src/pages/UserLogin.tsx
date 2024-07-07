@@ -1,31 +1,20 @@
-import InputField, { IInputField } from "@/components/inputField/InputField";
+import InputField from "@/components/inputField/InputField";
 import styled from "styled-components";
-import { FaSmile, FaKey } from "react-icons/fa";
 import Title from "@/components/user/Title";
 import SquareButton from "@/components/buttons/SquareButton";
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILogin } from "@/models/auth.model";
 import useAuth from "@/hooks/useAuth";
-
-const inputfield: IInputField[] = [
-  {
-    icon: <FaSmile />,
-    name: "이메일",
-    placeholder: "이메일을 입력해주세요"
-  },
-  {
-    icon: <FaKey />,
-    name: "비밀번호",
-    placeholder: "15자 이내로 입력해주세요"
-  }
-];
+import {
+  AUTH_INPUT_FIELD,
+  AUTH_INPUT_FIELD_ERROR
+} from "@/constants/inputField";
 
 const UserLogin = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<ILogin>();
 
@@ -41,23 +30,25 @@ const UserLogin = () => {
         <Title>로그인</Title>
         <fieldset>
           <InputField
-            inputfield={inputfield[0]}
+            inputfield={AUTH_INPUT_FIELD.email}
             schema="auth"
             {...register("email", { required: true })}
           />
-          {errors?.email?.type === "required" && (
-            <div className="help-message">이메일을 입력해주세요</div>
+          {errors.email && (
+            <div className="help-message">{AUTH_INPUT_FIELD_ERROR.email}</div>
           )}
         </fieldset>
         <fieldset>
           <InputField
-            inputfield={inputfield[1]}
+            inputfield={AUTH_INPUT_FIELD.password}
             schema="auth"
             type="password"
             {...register("password", { required: true })}
           />
-          {errors?.password?.type === "required" && (
-            <div className="help-message">비밀번호를 입력해주세요</div>
+          {errors.password && (
+            <div className="help-message">
+              {AUTH_INPUT_FIELD_ERROR.password}
+            </div>
           )}
         </fieldset>
         <SquareButton buttonColor="active" buttonSize="large" type="submit">
