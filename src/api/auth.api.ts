@@ -35,3 +35,8 @@ export const checkDuplicateEmail = (formData: ICheckDuplicateEmail) => {
 export const checkDuplicateNickname = (formData: ICheckDuplicateNickname) => {
   return requestHandler("post", "/check-nickname", formData);
 };
+
+// my profile
+export const getProfile = () => {
+  return requestHandler("get", "/users/me");
+};

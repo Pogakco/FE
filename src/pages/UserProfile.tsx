@@ -12,8 +12,10 @@ import {
   AUTH_INPUT_FIELD,
   AUTH_INPUT_FIELD_ERROR
 } from "@/constants/inputField";
+import useAuth from "@/hooks/useAuth";
+import { useEffect } from "react";
 
-type TProfile = Omit<ISignup, "email">;
+type TChangeProfile = Omit<ISignup, "email">;
 
 const UserProfile = () => {
   const {
@@ -21,9 +23,15 @@ const UserProfile = () => {
     handleSubmit,
     getValues,
     formState: { errors }
-  } = useForm<TProfile>();
+  } = useForm<TChangeProfile>();
 
-  const onSubmit: SubmitHandler<TProfile> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<TChangeProfile> = (data) => console.log(data);
+
+  const { userProfile, profile } = useAuth();
+
+  useEffect(() => {
+    userProfile();
+  }, [userProfile]);
 
   return (
     <UserProfileStyle>
@@ -39,6 +47,7 @@ const UserProfile = () => {
             inputfield={AUTH_INPUT_FIELD.email}
             schema="auth"
             disabled={true}
+            value={profile?.email || ""}
           />
         </fieldset>
         <fieldset>
@@ -49,6 +58,7 @@ const UserProfile = () => {
               required: true,
               pattern: AUTH_REGEX.nickname
             })}
+            value={profile?.nickname || ""}
           />
           {errors.nickname && (
             <div className="help-message">

@@ -3,13 +3,15 @@ import {
   logout,
   signup,
   checkDuplicateEmail,
-  checkDuplicateNickname
+  checkDuplicateNickname,
+  getProfile
 } from "@/api/auth.api";
 import {
   ILogin,
   ISignup,
   ICheckDuplicateEmail,
-  ICheckDuplicateNickname
+  ICheckDuplicateNickname,
+  IProfile
 } from "@/models/auth.model";
 import { useAuthStore } from "@/store/authStore";
 import { isConflictError, isTokenError } from "@/utils/error";
@@ -27,6 +29,7 @@ const useAuth = () => {
   const [isNicknameError, setIsNicknameError] = useState<AxiosError | null>(
     null
   );
+  const [profile, setProfile] = useState<IProfile | null>(null);
 
   const userSignup = (formData: ISignup) => {
     signup(formData)
@@ -96,12 +99,24 @@ const useAuth = () => {
       });
   };
 
+  const userProfile = () => {
+    getProfile()
+      .then((data) => {
+        setProfile(data);
+      })
+      .catch((err) => {
+        showBoundary(err);
+      });
+  };
+
   return {
     userSignup,
     userLogin,
     userLogout,
     userCheckDuplicateEmail,
     userCheckDuplicateNickname,
+    userProfile,
+    profile,
     isError,
     isEmailError,
     isNicknameError

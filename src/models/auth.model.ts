@@ -21,3 +21,9 @@ export interface ICheckDuplicateEmail {
 export interface ICheckDuplicateNickname {
   nickname: string;
 }
+
+export interface IProfile {
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+}
