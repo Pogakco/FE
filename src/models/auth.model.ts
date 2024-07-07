@@ -13,3 +13,11 @@ export interface ISignup {
 export interface IRessetPassword {
   passwordCheck: string;
 }
+
+export interface ICheckDuplicateEmail {
+  email: string;
+}
+
+export interface ICheckDuplicateNickname {
+  nickname: string;
+}

@@ -1,5 +1,16 @@
-import { login, logout, signup } from "@/api/auth.api";
-import { ILogin, ISignup } from "@/models/auth.model";
+import {
+  login,
+  logout,
+  signup,
+  checkDuplicateEmail,
+  checkDuplicateNickname
+} from "@/api/auth.api";
+import {
+  ILogin,
+  ISignup,
+  ICheckDuplicateEmail,
+  ICheckDuplicateNickname
+} from "@/models/auth.model";
 import { useAuthStore } from "@/store/authStore";
 import { isConflictError, isTokenError } from "@/utils/error";
 import { AxiosError } from "axios";
@@ -12,6 +23,10 @@ const useAuth = () => {
   const { storeLogin, storeLogout } = useAuthStore();
   const { showBoundary } = useErrorBoundary();
   const [isError, setError] = useState<AxiosError | null>(null);
+  const [isEmailError, setIsEmailError] = useState<AxiosError | null>(null);
+  const [isNicknameError, setIsNicknameError] = useState<AxiosError | null>(
+    null
+  );
 
   const userSignup = (formData: ISignup) => {
     signup(formData)
@@ -53,7 +68,44 @@ const useAuth = () => {
       });
   };
 
-  return { userSignup, userLogin, userLogout, isError };
+  const userCheckDuplicateEmail = (formData: ICheckDuplicateEmail) => {
+    checkDuplicateEmail(formData)
+      .then(() => {
+        setIsEmailError(null);
+      })
+      .catch((err) => {
+        if (isConflictError(err)) {
+          setIsEmailError(err);
+        } else {
+          showBoundary(err);
+        }
+      });
+  };
+
+  const userCheckDuplicateNickname = (formData: ICheckDuplicateNickname) => {
+    checkDuplicateNickname(formData)
+      .then(() => {
+        setIsNicknameError(null);
+      })
+      .catch((err) => {
+        if (isConflictError(err)) {
+          setIsNicknameError(err);
+        } else {
+          showBoundary(err);
+        }
+      });
+  };
+
+  return {
+    userSignup,
+    userLogin,
+    userLogout,
+    userCheckDuplicateEmail,
+    userCheckDuplicateNickname,
+    isError,
+    isEmailError,
+    isNicknameError
+  };
 };
 
 export default useAuth;
