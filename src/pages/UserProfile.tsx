@@ -1,10 +1,7 @@
-import CircleButton from "@/components/buttons/CircleButton";
 import SquareButton from "@/components/buttons/SquareButton";
 import InputField from "@/components/inputField/InputField";
-import Profile from "@/components/profile/Profile";
 import { ISignup } from "@/models/auth.model";
 import { SubmitHandler } from "react-hook-form";
-import { BiPlus } from "react-icons/bi";
 import styled from "styled-components";
 import { UserLoginStyle } from "./UserLogin";
 import { AUTH_REGEX } from "@/constants/regex";
@@ -15,6 +12,7 @@ import {
 import useAuth from "@/hooks/useAuth";
 import { useEffect } from "react";
 import useFormValidation from "@/hooks/useFormValidation";
+import UserImage from "@/components/user/userProfile/UserImage";
 
 type TChangeProfile = Omit<ISignup, "email">;
 
@@ -45,10 +43,7 @@ const UserProfile = () => {
   return (
     <UserProfileStyle>
       <div className="header">
-        <Profile size="large" url={profile?.profileImageUrl || ""} />
-        <CircleButton buttonSize="small">
-          <BiPlus />
-        </CircleButton>
+        <UserImage url={profile?.profileImageUrl || null} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
@@ -136,12 +131,6 @@ const UserProfileStyle = styled(UserLoginStyle)`
     height: fit-content;
     margin: 0 auto 50px;
     position: relative;
-
-    button {
-      position: absolute;
-      top: 195px;
-      right: 10px;
-    }
   }
 `;
 export default UserProfile;
