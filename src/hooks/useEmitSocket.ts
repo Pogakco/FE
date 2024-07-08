@@ -21,7 +21,7 @@ const useEmitSocket = () => {
 
   useEffect(() => {
     const roomId = location.pathname.match(/\/rooms\/(\d+)/)![1];
-    const socket = io(`${SOCKET_URL}/${roomId}`, {
+    const socket = io(`${SOCKET_URL}${roomId}`, {
       withCredentials: true
     });
 
