@@ -1,7 +1,7 @@
-import { IroomListData } from "../models/room.model";
+import { IroomListData, TRoomType } from "../models/room.model";
 import { requestHandler } from "./apiClient";
 
-export const fetchRooms = async (page: string = "1", isRunningChecked?: boolean, roomType : string = "all") => {
+export const fetchRooms = async (page: string = "1", isRunningChecked?: boolean, roomType : TRoomType = "all") => {
     let num = parseInt(page);
     let url = `rooms`;
     if(roomType === "myRoom") url += `/my-rooms`

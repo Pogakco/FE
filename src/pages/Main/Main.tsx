@@ -17,18 +17,14 @@ import RoomList from "./RoomList";
 const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isRunning, setIsRunning] = useState<boolean>(true);
-  const [roomType, setRoomType] = useState<TRoomType>("all");
   const [selectedRoom, setSelectedRoom] = useState<IroomCardData | null>(null);
-  const { isModal, modalContent, openModal, closeModal, setIsModal } =
-    useModal();
+  const { isModal, modalContent, openModal, closeModal, setIsModal } = useModal();
   const isLoggedIn = useAuthStore<boolean>((state) => state.isLoggedIn);
+  const newSearchParams = new URLSearchParams(searchParams);
+
   const page = searchParams.get("page") || "1";
-  const {
-    data: response,
-    isLoading,
-    error,
-    refetch
-  } = useFetchRooms(page, isRunning, roomType);
+  const roomType: TRoomType = (searchParams.get("roomType") as TRoomType) || "all";
+  const { data: response, isLoading, error, refetch } = useFetchRooms(page, isRunning, roomType);
 
   const roomListDatas = response?.data ?? [];
   const pagination = response?.pagination ?? null;
@@ -43,9 +39,16 @@ const Main = () => {
   };
 
   const handleRoomTypeChange = (type: TRoomType) => () => {
-    setRoomType(type);
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("page", "1");
+    if (type === "all") {
+      newSearchParams.delete("roomType");
+    } else {
+      newSearchParams.set("roomType", type);
+    }
+    const pageValue = newSearchParams.get("page");
+    newSearchParams.delete("page");
+    if (pageValue) {
+      newSearchParams.set("page", pageValue);
+    }
     setSearchParams(newSearchParams);
   };
 

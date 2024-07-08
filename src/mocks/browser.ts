@@ -1,5 +1,5 @@
 import { setupWorker } from "msw/browser";
 import { fetchMyRooms, fetchRooms } from "./rooms";
-const handlers = [];
+const handlers = [fetchMyRooms, fetchRooms];
 
-// export const worker = setupWorker(...handlers);
+export const worker = setupWorker(...handlers);
