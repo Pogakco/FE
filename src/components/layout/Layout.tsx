@@ -33,7 +33,7 @@ const LayoutStyle = styled.div`
   flex-direction: column;
   .main {
     width: 100%;
-    padding: 60px 0 0 0;
+    // padding: 60px 0 0 0;
     min-height: calc(100vh - 114px);
   }
 `;

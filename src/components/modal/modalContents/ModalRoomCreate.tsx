@@ -8,6 +8,8 @@ import { IoIosAlarm } from "react-icons/io";
 import { ModalHeader, ModalRoomCreateStyle } from "../ModalStyle";
 import { IcreateRoomForm } from "@/models/room.model";
 import { createRoom } from "@/api/roomList.api";
+import { useState } from "react";
+import { CREATE_ROOM_REGEX } from "@/constants/regex";
 
 const roomInfoInput: IInputField[] = [
   {
@@ -46,11 +48,19 @@ const timerInfoInput: IInputField[] = [
     field: "totalCycles",
   }
 ];
+
 const ModalRoomCreate = () => {
-  const { register, handleSubmit } = useForm<IcreateRoomForm>();
+  const { register, handleSubmit, formState: { errors } } = useForm<IcreateRoomForm>();
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const onSubmit: SubmitHandler<IcreateRoomForm> = (data) => {
-    createRoom(data).then((response) => console.log(response.data));
+    createRoom(data).then((response) => {
+      console.log(response.data);
+      setSubmitSuccess(true);
+    }).catch((err) => {
+      console.error(err);
+      setSubmitSuccess(false);
+    });
   };
 
   return (
@@ -62,21 +72,29 @@ const ModalRoomCreate = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="title">방 정보</div>
         {roomInfoInput.map((item, index) => (
-          <InputField
-            inputfield={item}
-            schema="auth"
-            key={index}
-            {...register(item.field, { required: true })}
-          />
+          <div key={index}>
+            <InputField
+              inputfield={item}
+              schema="auth"
+              {...register(item.field as keyof IcreateRoomForm, { required: true, pattern: CREATE_ROOM_REGEX[item.field] })}
+            />
+            {errors[item.field as keyof IcreateRoomForm] && (
+              <div className="help-message">필수 항목입니다.</div>
+            )}
+          </div>
         ))}
         <div className="title">타이머 정보</div>
         {timerInfoInput.map((item, index) => (
-          <InputField
-            inputfield={item}
-            schema="auth"
-            key={index}
-            {...register(item.field, { required: true })}
-          />
+          <div key={index}>
+            <InputField
+              inputfield={item}
+              schema="auth"
+              {...register(item.field as keyof IcreateRoomForm, { required: true })}
+            />
+            {errors[item.field as keyof IcreateRoomForm] && (
+              <div className="help-message">필수 항목입니다.</div>
+            )}
+          </div>
         ))}
         <div className="buttonContainer">
           <SquareButton buttonColor="active" buttonSize="medium" type="submit">
