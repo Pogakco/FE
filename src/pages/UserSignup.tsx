@@ -15,17 +15,10 @@ import {
 import useFormValidation from "@/hooks/useFormValidation";
 
 const UserSignup = () => {
-  const {
-    userSignup,
-    userCheckDuplicateEmail,
-    userCheckDuplicateNickname,
-    isError,
-    isEmailError,
-    isNicknameError
-  } = useAuth();
+  const { userSignup, isError } = useAuth();
 
-  const { register, handleSubmit, getValues, errors } =
-    useFormValidation<ISignup>({ isEmailError, isNicknameError });
+  const { register, handleSubmit, getValues, errors, handleDuplicate } =
+    useFormValidation<ISignup>();
 
   const onSubmit: SubmitHandler<ISignup> = (data) => {
     userSignup({
@@ -35,21 +28,7 @@ const UserSignup = () => {
     });
   };
 
-  const handleDuplicate = (type: "email" | "nickname") => {
-    const value = getValues(type);
-
-    const checkDuplicate = {
-      email: () => {
-        userCheckDuplicateEmail({ email: value });
-      },
-      nickname: () => {
-        userCheckDuplicateNickname({ nickname: value });
-      }
-    };
-
-    checkDuplicate[type]();
-  };
-
+  console.log(errors);
   return (
     <UserLoginStyle>
       <form onSubmit={handleSubmit(onSubmit)}>

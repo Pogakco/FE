@@ -29,7 +29,7 @@ export const AUTH_INPUT_FIELD: { [key in AUTH_TYPE]: IInputField } = {
 };
 
 export const AUTH_INPUT_FIELD_ERROR: { [key in AUTH_TYPE]: string } = {
-  nickname: "한글, 영문, 숫자만 가능하며 2-10자리 입력",
+  nickname: "한글, 영문, 숫자만 가능하며 2-10자리 입력, 공백 불가",
   email: "이메일 형식이 아닙니다",
   password: "영문, 숫자, 특수문자를 각각 하나 이상 포함, 8~20자리 입력",
   checkPassword: "비밀번호가 일치하지 않습니다."

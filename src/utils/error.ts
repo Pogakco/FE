@@ -11,6 +11,10 @@ export const isServerError = (error: AxiosError) => {
   return error.response && error.response.status >= 500;
 };
 
+export const isBadRequestError = (error: AxiosError) => {
+  return error.response && error.response.status === 400;
+};
+
 export const isTokenError = (error: AxiosError) => {
   return error.response && error.response.status === 401;
 };

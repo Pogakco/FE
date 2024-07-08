@@ -4,8 +4,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./api/queryClient.ts";
 import React from "react";
 
-// if (process.env.NODE_ENV === 'development') {
-//   import('./mocks/browser.ts').then(({ worker }) => {
+// if (process.env.NODE_ENV === "development") {
+//   import("./mocks/browser.ts").then(({ worker }) => {
 //     worker.start();
 //   });
 // }

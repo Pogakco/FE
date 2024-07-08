@@ -16,7 +16,7 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { isConflictError, isTokenError } from "@/utils/error";
 import { AxiosError } from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
@@ -99,7 +99,7 @@ const useAuth = () => {
       });
   };
 
-  const userProfile = () => {
+  const userProfile = useCallback(() => {
     getProfile()
       .then((data) => {
         setProfile(data);
@@ -107,7 +107,7 @@ const useAuth = () => {
       .catch((err) => {
         showBoundary(err);
       });
-  };
+  }, [showBoundary]);
 
   return {
     userSignup,

@@ -1,15 +1,8 @@
 import { useEffect } from "react";
 import { FieldValues, useForm, Path } from "react-hook-form";
-import { AxiosError } from "axios";
+import useAuth from "./useAuth";
 
-interface Props {
-  isEmailError?: AxiosError | null;
-  isNicknameError?: AxiosError | null;
-}
-const useFormValidation = <T extends FieldValues = FieldValues>({
-  isEmailError,
-  isNicknameError
-}: Props) => {
+const useFormValidation = <T extends FieldValues = FieldValues>() => {
   const {
     register,
     handleSubmit,
@@ -17,12 +10,35 @@ const useFormValidation = <T extends FieldValues = FieldValues>({
     setError,
     clearErrors,
     getValues,
+    setValue,
     formState: { errors }
   } = useForm<T>();
 
+  const {
+    userCheckDuplicateEmail,
+    userCheckDuplicateNickname,
+    isEmailError,
+    isNicknameError
+  } = useAuth();
+
+  // 중복 검사
+  const handleDuplicate = (type: "email" | "nickname") => {
+    const value = getValues(type as Path<T>);
+
+    const checkDuplicate = {
+      email: () => {
+        userCheckDuplicateEmail({ email: value });
+      },
+      nickname: () => {
+        userCheckDuplicateNickname({ nickname: value });
+      }
+    };
+
+    checkDuplicate[type]();
+  };
+
   // 이메일, 닉네임 중복하면 커스텀 에러 생성
   useEffect(() => {
-    console.log("에러");
     if (isEmailError) {
       setError("email" as Path<T>, {
         type: "email-duplicate",
@@ -45,7 +61,9 @@ const useFormValidation = <T extends FieldValues = FieldValues>({
     setError,
     clearErrors,
     getValues,
-    errors
+    setValue,
+    errors,
+    handleDuplicate
   };
 };
 
