@@ -1,6 +1,7 @@
+import { SOCKET_TIMER_STATUS } from "@/constants/socket";
 import { IroomData } from "@/models/room.model";
 import { TtimerStatus } from "@/models/timer.model";
-import { getDiffrentTime } from "@/utils/getDiffrentTime";
+import { getDifferentTime } from "@/utils/getDifferentTime";
 import { getTimerTime } from "@/utils/getTimerTime";
 import { useEffect, useState } from "react";
 
@@ -14,7 +15,7 @@ interface IuseTimer {
 const useTimer = ({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles} : IuseTimer) 
 : {timerTime : number, status : TtimerStatus} => {
     const [timerTime, setTimerTime] = useState<number>(0);
-    const [status, setStatus] = useState<TtimerStatus>("shortBreakTime");
+    const [status, setStatus] = useState<TtimerStatus>(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME);
 
     useEffect(() => {
         console.log(roomData)
@@ -24,16 +25,16 @@ const useTimer = ({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycl
         const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
         if (!isRunning) {
           setTimerTime(roomData.focusTime);
-          setStatus("shortBreakTime")
+          setStatus(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME)
         }
     
         if (startAt && isRunning) {
           const interval = setInterval(() => {
-            const differTime = getDiffrentTime(startAt);
-            console.log('차이시간', differTime)
+            const differenceTime = getDifferentTime(startAt);
+            console.log('차이시간', differenceTime)
             const { focusTime, shortBreakTime, totalCycles, longBreakTime } = roomData;
             const { status, timerData } = getTimerTime(
-              differTime,
+              differenceTime,
               focusTime,
               shortBreakTime,
               totalCycles,
@@ -41,11 +42,11 @@ const useTimer = ({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycl
             );
             setStatus(status);
     
-            if (status === "set") {
+            if (status === SOCKET_TIMER_STATUS.SET) {
               console.log(syncedStartedAt, syncedCurrentCycles, syncedIsRunning, roomData)
               setTimerTime(roomData.focusTime);
               clearInterval(interval);
-              setStatus("shortBreakTime")
+              setStatus(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME)
             } else if (status) {
               setTimerTime(timerData);
             }

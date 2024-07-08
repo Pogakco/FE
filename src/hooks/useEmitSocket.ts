@@ -1,3 +1,4 @@
+import { SOCKET_TIMER_EVENTS, SOCKET_URL } from '@/constants/socket';
 import { IParticipant } from '@/models/room.model';
 import { useEffect, useState } from 'react'
 import { Socket, io } from 'socket.io-client';
@@ -15,11 +16,12 @@ const useEmitSocket = () => {
 
     const handleClickCyclesStartButton = () => {
       if (!socket) return;
-      socket.emit("start-cycles");
+      socket.emit(SOCKET_TIMER_EVENTS.START_CYCLES);
     };
 
     useEffect(() => {
       const roomId = location.pathname.match(/\/rooms\/(\d+)/)![1];
+      console.log(SOCKET_URL)
       const socket = io(`http://localhost:3000/rooms/${roomId}`, {
         withCredentials: true,
       });
@@ -38,10 +40,10 @@ const useEmitSocket = () => {
       const onSyncedAllParticipants = (allParticipants: IParticipant[]) => {
         setSyncedAllParticipants(allParticipants);
       };
-      socket.on("sync-is-running", onSyncedIsRunning); // 휴식/집중 여부, 시작버튼 누르면 & 전체 사이클 끝나면 동기화
-      socket.on("sync-started-at", onSyncedStartedAt); // 타이머 시작 시각, 시작버튼 누르면 동기화
-      socket.on("sync-current-cycles", onSyncedCurrentCycles); // 전체중 몇 뽀모도로 완료했는지, 1뽀모도로 할때마다 동기화
-      socket.on("sync-all-participants", onSyncedAllParticipants); // 참여중인 유저 정보, 1뽀모도로 할때마다 동기화
+      socket.on(SOCKET_TIMER_EVENTS.SYNC_IS_RUNNING, onSyncedIsRunning);
+      socket.on(SOCKET_TIMER_EVENTS.SYNC_STARTED_AT, onSyncedStartedAt);
+      socket.on(SOCKET_TIMER_EVENTS.SYNC_CURRENT_CYCLES, onSyncedCurrentCycles);
+      socket.on(SOCKET_TIMER_EVENTS.SYNC_ALL_PARTICIPANTS, onSyncedAllParticipants);
 
       return () => {
         socket.disconnect();
