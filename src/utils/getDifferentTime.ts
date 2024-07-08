@@ -1,4 +1,4 @@
-export const getDiffrentTime = (serverStartTime: string) : number => {
+export const getDifferentTime = (serverStartTime: string) : number => {
     const startDate = new Date(serverStartTime);
     const now = new Date();
     const timeDifferenceInMillis = now.getTime() - startDate.getTime();
