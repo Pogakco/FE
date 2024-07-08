@@ -6,6 +6,7 @@ export interface IInputField {
   icon?: React.ReactNode;
   name: string;
   placeholder?: string;
+  field?: any;
 }
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputfield: IInputField;

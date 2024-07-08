@@ -27,17 +27,12 @@ export interface IroomListData {
 
 export type IroomCardData = Omit<IroomData, "startedAt"> 
 
-export interface IParticipant {
-  nickname: string;
-  profileImageUrl?: string;
-  pomodoroCount: number;
-  isActive: boolean;
+export interface IcreateRoomForm {
+  roomTitle: string;
+  roomDescription: string;
+  focusTime: number;
+  shortBreakTime: number;
+  longBreakTime: number;
+  totalCycles: number;
+  maxParticipants: number;
 }
-
-export interface IactiveUserData {
-    activeParticipants: number;
-    users: IParticipant[]
-}
-
-
-

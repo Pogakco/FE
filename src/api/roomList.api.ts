@@ -1,4 +1,4 @@
-import { IroomListData } from "../models/room.model";
+import { IcreateRoomForm, IroomListData } from "../models/room.model";
 import { requestHandler } from "./apiClient";
 
 export const fetchRooms = async (page: string = "1", isRunningChecked?: boolean) => {
@@ -13,4 +13,15 @@ export const fetchRooms = async (page: string = "1", isRunningChecked?: boolean)
     return await requestHandler<IroomListData>("get", url);
 }
 
-// 참여 방 조회 API
+export const createRoom = async (roomDatas: IcreateRoomForm) => {
+    console.log(roomDatas)
+    return await requestHandler("post", "rooms", {
+        roomTitle: roomDatas.roomTitle,
+        roomDescription: roomDatas.roomDescription,
+        focusTime: Number(roomDatas.focusTime),
+        shortBreakTime: Number(roomDatas.shortBreakTime),
+        longBreakTime: Number(roomDatas.longBreakTime),
+        totalCycles: Number(roomDatas.totalCycles),
+        maxParticipants: Number(roomDatas.maxParticipants),
+    });
+}
