@@ -18,9 +18,7 @@ const useTimer = ({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycl
     const [status, setStatus] = useState<TtimerStatus>(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME);
 
     useEffect(() => {
-        console.log(roomData)
         if (!roomData) return;
-        console.log(roomData.startedAt, roomData.isRunning);
         const startAt = syncedStartedAt ? syncedStartedAt : roomData.startedAt;
         const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
         if (!isRunning) {

@@ -22,3 +22,9 @@ export const SOCKET_TIMER_STATUS = {
     FOCUS_TIME : "focusTime",
     END_POINT : -9999,
 }
+
+export const SOCKET_CONNECTION = {
+    CONNECT : "connect",
+    CONNECT_ERROR : "connect_error",
+    DISCONNECT : "disconnect"
+}
