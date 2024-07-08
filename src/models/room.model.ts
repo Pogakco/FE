@@ -27,6 +27,8 @@ export interface IroomListData {
 
 export type IroomCardData = Omit<IroomData, "startedAt"> 
 
+export type TRoomType = "all" | "myRoom";
+
 export interface IParticipant {
   nickname: string;
   profileImageUrl?: string;

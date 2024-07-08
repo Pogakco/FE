@@ -6,7 +6,6 @@ interface SliderWrapperProps {
   
   export const SliderWrapper = styled.div<SliderWrapperProps>`
     position: relative;
-    padding-top: 60px;
     width: 100%;
     border-bottom: 1px solid ${({ theme }) => theme.color.grey1};
     button {
