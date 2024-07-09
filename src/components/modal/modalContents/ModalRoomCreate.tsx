@@ -12,11 +12,11 @@ const ModalRoomCreate = () => {
   const navigate = useNavigate();
   const initialValues = {
     ...ROOM_CREATE_INFO_FIELD.reduce((acc, item) => {
-      acc[item.field as keyof IcreateRoomForm] = getFromSession(item.field as keyof IcreateRoomForm) || '';
+      acc[item.field as keyof IcreateRoomForm] = getFromSession(item.field as keyof IcreateRoomForm);
       return acc;
     }, {} as IcreateRoomForm),
     ...ROOM_CREATE_TIMER_FIELD.reduce((acc, item) => {
-      acc[item.field as keyof IcreateRoomForm] = getFromSession(item.field as keyof IcreateRoomForm) || '';
+      acc[item.field as keyof IcreateRoomForm] = getFromSession(item.field as keyof IcreateRoomForm);
       return acc;
     }, {} as IcreateRoomForm)
   };
@@ -50,6 +50,7 @@ const ModalRoomCreate = () => {
           <div key={index}>
             <InputField
               inputfield={item}
+              type={item.field === "maxParticipants" ? "number" : "input"} 
               schema="auth"
               defaultValue={initialValues[item.field as keyof IcreateRoomForm]}
               {...register(item.field as keyof IcreateRoomForm, {
@@ -73,6 +74,7 @@ const ModalRoomCreate = () => {
         {ROOM_CREATE_TIMER_FIELD.map((item, index) => (
           <div key={index}>
             <InputField
+              type="number"
               inputfield={item}
               schema="auth"
               defaultValue={initialValues[item.field as keyof IcreateRoomForm]}
