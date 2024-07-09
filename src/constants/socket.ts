@@ -1,5 +1,4 @@
-export const SOCKET_URL = process.env.NODE_ENV === "development" ?
-`http://localhost:3000/rooms/` : undefined 
+export const SOCKET_URL = '/rooms/'
 
 export const SOCKET_DEFAULT_EVENTS = {
     CONNECTION: "connection",

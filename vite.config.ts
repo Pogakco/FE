@@ -12,6 +12,10 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ""),
         secure: false,
         ws: true
+      },
+      "/socket.io": {
+        target: "ws://localhost:3000",
+        ws: true
       }
     }
   }
