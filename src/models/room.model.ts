@@ -39,8 +39,6 @@ export interface IcreateRoomForm {
 
 export type TRoomType = "all" | "myRoom";
 
-export type TRoomType = "all" | "myRoom";
-
 export interface IParticipant {
   nickname: string;
   profileImageUrl?: string;
