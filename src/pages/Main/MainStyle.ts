@@ -1,14 +1,12 @@
 import styled from "styled-components";
 
 export const MainStyle = styled.div`
-  height: 100vh;
-
   .mainContents {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin: auto;
-    padding: 40px 20px 0px 20px;
+    padding: 40px 20px 40px 20px;
     max-width: ${({ theme }) => theme.layoutWidth.screen};
   }
 
@@ -59,16 +57,24 @@ export const MainStyle = styled.div`
     }
   }
 
-  .roomList {
-    min-height: 520px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
-  }
-
   .createButton {
     position: fixed;
     bottom: 50px;
     right: 50px;
   }
 `;
+
+export const RoomListStyle = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-flow: row;
+    align-items: start;
+    align-content: start;
+    height: 520px;
+`;
+
+export const Exception = styled.div`
+      min-height: 520px;
+`

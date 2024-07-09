@@ -8,7 +8,7 @@ import UserLogin from "./pages/UserLogin";
 import RoomDetail from "./pages/RoomDetail";
 import "@/style/reset.css";
 import "@/style/font.css";
-import Main from "./pages/Main";
+import Main from "./pages/Main/Main";
 import NotFound from "./pages/NotFound";
 import { UserCheckPassword } from "./pages/UserCheckPassword.1";
 import UserProfile from "./pages/UserProfile";

@@ -4,28 +4,21 @@ import Title from "@/components/user/Title";
 import InputField from "@/components/inputField/InputField";
 import SquareButton from "@/components/buttons/SquareButton";
 import { Link } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { ISignup } from "@/models/auth.model";
-import { useEffect } from "react";
 import useAuth from "@/hooks/useAuth";
 import { AUTH_REGEX } from "@/constants/regex";
 import {
   AUTH_INPUT_FIELD,
   AUTH_INPUT_FIELD_ERROR
 } from "@/constants/inputField";
+import useFormValidation from "@/hooks/useFormValidation";
 
 const UserSignup = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setError,
-    clearErrors,
-    getValues,
-    formState: { errors }
-  } = useForm<ISignup>();
-
   const { userSignup, isError } = useAuth();
+
+  const { register, handleSubmit, getValues, errors, handleDuplicate } =
+    useFormValidation<ISignup>();
 
   const onSubmit: SubmitHandler<ISignup> = (data) => {
     userSignup({
@@ -35,24 +28,7 @@ const UserSignup = () => {
     });
   };
 
-  const handleDuplicate = () => {};
-
-  // [비밀번호] value 수정 시 이미 입력된 [비밀번호 확인] value 도 같이 유효성 체크
-  useEffect(() => {
-    if (
-      watch("password") !== watch("passwordCheck") &&
-      watch("passwordCheck")
-    ) {
-      setError("passwordCheck", {
-        type: "password-mismatch",
-        message: "비밀번호가 일치하지 않습니다"
-      });
-    } else {
-      // 비밀번호 일치시 오류 제거
-      clearErrors("passwordCheck");
-    }
-  }, [watch("password"), watch("passwordCheck")]);
-
+  console.log(errors);
   return (
     <UserLoginStyle>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -62,19 +38,23 @@ const UserSignup = () => {
             inputfield={AUTH_INPUT_FIELD.nickname}
             schema="auth"
             {...register("nickname", {
-              required: true,
-              pattern: AUTH_REGEX.nickname
+              required: {
+                value: true,
+                message: AUTH_INPUT_FIELD_ERROR.nickname
+              },
+              pattern: {
+                value: AUTH_REGEX.nickname,
+                message: AUTH_INPUT_FIELD_ERROR.nickname
+              }
             })}
           />
           {errors.nickname && (
-            <div className="help-message">
-              {AUTH_INPUT_FIELD_ERROR.nickname}
-            </div>
+            <div className="help-message">{errors.nickname.message}</div>
           )}
           <SquareButton
             buttonSize="medium"
             buttonColor="active"
-            onClick={handleDuplicate}
+            onClick={() => handleDuplicate("nickname")}
           >
             중복확인
           </SquareButton>
@@ -84,19 +64,25 @@ const UserSignup = () => {
             inputfield={AUTH_INPUT_FIELD.email}
             schema="auth"
             {...register("email", {
-              required: true,
-              pattern: AUTH_REGEX.email
+              required: {
+                value: true,
+                message: AUTH_INPUT_FIELD_ERROR.email
+              },
+              pattern: {
+                value: AUTH_REGEX.email,
+                message: AUTH_INPUT_FIELD_ERROR.email
+              }
             })}
           />
           <SquareButton
             buttonSize="medium"
             buttonColor="active"
-            onClick={handleDuplicate}
+            onClick={() => handleDuplicate("email")}
           >
             중복확인
           </SquareButton>
           {errors.email && (
-            <div className="help-message"> {AUTH_INPUT_FIELD_ERROR.email}</div>
+            <div className="help-message">{errors.email.message}</div>
           )}
         </fieldset>
         <fieldset>
@@ -105,14 +91,18 @@ const UserSignup = () => {
             schema="auth"
             type="password"
             {...register("password", {
-              required: true,
-              pattern: AUTH_REGEX.password
+              required: {
+                value: true,
+                message: AUTH_INPUT_FIELD_ERROR.password
+              },
+              pattern: {
+                value: AUTH_REGEX.password,
+                message: AUTH_INPUT_FIELD_ERROR.password
+              }
             })}
           />
           {errors.password && (
-            <div className="help-message">
-              {AUTH_INPUT_FIELD_ERROR.password}
-            </div>
+            <div className="help-message">{errors.password.message}</div>
           )}
         </fieldset>
         <fieldset>
@@ -121,19 +111,20 @@ const UserSignup = () => {
             schema="auth"
             type="password"
             {...register("passwordCheck", {
-              required: true,
+              required: {
+                value: true,
+                message: "비밀번호 확인은 필수 입력 항목입니다."
+              },
               validate: {
                 matchPassword: (value) => {
                   const { password } = getValues();
-                  return password === value;
+                  return password === value || "비밀번호가 일치하지 않습니다.";
                 }
               }
             })}
           />
           {errors.passwordCheck && (
-            <div className="help-message">
-              {AUTH_INPUT_FIELD_ERROR.checkPassword}
-            </div>
+            <div className="help-message">{errors.passwordCheck.message}</div>
           )}
         </fieldset>
 
@@ -141,6 +132,7 @@ const UserSignup = () => {
           회원가입
         </SquareButton>
       </form>
+
       {isError && (
         <div className="help-message">
           이미 존재하는 이메일 혹은 닉네임입니다.

@@ -6,7 +6,13 @@ export interface IInputField {
   icon?: React.ReactNode;
   name: string;
   placeholder?: string;
-  field?: any;
+}
+
+export interface ICreateInputField extends IInputField {
+  field: string;
+  message : string;
+  regex : RegExp;
+  defaultValue : string;
 }
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputfield: IInputField;

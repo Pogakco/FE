@@ -30,9 +30,26 @@ export type IroomCardData = Omit<IroomData, "startedAt">
 export interface IcreateRoomForm {
   roomTitle: string;
   roomDescription: string;
-  focusTime: number;
-  shortBreakTime: number;
-  longBreakTime: number;
-  totalCycles: number;
-  maxParticipants: number;
+  focusTime: string;
+  shortBreakTime: string;
+  longBreakTime: string;
+  totalCycles: string;
+  maxParticipants: string;
 }
+
+export type TRoomType = "all" | "myRoom";
+
+export interface IParticipant {
+  nickname: string;
+  profileImageUrl?: string;
+  pomodoroCount: number;
+  isActive: boolean;
+}
+
+export interface IactiveUserData {
+    activeParticipants: number;
+    users: IParticipant[]
+}
+
+
+
