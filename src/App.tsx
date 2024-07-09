@@ -1,35 +1,82 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ThemeProvider } from "styled-components";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+
+import { light } from "./style/theme";
+import GlobalStyle from "./style/global";
+import UserSignup from "./pages/UserSignup";
+import UserLogin from "./pages/UserLogin";
+import RoomDetail from "./pages/RoomDetail";
+import "@/style/reset.css";
+import "@/style/font.css";
+import Main from "./pages/Main/Main";
+import NotFound from "./pages/NotFound";
+import { UserCheckPassword } from "./pages/UserCheckPassword.1";
+import UserProfile from "./pages/UserProfile";
+import Layout from "./components/layout/Layout";
+import useInitialize from "./hooks/useInitialize";
+import { useEffect } from "react";
+import Test from "./pages/Test";
+import CustomToaster from "./components/toaster/CustomToaster";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <Layout>
+        <Outlet />
+      </Layout>
+    ),
+    children: [
+      {
+        path: "/signup",
+        element: <UserSignup />
+      },
+      {
+        path: "/login",
+        element: <UserLogin />
+      },
+      {
+        path: "/check-password",
+        element: <UserCheckPassword />
+      },
+      {
+        path: "/profile",
+        element: <UserProfile />
+      },
+      {
+        path: "/",
+        element: <Main />
+      },
+      {
+        path: "/rooms/:id",
+        element: <RoomDetail />
+      },
+      {
+        path: "/test",
+        element: <Test />
+      },
+      {
+        path: "*",
+        element: <NotFound />
+      }
+    ]
+  }
+]);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { userInitializeAuth } = useInitialize();
+
+  useEffect(() => {
+    userInitializeAuth();
+  }, [userInitializeAuth]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ThemeProvider theme={light}>
+      <GlobalStyle themeName="light" />
+      <RouterProvider router={router} />
+      <CustomToaster />
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
