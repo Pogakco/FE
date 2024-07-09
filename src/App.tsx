@@ -16,6 +16,7 @@ import Layout from "./components/layout/Layout";
 import useInitialize from "./hooks/useInitialize";
 import { useEffect } from "react";
 import Test from "./pages/Test";
+import CustomToaster from "./components/toaster/CustomToaster";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,7 @@ function App() {
     <ThemeProvider theme={light}>
       <GlobalStyle themeName="light" />
       <RouterProvider router={router} />
+      <CustomToaster />
     </ThemeProvider>
   );
 }

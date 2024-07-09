@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-// const BASE_URL = "http://127.0.0.1:3000";
-const BASE_URL = "/api";
+const BASE_URL = process.env.NODE_ENV === "production" ? "" : "/api";
+
 const DEFAULT_TIMEOUT = 30000;
 
 export const createClient = (config?: AxiosRequestConfig) => {

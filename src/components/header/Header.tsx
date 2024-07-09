@@ -1,13 +1,13 @@
 import { FaMoon } from "react-icons/fa";
 import styled from "styled-components";
 import { useAuthStore } from "@/store/authStore";
-import useAlert from "@/hooks/useAlert";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import LogoutToast from "./LogoutToast";
 import useAuth from "@/hooks/useAuth";
 
 const Header = () => {
   const { isLoggedIn } = useAuthStore();
-  const { showConfirm } = useAlert();
   const navigate = useNavigate();
   const { userLogout } = useAuth();
 
@@ -24,7 +24,10 @@ const Header = () => {
         navigate("/login");
       },
       logout: () => {
-        showConfirm("로그아웃하시겠습니까?", () => userLogout());
+        // showConfirm("로그아웃하시겠습니까?", () => userLogout());
+        toast((t) => <LogoutToast t={t} callback={userLogout} />, {
+          duration: 10000
+        });
       }
     };
     buttonCase[todo]();

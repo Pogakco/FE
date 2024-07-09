@@ -1,4 +1,4 @@
-import { UserLoginStyle } from "./UserLogin";
+import { UserStyle } from "./UserStyle";
 import Title from "@/components/user/Title";
 
 import InputField from "@/components/inputField/InputField";
@@ -28,9 +28,8 @@ const UserSignup = () => {
     });
   };
 
-  console.log(errors);
   return (
-    <UserLoginStyle>
+    <UserStyle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Title>회원가입</Title>
         <fieldset>
@@ -141,7 +140,7 @@ const UserSignup = () => {
       <div className="login-check">
         계정이 이미 있으신가요? <Link to="/login">로그인</Link>
       </div>
-    </UserLoginStyle>
+    </UserStyle>
   );
 };
 
