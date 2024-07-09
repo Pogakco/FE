@@ -33,7 +33,11 @@ const Header = () => {
   return (
     <HeaderStyle>
       <div className="leftSection">
-        <button onClick={() => handleButtons("logo")}>로고</button>
+        <img
+          onClick={() => handleButtons("logo")}
+          className="logo"
+          src="/src/assets/imgs/headerLogo2.png"
+        />
       </div>
       <div className="rigthSection">
         {isLoggedIn && (
@@ -64,6 +68,12 @@ const HeaderStyle = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+
+    .logo {
+      height: 100%;
+      cursor: pointer;
+    }
   }
   .rigthSection {
     display: flex;

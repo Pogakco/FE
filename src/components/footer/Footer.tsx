@@ -7,8 +7,10 @@ const Footer = () => {
     <FooterStyle>
       <div className="footer-inner-content">
         <div className="info">
-          <div className="logo">Pogakco</div>
-          <div className="corp">@ Pogakco Team.</div>
+          <img className="logo" src="/src/assets/imgs/footerLogo.png" />
+          <div className="corp">
+            뽀각코는 뽀모도로 타이머를 공유하여 같이 공부하는 서비스입니다.
+          </div>
         </div>
         <div className="links">
           <Link to="">팀 소개</Link>
@@ -35,6 +37,17 @@ const FooterStyle = styled.footer`
     color: ${({ theme }) => theme.color.grey3};
     border-top: 1px solid ${({ theme }) => theme.color.grey1};
 
+    .info {
+      padding: 10px 32px 0;
+      .logo {
+        height: 40px;
+      }
+      .corp {
+        padding: 0 0 0 12px;
+        font-size: ${({ theme }) => theme.fontSize.small};
+      }
+    }
+
     .links {
       display: flex;
       flex-direction: column;
@@ -43,7 +56,7 @@ const FooterStyle = styled.footer`
         color: inherit;
       }
       .i-github {
-        margin: 10px;
+        margin: 10px 0;
 
         svg {
           width: 24px;
