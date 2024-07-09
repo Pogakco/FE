@@ -24,6 +24,8 @@ const RoomDetail = () => {
   } = useEmitSocket();
   const navigate = useNavigate();
 
+  console.log(syncedAllParticipants);
+
   const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
   const soundHandler = () => {
     setActiveSound(!activeSound);
