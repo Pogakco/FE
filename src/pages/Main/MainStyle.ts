@@ -7,7 +7,7 @@ export const MainStyle = styled.div`
     flex-direction: column;
     gap: 20px;
     margin: auto;
-    padding: 80px 20px 80px 20px;
+    padding: 40px 20px 40px 20px;
     max-width: ${({ theme }) => theme.layoutWidth.screen};
   }
 
@@ -59,7 +59,7 @@ export const MainStyle = styled.div`
   }
 
   .createButton {
-    position: absolute;
+    position: fixed;
     bottom: 50px;
     right: 50px;
   }

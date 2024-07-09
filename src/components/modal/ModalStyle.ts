@@ -45,6 +45,13 @@ export const ModalRoomCreateStyle = styled.div`
   display: flex;
   flex-direction: column;
 
+  .help-message {
+    margin: 8px 9px 0px 9px;
+    font-size: ${({ theme }) => theme.fontSize.small};
+    color: #ff0000;
+  }
+
+
   form {
     display: flex;
     flex-direction: column;

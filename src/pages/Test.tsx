@@ -47,6 +47,7 @@ const Test = () => {
 
 const TestStyle = styled.div`
   display: flex;
+  padding-top: 60px;
   gap: 20px;
 `;
 export default Test;

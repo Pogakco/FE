@@ -47,7 +47,7 @@ const Main = () => {
     const pageValue = newSearchParams.get("page");
     newSearchParams.delete("page");
     if (pageValue) {
-      newSearchParams.set("page", pageValue);
+      newSearchParams.set("page", "1");
     }
     setSearchParams(newSearchParams);
   };

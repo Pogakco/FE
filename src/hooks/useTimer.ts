@@ -26,7 +26,7 @@ const useTimer = ({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycl
           setStatus(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME)
         }
     
-        if (startAt && isRunning) {
+        if (isRunning) {
           const interval = setInterval(() => {
             const differenceTime = getDifferentTime(startAt);
             console.log('차이시간', differenceTime)

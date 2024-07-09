@@ -84,7 +84,7 @@ const RoomDetailStyle = styled.div`
 
   .muteIcon {
     position: absolute;
-    top: 100px;
+    top:40px;
     right: 50px;
     font-size: 50px;
     color: #ff8080;
