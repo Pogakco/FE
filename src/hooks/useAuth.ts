@@ -18,9 +18,23 @@ import { isConflictError, isTokenError } from "@/utils/error";
 import { AxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import FlashMessage from "@/components/flashMessage/FlashMessage";
-import SignupFlashMessage from "@/components/flashMessage/flashMessageContents/SignupFlashMessage";
+
+const TOAST_MESSAGE = {
+  signup: {
+    success: "회원가입 성공",
+    error: "회원가입 실패"
+  },
+  login: {
+    success: "로그인 성공",
+    error: "로그인 실패"
+  },
+  logout: {
+    success: "로그아웃 성공",
+    error: "로그아웃 실패"
+  }
+};
 
 const useAuth = () => {
   const navigate = useNavigate();
@@ -37,12 +51,14 @@ const useAuth = () => {
     signup(formData)
       .then(() => {
         navigate("/login");
+        toast.success(TOAST_MESSAGE.signup.success);
       })
       .catch((err) => {
         if (isConflictError(err)) {
           setError(err);
         } else {
           showBoundary(err);
+          toast.error(TOAST_MESSAGE.signup.error);
         }
       });
   };
@@ -52,12 +68,14 @@ const useAuth = () => {
       .then(() => {
         storeLogin();
         navigate("/");
+        toast.success(TOAST_MESSAGE.login.success);
       })
       .catch((err) => {
         if (isTokenError(err)) {
           setError(err);
         } else {
           showBoundary(err);
+          toast.error(TOAST_MESSAGE.login.error);
         }
       });
   };
@@ -67,9 +85,11 @@ const useAuth = () => {
       .then(() => {
         storeLogout();
         navigate("/login");
+        toast.success(TOAST_MESSAGE.logout.success);
       })
       .catch((err) => {
-        console.log(err);
+        showBoundary(err);
+        toast.success(TOAST_MESSAGE.logout.error);
       });
   };
 

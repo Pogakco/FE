@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { UserLoginStyle } from "./UserLogin";
+import { UserStyle } from "./UserStyle";
 import Title from "@/components/user/Title";
 import InputField from "@/components/inputField/InputField";
 import { IRessetPassword } from "@/models/auth.model";
@@ -20,7 +20,7 @@ export const UserCheckPassword = () => {
   const onSubmit: SubmitHandler<IRessetPassword> = (data) => console.log(data);
 
   return (
-    <UserLoginStyle>
+    <UserStyle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Title>비밀번호 확인</Title>
         <fieldset>
@@ -41,6 +41,6 @@ export const UserCheckPassword = () => {
           수정페이지로 이동하기
         </SquareButton>
       </form>
-    </UserLoginStyle>
+    </UserStyle>
   );
 };
