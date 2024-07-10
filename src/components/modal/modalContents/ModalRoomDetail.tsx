@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
-import useJoinRoom from "@/hooks/mutations/useJoinRoom";
 import SquareButton from "@/components/buttons/SquareButton";
 import TimerDescriptCard from "@/components/cards/TimerDescriptCard";
 import RunningStatus from "@/components/commons/RunningStatus";
@@ -8,6 +7,9 @@ import Profile from "@/components/profile/Profile";
 import { IroomCardData } from "@/models/room.model";
 import { FaCrown } from "react-icons/fa";
 import { ModalHeader, ModalRoomDetailStyle } from "../ModalStyle";
+import useJoinRoom from "@/hooks/mutations/useJoinRoom";
+import { AxiosError } from "axios";
+import Loading from "@/components/commons/Loading";
 
 interface Props {
   roomData: IroomCardData;
@@ -23,9 +25,10 @@ const ModalRoomDetail = ({ roomData }: Props) => {
   };
 
   const handleJoinButton = () => {
-    mutate();
+    if(roomData.isJoined) navigate(`/rooms/${roomData.id}`);
+    else mutate();
   };
-
+  
   return (
     <ModalRoomDetailStyle>
       <ModalHeader>
@@ -49,6 +52,8 @@ const ModalRoomDetail = ({ roomData }: Props) => {
           scheme="default"
         />
       </span>
+      {isPending ?
+      <Loading/> :
       <div className="buttons">
         <SquareButton
           buttonColor="active"
@@ -59,17 +64,18 @@ const ModalRoomDetail = ({ roomData }: Props) => {
         </SquareButton>
         {isLoggedIn && (
           <SquareButton
-            buttonColor="active"
+            buttonColor={isError ? "default" : "active"}
             buttonSize="medium"
             onClick={handleJoinButton}
-            disabled={isPending}        
           >
             참가하기
           </SquareButton>
         )}
       </div>
-      {isPending && <div className="loading">로딩 중입니다...</div>}
-      {isError && <div className="error"></div>}
+      }
+      {isError && error instanceof AxiosError && (
+        <div className="error">{error.response?.data?.message || "에러 발생"}</div>
+      )}
     </ModalRoomDetailStyle>
   );
 };
