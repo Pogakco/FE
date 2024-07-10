@@ -7,6 +7,7 @@ import styled from "styled-components";
 interface Props {
   url: string | null;
   setUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  setFile: React.Dispatch<React.SetStateAction<File | null>>;
 }
 
 const allowedExtensions = [
@@ -22,7 +23,7 @@ const allowedExtensions = [
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-const UserImage = ({ url, setUrl }: Props) => {
+const UserImage = ({ url, setUrl, setFile }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState<string | null>(null);
 
@@ -44,6 +45,8 @@ const UserImage = ({ url, setUrl }: Props) => {
 
       const objectUrl = URL.createObjectURL(file);
       setUrl(objectUrl);
+      setFile(file);
+
       setFileError(null);
     }
   };

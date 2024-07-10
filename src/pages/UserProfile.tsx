@@ -21,7 +21,8 @@ interface IValidate {
 }
 
 const UserProfile = () => {
-  const [imageSrc, setImageSrc] = useState<string | null>(null); // blob
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const {
     register,
@@ -44,8 +45,8 @@ const UserProfile = () => {
     if (password) {
       formData.append("password", password);
     }
-    if (imageSrc) {
-      formData.append("profileImage", imageSrc);
+    if (file) {
+      formData.append("profileImage", file);
     }
 
     userChangeProfile(formData);
@@ -72,7 +73,7 @@ const UserProfile = () => {
     <UserProfileStyle>
       <div className="profile-content">
         <div className="header">
-          <UserImage url={imageSrc} setUrl={setImageSrc} />
+          <UserImage url={imageSrc} setUrl={setImageSrc} setFile={setFile} />
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset>
