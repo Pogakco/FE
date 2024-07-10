@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import LogoutToast from "./LogoutToast";
 import useAuth from "@/hooks/useAuth";
 
+import logoImg from "../../assets/imgs/headerLogo.png";
+
 const Header = () => {
   const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ const Header = () => {
         <img
           onClick={() => handleButtons("logo")}
           className="logo"
-          src="/src/assets/imgs/headerLogo2.png"
+          src={logoImg}
         />
       </div>
       <div className="rigthSection">

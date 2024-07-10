@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { BsGithub } from "react-icons/bs";
 
+import logoImg from "../../assets/imgs/footerLogo.png";
+
 const Footer = () => {
   return (
     <FooterStyle>
       <div className="footer-inner-content">
         <div className="info">
-          <img className="logo" src="/src/assets/imgs/footerLogo.png" />
+          <img className="logo" src={logoImg} />
           <div className="corp">
             뽀각코는 뽀모도로 타이머를 공유하여 같이 공부하는 서비스입니다.
           </div>
