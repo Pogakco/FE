@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaInfoCircle, FaRegCommentAlt, FaUser } from "react-icons/fa";
 import RoomInfo from "./drawerContents/RoomInfo";
 import RoomActiveUser from "./drawerContents/RoomActiveUser";
@@ -11,6 +11,8 @@ import {
 } from "./DrawerStyle";
 import { IroomData } from "@/models/room.model";
 import { handleOverlayClick } from "@/utils/handleOverlayClick";
+import { fetchRoomUsers } from "@/api/roomDetail.api";
+import { useParams } from "react-router-dom";
 
 interface IdrawerData {
   id: number;
@@ -50,6 +52,10 @@ const Drawer = ({ roomData, isRunning, currentCycle }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [selectDrawer, setSelectDrawer] = useState<string | null>(null);
+
+  useEffect(()=>{
+    fetchRoomUsers(roomData.id).then(res => {console.log(res)})
+  }, [])
 
   const toggleDrawer = (drawerType: string) => {
     if (selectDrawer === drawerType) {

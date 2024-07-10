@@ -5,7 +5,7 @@ export interface IParticipant {
     isActive: boolean;
   }
   
-  export interface IactiveUserData {
+  export interface IRoomUserData {
       activeParticipants: number;
       users: IParticipant[]
   }

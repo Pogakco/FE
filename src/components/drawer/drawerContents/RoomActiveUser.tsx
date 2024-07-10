@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { FaUser } from "react-icons/fa";
-import { IactiveUserData } from "@/models/room.model";
 import UserListBox from "./UserListBox";
+import { IRoomUserData } from "@/models/roomDetail.model";
 
-const activeUserData : IactiveUserData= {
+const activeUserData : IRoomUserData= {
   activeParticipants: 5,
   users: [{
     nickname: 'changchangwoo',

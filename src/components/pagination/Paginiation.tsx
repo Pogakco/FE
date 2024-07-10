@@ -26,7 +26,7 @@ const Pagination = ({ pagination } : Props) => {
 
   const pageButtonRender = (totalPages : number) => {
     const startPage = (currentPageGroup - 1) * PAGE_GROUP_NUM + 1;
-    const endPage = Math.min(5 * currentPageGroup, totalPages);
+    const endPage = Math.min(PAGE_GROUP_NUM * currentPageGroup, totalPages);
     const pageNumbers = [];
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(
