@@ -10,8 +10,8 @@ export interface ISignup {
   passwordCheck?: string;
 }
 
-export interface IRessetPassword {
-  passwordCheck: string;
+export interface IResetPassword {
+  password: string;
 }
 
 export interface ICheckDuplicateEmail {

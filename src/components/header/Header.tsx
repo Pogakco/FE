@@ -20,13 +20,12 @@ const Header = () => {
         navigate("/");
       },
       profile: () => {
-        navigate("/profile");
+        navigate("/check-password");
       },
       login: () => {
         navigate("/login");
       },
       logout: () => {
-        // showConfirm("로그아웃하시겠습니까?", () => userLogout());
         toast((t) => <LogoutToast t={t} callback={userLogout} />, {
           duration: 10000
         });

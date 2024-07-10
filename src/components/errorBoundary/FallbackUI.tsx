@@ -58,14 +58,20 @@ const FallbackUI = ({ error, resetErrorBoundary }: FallbackProps) => {
       setButton({
         status: 401,
         message: ERROR_MESSAGE[401],
-        onButtonClick: () => navigate("/login"),
+        onButtonClick: () => {
+          resetErrorBoundary();
+          navigate("/login");
+        },
         button: "로그인 페이지로 이동"
       });
     } else if (isAuthorityError(error)) {
       setButton({
         status: 403,
         message: ERROR_MESSAGE[403],
-        onButtonClick: () => navigate(-1),
+        onButtonClick: () => {
+          resetErrorBoundary();
+          navigate(-1);
+        },
         button: "뒤로가기"
       });
     } else if (isNotFoundError(error)) {
