@@ -40,6 +40,10 @@ const TOAST_MESSAGE = {
   logout: {
     success: "로그아웃 성공",
     error: "로그아웃 실패"
+  },
+  changeProfile: {
+    success: "프로필 변경 성공",
+    error: "프로필 변경 실패"
   }
 };
 
@@ -157,12 +161,16 @@ const useAuth = () => {
 
   const userChangeProfile = (formdata: FormData) => {
     changeProfile(formdata)
-      .then(() => {})
+      .then(() => {
+        setError(null);
+        toast.success(TOAST_MESSAGE.changeProfile.success);
+      })
       .catch((err) => {
         if (isConflictError(err)) {
           setError(err);
         } else {
           showBoundary(err);
+          toast.error(TOAST_MESSAGE.changeProfile.error);
         }
       });
   };

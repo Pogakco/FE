@@ -13,6 +13,7 @@ interface Props {
 const allowedExtensions = [
   "jpg",
   "jpeg",
+  "jfif",
   "png",
   "gif",
   "bmp",

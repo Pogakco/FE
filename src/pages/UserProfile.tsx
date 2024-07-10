@@ -33,7 +33,7 @@ const UserProfile = () => {
     handleDuplicate
   } = useFormValidation<IValidate>();
 
-  const { userProfile, userChangeProfile, profile } = useAuth();
+  const { userProfile, userChangeProfile, profile, isError } = useAuth();
 
   const onSubmit: SubmitHandler<IValidate> = () => {
     const formData = new FormData();
@@ -149,6 +149,9 @@ const UserProfile = () => {
           <SquareButton buttonColor="active" buttonSize="large" type="submit">
             프로필 수정하기
           </SquareButton>
+          {isError && (
+            <div className="help-message">이미 존재하는 닉네임입니다.</div>
+          )}
         </form>
       </div>
     </UserProfileStyle>
