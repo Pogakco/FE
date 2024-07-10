@@ -25,3 +25,7 @@ export const createRoom = async (roomDatas: IcreateRoomForm) => {
         maxParticipants: Number(roomDatas.maxParticipants),
     });
 }
+
+export const joinRoom = async (roomId : number) => {
+    return await requestHandler("post", `rooms/${roomId}/join`)
+}
