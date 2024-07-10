@@ -98,6 +98,15 @@ export const ModalRoomDetailStyle = styled.div`
     text-align: center;
     color: ${({ theme }) => theme.color.grey3};
   }
+  .buttons {
+    display: flex;
+    gap: 20px;
+  }
+  .error {
+    font-size: ${({ theme }) => theme.fontSize.small};
+    color: #ff0000;
+
+  } 
 `;
 
 export const ModalHeader = styled.div`

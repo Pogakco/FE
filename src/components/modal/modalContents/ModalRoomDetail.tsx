@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import useJoinRoom from "@/hooks/mutations/useJoinRoom";
 import SquareButton from "@/components/buttons/SquareButton";
 import TimerDescriptCard from "@/components/cards/TimerDescriptCard";
 import RunningStatus from "@/components/commons/RunningStatus";
@@ -5,18 +8,24 @@ import Profile from "@/components/profile/Profile";
 import { IroomCardData } from "@/models/room.model";
 import { FaCrown } from "react-icons/fa";
 import { ModalHeader, ModalRoomDetailStyle } from "../ModalStyle";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   roomData: IroomCardData;
 }
 
 const ModalRoomDetail = ({ roomData }: Props) => {
-    
+  const isLoggedIn = useAuthStore<boolean>((state) => state.isLoggedIn);
+  const { mutate, isPending, isError, error } = useJoinRoom(roomData.id);
   const navigate = useNavigate();
-  const handleButton = () => {
-    navigate(`/rooms/${roomData.id}`)
-  }
+
+  const handleWatchButton = () => {
+    navigate(`/rooms/${roomData.id}`);
+  };
+
+  const handleJoinButton = () => {
+    mutate();
+  };
+
   return (
     <ModalRoomDetailStyle>
       <ModalHeader>
@@ -24,10 +33,7 @@ const ModalRoomDetail = ({ roomData }: Props) => {
         <RunningStatus isRunning={roomData.isRunning} />
         <hr />
       </ModalHeader>
-      <Profile
-        size="medium"
-        url="https://cdn.univ20.com/wp-content/uploads/2015/09/c7697d7b9ec7abe362dbdfc51b355ee5.jpg"
-      />
+      <Profile size="medium" url={roomData.ownerProfileImageUrl} />
       <div className="userName">
         <FaCrown /> {roomData.ownerName}
       </div>
@@ -43,12 +49,29 @@ const ModalRoomDetail = ({ roomData }: Props) => {
           scheme="default"
         />
       </span>
-      <SquareButton buttonColor="active" buttonSize="medium" onClick={handleButton}>
-        참가하기
-      </SquareButton>
+      <div className="buttons">
+        <SquareButton
+          buttonColor="active"
+          buttonSize="medium"
+          onClick={handleWatchButton}
+        >
+          관전하기
+        </SquareButton>
+        {isLoggedIn && (
+          <SquareButton
+            buttonColor="active"
+            buttonSize="medium"
+            onClick={handleJoinButton}
+            disabled={isPending}        
+          >
+            참가하기
+          </SquareButton>
+        )}
+      </div>
+      {isPending && <div className="loading">로딩 중입니다...</div>}
+      {isError && <div className="error"></div>}
     </ModalRoomDetailStyle>
   );
 };
-
 
 export default ModalRoomDetail;
