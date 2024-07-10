@@ -9,13 +9,20 @@ import {
   AUTH_INPUT_FIELD_ERROR
 } from "@/constants/inputField";
 import useAuth from "@/hooks/useAuth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useFormValidation from "@/hooks/useFormValidation";
 import UserImage from "@/components/user/userProfile/UserImage";
 
-type TChangeProfile = Omit<ISignup, "email">;
+interface IValidate {
+  // profileImage?: File;
+  nickname: string;
+  password?: string;
+  passwordCheck?: string;
+}
 
 const UserProfile = () => {
+  const [imageSrc, setImageSrc] = useState<string | null>(null); // blob
+
   const {
     register,
     handleSubmit,
@@ -23,16 +30,38 @@ const UserProfile = () => {
     setValue,
     errors,
     handleDuplicate
-  } = useFormValidation<TChangeProfile>();
+  } = useFormValidation<IValidate>();
 
-  const onSubmit: SubmitHandler<TChangeProfile> = (data) => console.log(data);
+  const { userProfile, userChangeProfile, profile } = useAuth();
 
-  const { userProfile, profile } = useAuth();
+  const onSubmit: SubmitHandler<IValidate> = () => {
+    const formData = new FormData();
+
+    const nickname = getValues("nickname");
+    const password = getValues("password");
+
+    formData.append("nickname", nickname);
+    if (password) {
+      formData.append("password", password);
+    }
+    if (imageSrc) {
+      formData.append("profileImage", imageSrc);
+    }
+
+    userChangeProfile(formData);
+  };
 
   // 페이지 마운트 될 때 내 프로필 정보 가져옴
   useEffect(() => {
     userProfile();
   }, [userProfile]);
+
+  // 프로필 이미지 가져오기
+  useEffect(() => {
+    if (profile) {
+      setImageSrc(profile.profileImageUrl);
+    }
+  }, [profile]);
 
   // profile이 업데이트 될 때 닉네임 필드 값 업데이트
   useEffect(() => {
@@ -43,7 +72,7 @@ const UserProfile = () => {
     <UserProfileStyle>
       <div className="profile-content">
         <div className="header">
-          <UserImage url={profile?.profileImageUrl || null} />
+          <UserImage url={imageSrc} setUrl={setImageSrc} />
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset>
@@ -87,7 +116,6 @@ const UserProfile = () => {
               schema="auth"
               type="password"
               {...register("password", {
-                required: true,
                 pattern: AUTH_REGEX.password
               })}
             />
@@ -101,8 +129,8 @@ const UserProfile = () => {
             <InputField
               inputfield={AUTH_INPUT_FIELD.checkPassword}
               schema="auth"
+              type="password"
               {...register("passwordCheck", {
-                required: true,
                 validate: {
                   matchPassword: (value) => {
                     const { password } = getValues();
