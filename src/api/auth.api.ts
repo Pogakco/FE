@@ -5,7 +5,7 @@ import {
   ICheckDuplicateNickname,
   IResetPassword
 } from "@/models/auth.model";
-import { httpClient, requestHandler } from "./apiClient";
+import { createClient, httpClient, requestHandler } from "./apiClient";
 
 // auth
 export const auth = () => {
@@ -49,13 +49,11 @@ export const getProfile = () => {
 
 // change profile
 export const changeProfile = async (formData: FormData) => {
-  const resposne = await httpClient({
-    method: "post",
-    url: "/users/me",
-    data: formData,
+  const client = createClient({
     headers: {
       "Content-Type": "multipart/form-data"
     }
   });
-  return resposne.data;
+
+  return (await client.post("/users/me", formData)).data;
 };
