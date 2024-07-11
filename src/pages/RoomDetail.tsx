@@ -10,11 +10,15 @@ import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
+import { MdRemoveRedEye } from "react-icons/md";
+import { exitRoom } from "@/api/roomDetail.api";
+import useExitRoom from "@/hooks/mutations/useExitRoom";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [activeSound, setActiveSound] = useState<boolean>(false);
   const { data: roomData, isLoading, error } = useFetchRoomDetail(id);
+  const { mutate } = useExitRoom(id);
   const {
     syncedIsRunning,
     syncedAllParticipants,
@@ -26,13 +30,22 @@ const RoomDetail = () => {
 
   console.log(syncedAllParticipants);
 
-  const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
+  const { timerTime, status } = useTimer({
+    roomData,
+    syncedStartedAt,
+    syncedIsRunning,
+    syncedCurrentCycles
+  });
   const soundHandler = () => {
     setActiveSound(!activeSound);
   };
 
-  const exitButtonHandler = () => {
+  const lookArountButtonHandler = () => {
     navigate("/");
+  };
+
+  const exitButtonHandler = () => {
+    mutate();
   };
 
   if (isLoading) {
@@ -67,10 +80,18 @@ const RoomDetail = () => {
       >
         시작하기
       </SquareButton>
-      <div className="exitButton">
-        <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
+      <div className="buttons">
+        <div className="exitButton">
+          <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
           <RiLogoutBoxRLine />
-        </CircleButton>
+          </CircleButton>
+        </div>
+        <div className="lookAroundButton">
+          <CircleButton buttonSize={"large"} onClick={lookArountButtonHandler}>
+            
+            <MdRemoveRedEye />
+          </CircleButton>
+        </div>
       </div>
     </RoomDetailStyle>
   );
@@ -83,20 +104,21 @@ const RoomDetailStyle = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  .buttons {
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+  }
 
   .muteIcon {
     position: absolute;
-    top:40px;
+    top: 40px;
     right: 50px;
     font-size: 50px;
     color: #ff8080;
     cursor: pointer;
-  }
-
-  .exitButton {
-    position: absolute;
-    bottom: 50px;
-    right: 50px;
   }
 `;
 export default RoomDetail;
