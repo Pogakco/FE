@@ -30,17 +30,17 @@ const RoomButtons = ({ id }: Props) => {
   return (
     <RoomButtonsStyle>
       <div className="deleteButton">
-        <CircleButton buttonSize={"large"} onClick={deleteButtonHandler}>
+        <CircleButton buttonColor="delete" buttonSize={"large"} onClick={deleteButtonHandler}>
           <MdDeleteForever />
         </CircleButton>
       </div>
       <div className="exitButton">
-        <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
+        <CircleButton buttonColor="active" buttonSize={"large"} onClick={exitButtonHandler}>
           <RiLogoutBoxRLine />
         </CircleButton>
       </div>
       <div className="lookAroundButton">
-        <CircleButton buttonSize={"large"} onClick={lookArountButtonHandler}>
+        <CircleButton buttonColor="active" buttonSize={"large"} onClick={lookArountButtonHandler}>
           <MdRemoveRedEye />
         </CircleButton>
       </div>
