@@ -5,7 +5,8 @@ import { IroomListData, TRoomType } from '@/models/room.model';
 const useFetchRooms = (page : string, isRunningChecked : boolean, roomType : TRoomType): UseQueryResult<IroomListData, Error> => {
   return useQuery<IroomListData, Error>({
     queryKey: ['rooms'],
-    queryFn: () => fetchRooms(page, isRunningChecked, roomType)
+    queryFn: () => fetchRooms(page, isRunningChecked, roomType),
+    enabled: true,
   });
 };
 

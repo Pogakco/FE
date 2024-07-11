@@ -1,6 +1,7 @@
 import { SOCKET_CONNECTION, SOCKET_TIMER_EVENTS, SOCKET_URL } from "@/constants/socket";
-import { IParticipant } from "@/models/room.model";
+import { IParticipant } from "@/models/roomDetail.model";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Socket, io } from "socket.io-client";
 
 const useEmitSocket = () => {
@@ -27,15 +28,15 @@ const useEmitSocket = () => {
 
     /* 테스트 필요 */
     socket.on(SOCKET_CONNECTION.CONNECT, () => {
-      console.log("소켓 연결 성공");
+      toast.success("성공적으로 방에 입장하셨습니다.");
     });
 
     socket.on(SOCKET_CONNECTION.CONNECT_ERROR, (error) => {
-      console.error("소켓 연결 실패:", error);
+      toast.error("방 입장에 잠시 오류가 생겼습니다", error);
     });
 
     socket.on(SOCKET_CONNECTION.DISCONNECT, () => {
-      console.log("소켓 연결 해제");
+      // toast.success("방을 잠시 나오셨습니다.");
     });
 
     setSocket(socket);

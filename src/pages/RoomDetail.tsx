@@ -1,7 +1,7 @@
 import CircleButton from "@/components/buttons/CircleButton";
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,11 +10,14 @@ import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
+import useFetchRoomUsers from "@/hooks/queries/useFetchRoomUsers";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [activeSound, setActiveSound] = useState<boolean>(false);
-  const { data: roomData, isLoading, error } = useFetchRoomDetail(id);
+  const { data: roomData, isLoading : roomDataIsLoading, error, refetch : roomRefetch } = useFetchRoomDetail(id);
+  const { data : userData, isLoading : userDataIsLoading, isError, refetch : userRefetch } = useFetchRoomUsers(id); 
+
   const {
     syncedIsRunning,
     syncedAllParticipants,
@@ -23,10 +26,14 @@ const RoomDetail = () => {
     handleClickCyclesStartButton
   } = useEmitSocket();
   const navigate = useNavigate();
-
-  console.log(syncedAllParticipants);
-
   const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
+  useEffect(()=>{
+    console.log(status);
+    if(status === "set") {
+      roomRefetch();
+      userRefetch();
+    }
+  }, [status])
   const soundHandler = () => {
     setActiveSound(!activeSound);
   };
@@ -35,7 +42,7 @@ const RoomDetail = () => {
     navigate("/");
   };
 
-  if (isLoading) {
+  if (roomDataIsLoading || userDataIsLoading ) {
     return <div>로딩중</div>;
   }
 
@@ -43,9 +50,7 @@ const RoomDetail = () => {
     return <div>에러 {error.message}</div>;
   }
 
-  if (!roomData) {
-    return <div>방 정보 없음</div>;
-  }
+  if (!roomData || !userData) return null; // 데이터를 불러오기 전 렌더링 방지
 
   return (
     <RoomDetailStyle>
@@ -54,10 +59,10 @@ const RoomDetail = () => {
       </div>
       <Drawer
         roomData={roomData}
-        isRunning={syncedIsRunning ? syncedIsRunning : roomData.isRunning}
-        currentCycle={
-          syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles
-        }
+        isRunning={status !== "set"}
+        currentCycle={syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles}
+        participants={syncedAllParticipants ? syncedAllParticipants : userData.users}
+        activeUsers={syncedAllParticipants === null ? userData.activeParticipants : syncedAllParticipants.length }
       />
       <Timer timerTime={timerTime} status={status} />
       <SquareButton

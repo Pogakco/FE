@@ -7,7 +7,7 @@ export const fetchRoomDetail = async (id: string) => {
     return await requestHandler<IroomData>("get", url);
 }
 
-export const fetchRoomUsers = async (id : number) => {
+export const fetchRoomUsers = async (id : string) => {
     const url = `/rooms/${id}/users`
     return await requestHandler<IRoomUserData>("get", url)
 }
