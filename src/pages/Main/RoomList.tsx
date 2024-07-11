@@ -1,5 +1,6 @@
 import { Exception, RoomListStyle } from "./MainStyle";
 import RoomListCard from "@/components/cards/RoomListCard";
+import Loading from "@/components/commons/Loading";
 import { IroomCardData, TRoomType } from "@/models/room.model";
 
 interface Props {
@@ -16,7 +17,7 @@ const RoomList = ({roomListDatas, handleRoomCardClick, isLoading, isLoggedIn, ro
     return <Exception>로그인이 필요합니다</Exception>
  }
   if (isLoading) {
-    return <Exception>Loading...</Exception>;
+    return <Exception><Loading/></Exception>;
   }
 
   return (

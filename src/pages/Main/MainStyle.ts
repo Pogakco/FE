@@ -78,4 +78,7 @@ export const RoomListStyle = styled.div`
 
 export const Exception = styled.div`
   min-height: 520px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

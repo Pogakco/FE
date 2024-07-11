@@ -7,6 +7,7 @@ export interface IroomData {
   focusTime: number;
   startedAt: string;
   shortBreakTime: number;
+  isJoined? : boolean;
   longBreakTime: number;
   isRunning: boolean;
   maxParticipants: number;

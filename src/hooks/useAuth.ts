@@ -4,17 +4,24 @@ import {
   signup,
   checkDuplicateEmail,
   checkDuplicateNickname,
-  getProfile
+  getProfile,
+  checkPassword,
+  changeProfile
 } from "@/api/auth.api";
 import {
   ILogin,
   ISignup,
   ICheckDuplicateEmail,
   ICheckDuplicateNickname,
+  IResetPassword,
   IProfile
 } from "@/models/auth.model";
 import { useAuthStore } from "@/store/authStore";
-import { isConflictError, isTokenError } from "@/utils/error";
+import {
+  isConflictError,
+  isTokenError,
+  isBadRequestError
+} from "@/utils/error";
 import { AxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
@@ -33,6 +40,10 @@ const TOAST_MESSAGE = {
   logout: {
     success: "로그아웃 성공",
     error: "로그아웃 실패"
+  },
+  changeProfile: {
+    success: "프로필 변경 성공",
+    error: "프로필 변경 실패"
   }
 };
 
@@ -131,6 +142,39 @@ const useAuth = () => {
       });
   }, [showBoundary]);
 
+  const userCheckPassword = useCallback(
+    (formData: IResetPassword) => {
+      checkPassword(formData)
+        .then(() => {
+          navigate("/profile");
+        })
+        .catch((err) => {
+          if (isBadRequestError(err)) {
+            setError(err);
+          } else {
+            showBoundary(err);
+          }
+        });
+    },
+    [showBoundary, navigate]
+  );
+
+  const userChangeProfile = (formdata: FormData) => {
+    changeProfile(formdata)
+      .then(() => {
+        setError(null);
+        toast.success(TOAST_MESSAGE.changeProfile.success);
+      })
+      .catch((err) => {
+        if (isConflictError(err)) {
+          setError(err);
+        } else {
+          showBoundary(err);
+          toast.error(TOAST_MESSAGE.changeProfile.error);
+        }
+      });
+  };
+
   return {
     userSignup,
     userLogin,
@@ -138,6 +182,8 @@ const useAuth = () => {
     userCheckDuplicateEmail,
     userCheckDuplicateNickname,
     userProfile,
+    userCheckPassword,
+    userChangeProfile,
     profile,
     isError,
     isEmailError,
