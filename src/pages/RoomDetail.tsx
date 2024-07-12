@@ -1,6 +1,5 @@
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -8,11 +7,11 @@ import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
+import useAlarm from "@/hooks/useAlarm";
 import RoomButtons from "@/components/roomDetail/RoomButtons";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [activeSound, setActiveSound] = useState<boolean>(false);
   const { data: roomData, isLoading, error } = useFetchRoomDetail(id);
   const {
     syncedIsRunning,
@@ -22,17 +21,27 @@ const RoomDetail = () => {
     handleClickCyclesStartButton
   } = useEmitSocket();
 
+  const {
+    playFocusAlarm,
+    playShortBreakAlarm,
+    playLongBreakAlarm,
+    playEndAlarm,
+    changeMute,
+    isMute
+  } = useAlarm();
+
   console.log(syncedAllParticipants);
 
   const { timerTime, status } = useTimer({
     roomData,
-    syncedStartedAt,
+    syncedStartedAt,  
     syncedIsRunning,
-    syncedCurrentCycles
+    syncedCurrentCycles,
+    playFocusAlarm,
+    playShortBreakAlarm,
+    playLongBreakAlarm,
+    playEndAlarm
   });
-  const soundHandler = () => {
-    setActiveSound(!activeSound);
-  };
 
   if (isLoading) {
     return <div>로딩중</div>;
@@ -48,8 +57,8 @@ const RoomDetail = () => {
 
   return (
     <RoomDetailStyle>
-      <div className="muteIcon" onClick={soundHandler}>
-        {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
+      <div className="muteIcon" onClick={changeMute}>
+        {isMute ? <FaVolumeHigh /> : <FaVolumeXmark />}
       </div>
       <Drawer
         roomData={roomData}
