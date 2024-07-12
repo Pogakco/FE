@@ -5,32 +5,75 @@ import {
 } from "@/utils/localStorage";
 import { useCallback, useState, useRef, useEffect } from "react";
 
+// TODO: 알람소리 정해지면 다르게 설정하기
+import focusMp3 from "../assets/audios/whistle.mp3";
+import shortBreakMp3 from "../assets/audios/whistle.mp3";
+import longBreakMp3 from "../assets/audios/whistle.mp3";
+import endMp3 from "../assets/audios/whistle.mp3";
+
 const LOCALSORAGE_ITEM = "isMuted";
 
-// TODO: 알람 소리 정해지면 모든 소리의 길이를 일정하게 맞추는 작업하기
 const useAlarm = () => {
-  const focusAlarm = useRef(new Audio("src/assets/audios/ready.mp3"));
-  const shortBreakTAlarm = useRef(new Audio("src/assets/audios/bb_bb.mp3"));
-  const longBreakAlarm = useRef(
-    new Audio("src/assets/audios/twinkle_star.mp3")
-  );
+  const focusAlarm = useRef<HTMLAudioElement | null>(null);
+  const shortBreakTAlarm = useRef<HTMLAudioElement | null>(null);
+  const longBreakAlarm = useRef<HTMLAudioElement | null>(null);
+  const endAlarm = useRef<HTMLAudioElement | null>(null);
 
   const [isMute, setIsMute] = useState<boolean>(
     getLocalStorage(LOCALSORAGE_ITEM) === "true" ? true : false
   );
 
+  const [audioLoaded, setAudioLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    focusAlarm.current = new Audio(focusMp3);
+    shortBreakTAlarm.current = new Audio(shortBreakMp3);
+    longBreakAlarm.current = new Audio(longBreakMp3);
+    endAlarm.current = new Audio(endMp3);
+
+    const handleCanPlayThrough = () => {
+      setAudioLoaded(true);
+    };
+
+    const audios = [
+      focusAlarm.current,
+      shortBreakTAlarm.current,
+      longBreakAlarm.current,
+      endAlarm.current
+    ];
+
+    audios.forEach((audio) => {
+      if (audio) {
+        audio.addEventListener("canplaythrough", handleCanPlayThrough, {
+          once: true
+        }); // 오디오가 중단 없이 끝까지 재생될 수 있도록 충분한 데이터를 로드
+      }
+    });
+
+    return () => {
+      audios.forEach((audio) => {
+        if (audio) {
+          audio.removeEventListener("canplaythrough", handleCanPlayThrough);
+        }
+      });
+    };
+  }, []);
+
   const _playAlarm = useCallback(
-    (alarm: React.MutableRefObject<HTMLAudioElement>) => {
-      if (!isMute) {
-        alarm.current.play();
+    (alarm: React.MutableRefObject<HTMLAudioElement | null>) => {
+      if (audioLoaded && !isMute && alarm.current) {
+        alarm.current.play().catch((err) => {
+          console.error(err);
+        });
       }
     },
-    [isMute]
+    [audioLoaded, isMute]
   );
 
   const playFocusAlarm = () => _playAlarm(focusAlarm);
   const playShortBreakAlarm = () => _playAlarm(shortBreakTAlarm);
   const playLongBreakAlarm = () => _playAlarm(longBreakAlarm);
+  const playEndAlarm = () => _playAlarm(endAlarm);
 
   const changeMute = useCallback(() => {
     if (isMute) {
@@ -43,12 +86,22 @@ const useAlarm = () => {
 
   useEffect(() => {
     if (isMute) {
-      focusAlarm.current.pause(); // 오디오 끄기
-      focusAlarm.current.currentTime = 0; // 재생 위치 초기화
-      shortBreakTAlarm.current.pause();
-      shortBreakTAlarm.current.currentTime = 0;
-      longBreakAlarm.current.pause();
-      longBreakAlarm.current.currentTime = 0;
+      if (focusAlarm.current) {
+        focusAlarm.current.pause();
+        focusAlarm.current.currentTime = 0;
+      }
+      if (shortBreakTAlarm.current) {
+        shortBreakTAlarm.current.pause();
+        shortBreakTAlarm.current.currentTime = 0;
+      }
+      if (longBreakAlarm.current) {
+        longBreakAlarm.current.pause();
+        longBreakAlarm.current.currentTime = 0;
+      }
+      if (endAlarm.current) {
+        endAlarm.current.pause();
+        endAlarm.current.currentTime = 0;
+      }
     }
   }, [isMute]);
 
@@ -56,6 +109,7 @@ const useAlarm = () => {
     playFocusAlarm,
     playShortBreakAlarm,
     playLongBreakAlarm,
+    playEndAlarm,
     changeMute,
     isMute
   };
