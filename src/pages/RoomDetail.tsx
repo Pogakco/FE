@@ -1,7 +1,6 @@
 import CircleButton from "@/components/buttons/CircleButton";
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,10 +9,10 @@ import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
+import useAlarm from "@/hooks/useAlarm";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [activeSound, setActiveSound] = useState<boolean>(false);
   const { data: roomData, isLoading, error } = useFetchRoomDetail(id);
   const {
     syncedIsRunning,
@@ -24,12 +23,27 @@ const RoomDetail = () => {
   } = useEmitSocket();
   const navigate = useNavigate();
 
+  const {
+    playFocusAlarm,
+    playShortBreakAlarm,
+    playLongBreakAlarm,
+    playEndAlarm,
+    changeMute,
+    isMute
+  } = useAlarm();
+
   console.log(syncedAllParticipants);
 
-  const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
-  const soundHandler = () => {
-    setActiveSound(!activeSound);
-  };
+  const { timerTime, status } = useTimer({
+    roomData,
+    syncedStartedAt,
+    syncedIsRunning,
+    syncedCurrentCycles,
+    playFocusAlarm,
+    playShortBreakAlarm,
+    playLongBreakAlarm,
+    playEndAlarm
+  });
 
   const exitButtonHandler = () => {
     navigate("/");
@@ -49,8 +63,8 @@ const RoomDetail = () => {
 
   return (
     <RoomDetailStyle>
-      <div className="muteIcon" onClick={soundHandler}>
-        {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
+      <div className="muteIcon" onClick={changeMute}>
+        {isMute ? <FaVolumeHigh /> : <FaVolumeXmark />}
       </div>
       <Drawer
         roomData={roomData}
@@ -86,7 +100,7 @@ const RoomDetailStyle = styled.div`
 
   .muteIcon {
     position: absolute;
-    top:40px;
+    top: 40px;
     right: 50px;
     font-size: 50px;
     color: #ff8080;
