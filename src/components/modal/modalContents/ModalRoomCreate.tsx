@@ -52,6 +52,7 @@ const ModalRoomCreate = () => {
               inputfield={item}
               type={item.field === "maxParticipants" ? "number" : "input"} 
               schema="auth"
+              placeholder={item.placeHolder? item.placeHolder : ""}
               defaultValue={initialValues[item.field as keyof IcreateRoomForm]}
               {...register(item.field as keyof IcreateRoomForm, {
                 required: {
@@ -76,6 +77,7 @@ const ModalRoomCreate = () => {
             <InputField
               type="number"
               inputfield={item}
+              placeholder={item.placeHolder? item.placeHolder : ""}
               schema="auth"
               defaultValue={initialValues[item.field as keyof IcreateRoomForm]}
               {...register(item.field as keyof IcreateRoomForm, {
