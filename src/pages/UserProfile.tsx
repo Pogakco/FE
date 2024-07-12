@@ -1,6 +1,6 @@
 import SquareButton from "@/components/buttons/SquareButton";
 import InputField from "@/components/inputField/InputField";
-import { ISignup } from "@/models/auth.model";
+
 import { SubmitHandler } from "react-hook-form";
 import { UserProfileStyle } from "./UserStyle";
 import { AUTH_REGEX } from "@/constants/regex";
@@ -12,9 +12,9 @@ import useAuth from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import useFormValidation from "@/hooks/useFormValidation";
 import UserImage from "@/components/user/userProfile/UserImage";
+import useFetchProfile from "@/hooks/queries/useFetchProfile";
 
 interface IValidate {
-  // profileImage?: File;
   nickname: string;
   password?: string;
   passwordCheck?: string;
@@ -33,7 +33,8 @@ const UserProfile = () => {
     handleDuplicate
   } = useFormValidation<IValidate>();
 
-  const { userProfile, userChangeProfile, profile, isError } = useAuth();
+  const { userChangeProfile, isError } = useAuth();
+  const { profile } = useFetchProfile();
 
   const onSubmit: SubmitHandler<IValidate> = () => {
     const formData = new FormData();
@@ -51,11 +52,6 @@ const UserProfile = () => {
 
     userChangeProfile(formData);
   };
-
-  // 페이지 마운트 될 때 내 프로필 정보 가져옴
-  useEffect(() => {
-    userProfile();
-  }, [userProfile]);
 
   // 프로필 이미지 가져오기
   useEffect(() => {
