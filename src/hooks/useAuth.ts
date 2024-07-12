@@ -56,7 +56,6 @@ const useAuth = () => {
   const [isNicknameError, setIsNicknameError] = useState<AxiosError | null>(
     null
   );
-  const [profile, setProfile] = useState<IProfile | null>(null);
 
   const userSignup = (formData: ISignup) => {
     signup(formData)
@@ -132,16 +131,6 @@ const useAuth = () => {
       });
   };
 
-  const userProfile = useCallback(() => {
-    getProfile()
-      .then((data) => {
-        setProfile(data);
-      })
-      .catch((err) => {
-        showBoundary(err);
-      });
-  }, [showBoundary]);
-
   const userCheckPassword = useCallback(
     (formData: IResetPassword) => {
       checkPassword(formData)
@@ -181,10 +170,8 @@ const useAuth = () => {
     userLogout,
     userCheckDuplicateEmail,
     userCheckDuplicateNickname,
-    userProfile,
     userCheckPassword,
     userChangeProfile,
-    profile,
     isError,
     isEmailError,
     isNicknameError
