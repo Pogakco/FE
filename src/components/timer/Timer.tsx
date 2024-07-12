@@ -1,3 +1,4 @@
+import { IroomData } from "@/models/room.model";
 import { TtimerStatus } from "@/models/timer.model";
 import { formatTime } from "@/utils/formatTime";
 import { getColorByStatus, getMessageByStatus, percent } from "@/utils/timerUi";
@@ -7,17 +8,17 @@ import styled, { useTheme } from "styled-components";
 interface Props {
   timerTime: number;
   status: TtimerStatus;
+  roomData: IroomData;
 }
 
-const Timer = ({ timerTime, status }: Props) => {
+const Timer = ({ timerTime, status, roomData }: Props) => {
   const theme = useTheme();
   const progressBarColor = getColorByStatus(status, theme);
-
   return (
     <TimerStyle $status={status}>
       <CircularProgressbar
         className="circular"
-        value={percent(status, timerTime)}
+        value={percent(status, timerTime, roomData)}
         strokeWidth={6}
         styles={{
           path: {
@@ -62,6 +63,7 @@ const TimerStyle = styled.div<TimerStyleProps>`
     bottom: 110px;
     left: 50%;
     transform: translate(-50%, 0);
+    font-weight: semibold;
     color: ${({ $status, theme }) => getColorByStatus($status, theme).main};
   }
 

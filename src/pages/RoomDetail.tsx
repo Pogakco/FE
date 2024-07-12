@@ -34,7 +34,7 @@ const RoomDetail = () => {
 
   const { timerTime, status } = useTimer({
     roomData,
-    syncedStartedAt,  
+    syncedStartedAt,
     syncedIsRunning,
     syncedCurrentCycles,
     playFocusAlarm,
@@ -67,14 +67,15 @@ const RoomDetail = () => {
           syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles
         }
       />
-      <Timer timerTime={timerTime} status={status} />
+      <Timer timerTime={timerTime} status={status} roomData={roomData} />
       <SquareButton
         buttonColor="active"
         buttonSize="medium"
-        onClick={handleClickCyclesStartButton}>
+        onClick={handleClickCyclesStartButton}
+      >
         시작하기
       </SquareButton>
-      <RoomButtons id={id}/>
+      <RoomButtons id={id} />
     </RoomDetailStyle>
   );
 };

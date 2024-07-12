@@ -1,17 +1,22 @@
+import { IroomData } from "@/models/room.model";
 import { TtimerStatus } from "@/models/timer.model";
 import { DefaultTheme } from "styled-components";
 
-export const percent = (status: TtimerStatus, current: number) => {
+export const percent = (
+  status: TtimerStatus,
+  current: number,
+  roomData: IroomData
+) => {
   let total;
   switch (status) {
     case "focusTime":
-      total = 25;
+      total = roomData.focusTime;
       return ((total - current + 1) / total) * 100;
     case "shortBreakTime":
-      total = 5;
+      total = roomData.shortBreakTime;
       return 100 - ((total - current + 1) / total) * 100;
     case "longBreakTime":
-      total = 30;
+      total = roomData.longBreakTime;
       return ((total - current + 1) / total) * 100;
     default:
       return 0;
