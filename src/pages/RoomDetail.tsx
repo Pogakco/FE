@@ -13,6 +13,7 @@ import useTimer from "@/hooks/useTimer";
 import useFetchRoomUsers from "@/hooks/queries/useFetchRoomUsers";
 import { useQueryClient } from "@tanstack/react-query";
 import { SOCKET_TIMER_STATUS } from "@/constants/socket";
+import Loading from "@/components/commons/Loading";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,12 +21,10 @@ const RoomDetail = () => {
   const {
     data: roomData,
     isLoading: roomDataIsLoading,
-    error
   } = useFetchRoomDetail(id);
   const {
     data: userData,
     isLoading: userDataIsLoading,
-    isError
   } = useFetchRoomUsers(id);
   const queryClient = useQueryClient();
 
@@ -61,14 +60,10 @@ const RoomDetail = () => {
   };
 
   if (roomDataIsLoading || userDataIsLoading) {
-    return <div>로딩중</div>;
+    return <div><Loading/></div>;
   }
 
-  if (error) {
-    return <div>에러 {error.message}</div>;
-  }
-
-  if (!roomData || !userData) return null; // 데이터를 불러오기 전 렌더링 방지
+  if (!roomData || !userData) return null;
 
   return (
     <RoomDetailStyle>
