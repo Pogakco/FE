@@ -1,7 +1,7 @@
 import CircleButton from "@/components/buttons/CircleButton";
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,29 +11,47 @@ import useEmitSocket from "@/hooks/useEmitSocket";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
 import useFetchRoomUsers from "@/hooks/queries/useFetchRoomUsers";
+import { useQueryClient } from "@tanstack/react-query";
+import { SOCKET_TIMER_STATUS } from "@/constants/socket";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [activeSound, setActiveSound] = useState<boolean>(false);
-  const { data: roomData, isLoading : roomDataIsLoading, error, refetch : roomRefetch } = useFetchRoomDetail(id);
-  const { data : userData, isLoading : userDataIsLoading, isError, refetch : userRefetch } = useFetchRoomUsers(id); 
+  const {
+    data: roomData,
+    isLoading: roomDataIsLoading,
+    error
+  } = useFetchRoomDetail(id);
+  const {
+    data: userData,
+    isLoading: userDataIsLoading,
+    isError
+  } = useFetchRoomUsers(id);
+  const queryClient = useQueryClient();
 
   const {
     syncedIsRunning,
     syncedAllParticipants,
     syncedCurrentCycles,
     syncedStartedAt,
-    handleClickCyclesStartButton
+    handleClickCyclesStartButton,
+    clearSyncedData
   } = useEmitSocket();
   const navigate = useNavigate();
-  const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
-  useEffect(()=>{
-    console.log(status);
-    if(status === "set") {
-      roomRefetch();
-      userRefetch();
+  const { timerTime, status } = useTimer({
+    roomData,
+    syncedStartedAt,
+    syncedIsRunning,
+    syncedCurrentCycles
+  });
+  useEffect(() => {
+    if (status === SOCKET_TIMER_STATUS.SET) {
+      clearSyncedData();
+      queryClient.invalidateQueries({queryKey: ['rooms']});
+      queryClient.invalidateQueries({queryKey: ['rooms/users']});
+      console.log(roomData, userData)
     }
-  }, [status])
+  }, [status, syncedIsRunning]);
   const soundHandler = () => {
     setActiveSound(!activeSound);
   };
@@ -42,7 +60,7 @@ const RoomDetail = () => {
     navigate("/");
   };
 
-  if (roomDataIsLoading || userDataIsLoading ) {
+  if (roomDataIsLoading || userDataIsLoading) {
     return <div>로딩중</div>;
   }
 
@@ -59,10 +77,16 @@ const RoomDetail = () => {
       </div>
       <Drawer
         roomData={roomData}
-        isRunning={status !== "set"}
-        currentCycle={syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles}
-        participants={syncedAllParticipants ? syncedAllParticipants : userData.users}
-        activeUsers={syncedAllParticipants === null ? userData.activeParticipants : syncedAllParticipants.length }
+        isRunning={status !== SOCKET_TIMER_STATUS.SET}
+        currentCycle={
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles
+        }
+        participants={
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.users : syncedAllParticipants
+        }
+        activeUsers={
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length
+        }
       />
       <Timer timerTime={timerTime} status={status} />
       <SquareButton
@@ -91,7 +115,7 @@ const RoomDetailStyle = styled.div`
 
   .muteIcon {
     position: absolute;
-    top:40px;
+    top: 40px;
     right: 50px;
     font-size: 50px;
     color: #ff8080;

@@ -20,6 +20,13 @@ const useEmitSocket = () => {
     socket.emit(SOCKET_TIMER_EVENTS.START_CYCLES);
   };
 
+  const clearSyncedData = () => {
+    setSyncedIsRunning(null);
+    setSyncedStartedAt(null);
+    setSyncedCurrentCycles(null);
+    setSyncedAllParticipants(null);
+  }
+
   useEffect(() => {
     const roomId = location.pathname.match(/\/rooms\/(\d+)/)![1];
     const socket = io(`${SOCKET_URL}${roomId}`, {
@@ -36,7 +43,7 @@ const useEmitSocket = () => {
     });
 
     socket.on(SOCKET_CONNECTION.DISCONNECT, () => {
-      // toast.success("방을 잠시 나오셨습니다.");
+      //
     });
 
     setSocket(socket);
@@ -70,7 +77,8 @@ const useEmitSocket = () => {
     syncedAllParticipants,
     syncedCurrentCycles,
     syncedStartedAt,
-    handleClickCyclesStartButton
+    handleClickCyclesStartButton,
+    clearSyncedData
   };
 };
 
