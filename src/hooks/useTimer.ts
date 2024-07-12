@@ -10,13 +10,21 @@ interface IuseTimer {
   syncedIsRunning: boolean | null;
   syncedStartedAt: string | null;
   syncedCurrentCycles: number | null;
+  playFocusAlarm: () => void;
+  playShortBreakAlarm: () => void;
+  playLongBreakAlarm: () => void;
+  playEndAlarm: () => void;
 }
 
 const useTimer = ({
   roomData,
   syncedStartedAt,
   syncedIsRunning,
-  syncedCurrentCycles
+  syncedCurrentCycles,
+  playFocusAlarm,
+  playShortBreakAlarm,
+  playLongBreakAlarm,
+  playEndAlarm
 }: IuseTimer): { timerTime: number; status: TtimerStatus } => {
   const [timerTime, setTimerTime] = useState<number>(0);
   const [status, setStatus] = useState<TtimerStatus>(
@@ -43,7 +51,11 @@ const useTimer = ({
           focusTime,
           shortBreakTime,
           totalCycles,
-          longBreakTime
+          longBreakTime,
+          playFocusAlarm,
+          playShortBreakAlarm,
+          playLongBreakAlarm,
+          playEndAlarm
         );
         setStatus(status);
 
