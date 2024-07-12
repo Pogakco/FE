@@ -59,7 +59,7 @@ export const MainStyle = styled.div`
   }
 
   .createButton {
-    position: fixed;
+    position: absolute;
     bottom: 50px;
     right: 50px;
   }

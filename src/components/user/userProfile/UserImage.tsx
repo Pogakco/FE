@@ -57,6 +57,7 @@ const UserImage = ({ url, setUrl, setFile }: Props) => {
       <Profile size="large" url={url || ""} />
       {/* input을 대체할 버튼 */}
       <CircleButton
+      buttonColor="active"
         buttonSize="small"
         onClick={() => inputRef.current?.click()}
       >

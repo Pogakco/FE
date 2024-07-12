@@ -23,7 +23,8 @@ export type TButtonColor =
   | "defaultHover"
   | "active"
   | "activeHover"
-  | "delete";
+  | "delete"
+  | "deleteHover";
 export type TSquareButtonSize = "large" | "medium" | "small";
 export type ToverLay = "default"
 
@@ -141,9 +142,15 @@ export const light: ITheme = {
       stroke: "#FF8080"
     },
     delete: {
+      color: "#CD1818",
+      background: "#fff",
+      stroke: "#CD1818"
+    },
+    deleteHover : {
       color: "#fff",
       background: "#CD1818",
-      stroke: "#CD1818"
+      stroke: "#fff"
+
     }
   },
   squareButtonSize: {

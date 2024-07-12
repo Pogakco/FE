@@ -1,15 +1,14 @@
-import CircleButton from "@/components/buttons/CircleButton";
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
 import { useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
-import { RiLogoutBoxRLine } from "react-icons/ri";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
+import RoomButtons from "@/components/roomDetail/RoomButtons";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,17 +21,17 @@ const RoomDetail = () => {
     syncedStartedAt,
     handleClickCyclesStartButton
   } = useEmitSocket();
-  const navigate = useNavigate();
 
   console.log(syncedAllParticipants);
 
-  const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
+  const { timerTime, status } = useTimer({
+    roomData,
+    syncedStartedAt,
+    syncedIsRunning,
+    syncedCurrentCycles
+  });
   const soundHandler = () => {
     setActiveSound(!activeSound);
-  };
-
-  const exitButtonHandler = () => {
-    navigate("/");
   };
 
   if (isLoading) {
@@ -63,15 +62,10 @@ const RoomDetail = () => {
       <SquareButton
         buttonColor="active"
         buttonSize="medium"
-        onClick={handleClickCyclesStartButton}
-      >
+        onClick={handleClickCyclesStartButton}>
         시작하기
       </SquareButton>
-      <div className="exitButton">
-        <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
-          <RiLogoutBoxRLine />
-        </CircleButton>
-      </div>
+      <RoomButtons id={id}/>
     </RoomDetailStyle>
   );
 };
@@ -86,17 +80,11 @@ const RoomDetailStyle = styled.div`
 
   .muteIcon {
     position: absolute;
-    top:40px;
+    top: 40px;
     right: 50px;
     font-size: 50px;
     color: #ff8080;
     cursor: pointer;
-  }
-
-  .exitButton {
-    position: absolute;
-    bottom: 50px;
-    right: 50px;
   }
 `;
 export default RoomDetail;

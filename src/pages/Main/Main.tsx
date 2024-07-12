@@ -109,7 +109,7 @@ const Main = () => {
           {pagination && <Pagination pagination={pagination} />}
         </div>
         <div className="createButton" onClick={handleCreateButtonClick}>
-          <CircleButton buttonSize="large">
+          <CircleButton buttonColor="active" buttonSize="large">
             <IoMdAdd />
           </CircleButton>
         </div>
