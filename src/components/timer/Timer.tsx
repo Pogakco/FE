@@ -1,46 +1,73 @@
+import { IroomData } from "@/models/room.model";
 import { TtimerStatus } from "@/models/timer.model";
 import { formatTime } from "@/utils/formatTime";
-import styled from "styled-components";
+import { getColorByStatus, getMessageByStatus, percent } from "@/utils/timerUi";
+import { CircularProgressbar } from "react-circular-progressbar";
+import styled, { useTheme } from "styled-components";
 
 interface Props {
   timerTime: number;
   status: TtimerStatus;
+  roomData: IroomData;
 }
 
-const Timer = ({ timerTime, status }: Props) => {
+const Timer = ({ timerTime, status, roomData }: Props) => {
+  const theme = useTheme();
+  const progressBarColor = getColorByStatus(status, theme);
   return (
-    <TimerContainer $isCritical={timerTime <= 3} $status={status}>
-      {formatTime(timerTime)}
-    </TimerContainer>
+    <TimerStyle $status={status}>
+      <CircularProgressbar
+        className="circular"
+        value={percent(status, timerTime, roomData)}
+        strokeWidth={6}
+        styles={{
+          path: {
+            stroke: progressBarColor.main,
+            height: "100%",
+            strokeLinecap: "round",
+            transition: "stroke-dashoffset 1s linear 0s"
+          },
+          trail: {
+            stroke: progressBarColor.trail
+          }
+        }}
+      />
+      <div className="time"> {formatTime(timerTime)}</div>
+      <div className="message">{getMessageByStatus(status)}</div>
+    </TimerStyle>
   );
 };
 
-const getColorByStatus = (status: TtimerStatus, theme: any) => {
-  switch (status) {
-    case "focusTime":
-      return theme.color.pink6;
-    case "shortBreakTime":
-      return theme.color.pink4;
-    case "longBreakTime":
-      return theme.color.grey3;
-    default:
-      return theme.color.pink3;
-  }
-};
+interface TimerStyleProps {
+  $status: TtimerStatus;
+}
+const TimerStyle = styled.div<TimerStyleProps>`
+  position: relative;
 
-const TimerContainer = styled.div<{ $isCritical: boolean; $status: TtimerStatus }>`
-  width: 335px;
-  height: 335px;
-  border-radius: 335px;
-  background-color: ${({ $status, theme }) => getColorByStatus($status, theme)};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 64px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 40px;
-  transition: all 0.2s;
+  .circular {
+    width: 335px;
+    height: 335px;
+  }
+  .time {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    font-size: 64px;
+    font-weight: semibold;
+    transition: all 0.2s;
+    color: ${({ $status, theme }) => getColorByStatus($status, theme).main};
+  }
+  .message {
+    position: absolute;
+    bottom: 110px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-weight: semibold;
+    color: ${({ $status, theme }) => getColorByStatus($status, theme).main};
+  }
+
+  margin-bottom: 20px;
 `;
 
 export default Timer;
