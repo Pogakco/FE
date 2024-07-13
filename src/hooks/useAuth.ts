@@ -49,6 +49,7 @@ const useAuth = () => {
   const navigate = useNavigate();
   const { storeLogin, storeLogout } = useAuthStore();
   const { showBoundary } = useErrorBoundary();
+  const [isSuccess, setSuccess] = useState<boolean>(false);
   const [isError, setError] = useState<AxiosError | null>(null);
   const [isEmailError, setIsEmailError] = useState<AxiosError | null>(null);
   const [isNicknameError, setIsNicknameError] = useState<AxiosError | null>(
@@ -62,7 +63,7 @@ const useAuth = () => {
         toast.success(TOAST_MESSAGE.signup.success);
       })
       .catch((err) => {
-        if (isConflictError(err)) {
+        if (isConflictError(err) || isBadRequestError(err)) {
           setError(err);
         } else {
           showBoundary(err);
@@ -133,7 +134,8 @@ const useAuth = () => {
     (formData: IResetPassword) => {
       checkPassword(formData)
         .then(() => {
-          navigate("/profile");
+          setSuccess(true);
+          // navigate("/profile");
         })
         .catch((err) => {
           if (isBadRequestError(err)) {
@@ -143,7 +145,7 @@ const useAuth = () => {
           }
         });
     },
-    [showBoundary, navigate]
+    [showBoundary]
   );
 
   const userChangeProfile = (formdata: FormData) => {
@@ -170,6 +172,7 @@ const useAuth = () => {
     userCheckDuplicateNickname,
     userCheckPassword,
     userChangeProfile,
+    isSuccess,
     isError,
     isEmailError,
     isNicknameError
