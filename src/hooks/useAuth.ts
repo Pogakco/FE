@@ -12,7 +12,7 @@ import {
   ISignup,
   ICheckDuplicateEmail,
   ICheckDuplicateNickname,
-  IResetPassword,
+  IResetPassword
 } from "@/models/auth.model";
 import { useAuthStore } from "@/store/authStore";
 import {
@@ -79,7 +79,7 @@ const useAuth = () => {
         toast.success(TOAST_MESSAGE.login.success);
       })
       .catch((err) => {
-        if (isTokenError(err)) {
+        if (isTokenError(err) || isBadRequestError(err)) {
           setError(err);
         } else {
           showBoundary(err);
@@ -107,7 +107,7 @@ const useAuth = () => {
         setIsEmailError(null);
       })
       .catch((err) => {
-        if (isConflictError(err)) {
+        if (isConflictError(err) || isBadRequestError(err)) {
           setIsEmailError(err);
         } else {
           showBoundary(err);
@@ -121,7 +121,7 @@ const useAuth = () => {
         setIsNicknameError(null);
       })
       .catch((err) => {
-        if (isConflictError(err)) {
+        if (isConflictError(err) || isBadRequestError(err)) {
           setIsNicknameError(err);
         } else {
           showBoundary(err);
@@ -153,7 +153,7 @@ const useAuth = () => {
         toast.success(TOAST_MESSAGE.changeProfile.success);
       })
       .catch((err) => {
-        if (isConflictError(err)) {
+        if (isConflictError(err) || isBadRequestError(err)) {
           setError(err);
         } else {
           showBoundary(err);

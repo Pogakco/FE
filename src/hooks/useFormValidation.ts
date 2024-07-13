@@ -42,14 +42,14 @@ const useFormValidation = <T extends FieldValues = FieldValues>() => {
     if (isEmailError) {
       setError("email" as Path<T>, {
         type: "email-duplicate",
-        message: "이미 존재하는 이메일입니다"
+        message: "이미 존재하는 이메일이거나 혹은 빈 값입니다"
       });
     }
 
     if (isNicknameError) {
       setError("nickname" as Path<T>, {
         type: "nickname-duplicate",
-        message: "이미 존재하는 닉네임입니다"
+        message: "이미 존재하는 닉네임이거나 빈 값입니다"
       });
     }
   }, [isEmailError, isNicknameError, setError]);
