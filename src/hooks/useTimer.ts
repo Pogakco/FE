@@ -16,7 +16,6 @@ interface IuseTimer {
   playEndAlarm: () => void;
 }
 
-
 const useTimer = ({
   roomData,
   syncedStartedAt,
@@ -43,6 +42,7 @@ const useTimer = ({
     if (isRunning) {
       const interval = setInterval(() => {
         const differenceTime = getDifferentTime(startAt);
+        console.log()
         console.log("차이시간", differenceTime);
         const { focusTime, shortBreakTime, totalCycles, longBreakTime } =
           roomData;

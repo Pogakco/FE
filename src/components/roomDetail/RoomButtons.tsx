@@ -4,15 +4,14 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import { MdDeleteForever, MdRemoveRedEye } from "react-icons/md";
 import useExitRoom from "@/hooks/mutations/useExitRoom";
 import { useNavigate } from "react-router-dom";
-import useDeleteRoom from "@/hooks/mutations/useDeleteRoom";
 
 interface Props {
   id: string | undefined;
+  deleteButtonHandler : () => void;
 }
 
-const RoomButtons = ({ id }: Props) => {
+const RoomButtons = ({ id, deleteButtonHandler }: Props) => {
   const { mutate: exitRoom } = useExitRoom(id);
-  const { mutate: deleteRoom } = useDeleteRoom(id);
   const navigate = useNavigate();
 
   const lookArountButtonHandler = () => {
@@ -21,10 +20,6 @@ const RoomButtons = ({ id }: Props) => {
 
   const exitButtonHandler = () => {
     exitRoom();
-  };
-
-  const deleteButtonHandler = () => {
-    deleteRoom();
   };
 
   return (
