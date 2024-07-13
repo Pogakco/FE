@@ -34,6 +34,7 @@ const RoomDetail = () => {
     syncedCurrentCycles,
     syncedStartedAt,
     handleClickCyclesStartButton,
+    handleClickRoomDeleteButton,
     clearSyncedData
   } = useEmitSocket();
 
@@ -60,19 +61,16 @@ const RoomDetail = () => {
   useEffect(() => {
     if (status === SOCKET_TIMER_STATUS.SET) {
       clearSyncedData();
-      queryClient.invalidateQueries({queryKey: [`rooms/${id}`]});
+      queryClient.invalidateQueries({queryKey: [`rooms/detail`]});
       queryClient.invalidateQueries({queryKey: ['rooms/users']});
-      console.log(roomData, userData)
     }
   }, [status, syncedIsRunning]);
   
-
-
   if (roomDataIsLoading || userDataIsLoading) {
     return <div><Loading/></div>;
   }
 
-  if (!roomData || !userData) return null;
+  if (!roomData || !userData) return;
 
   return (
     <RoomDetailStyle>
@@ -100,7 +98,7 @@ const RoomDetail = () => {
       >
         시작하기
       </SquareButton>
-      <RoomButtons id={id} />
+      <RoomButtons id={id} deleteButtonHandler={handleClickRoomDeleteButton} />
     </RoomDetailStyle>
   );
 };

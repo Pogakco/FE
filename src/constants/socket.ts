@@ -11,6 +11,8 @@ export const SOCKET_TIMER_EVENTS = {
     SYNC_IS_RUNNING: "sync-is-running",
     SYNC_ALL_PARTICIPANTS: "sync-all-participants",
     SYNC_CURRENT_CYCLES: "sync-current-cycles",
+    SYNC_ROOM_DELETED: "room-deleted",
+    DELETE_ROOM: "delete-room",
     ERROR: "timer-error",
 };
 

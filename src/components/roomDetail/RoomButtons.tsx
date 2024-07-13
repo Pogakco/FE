@@ -11,11 +11,11 @@ import CircleButton from "../buttons/CircleButton";
 
 interface Props {
   id: string | undefined;
+  deleteButtonHandler : () => void;
 }
 
-const RoomButtons = ({ id }: Props) => {
+const RoomButtons = ({ id, deleteButtonHandler }: Props) => {
   const { mutate: exitRoom } = useExitRoom(id);
-  const { mutate: deleteRoom } = useDeleteRoom(id);
   const navigate = useNavigate();
 
   const [isFloating, setIsFloating] = useState<boolean>(false);
