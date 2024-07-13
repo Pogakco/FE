@@ -4,7 +4,7 @@ import { fetchRoomDetail } from "@/api/roomDetail.api";
 
 const useFetchRoomDetail = (id : string | undefined) : UseQueryResult<IroomData, Error> => {
     return useQuery<IroomData, Error>({
-        queryKey: [id],
+        queryKey: [`rooms/${id}`],
         queryFn: () => fetchRoomDetail(id!),
         enabled: !!id,
         throwOnError: true

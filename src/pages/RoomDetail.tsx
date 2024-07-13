@@ -1,6 +1,6 @@
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useEffect, useRef, useState } from "react";
+import { useEffect} from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -17,7 +17,6 @@ import Loading from "@/components/commons/Loading";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [activeSound, setActiveSound] = useState<boolean>(false);
   const {
     data: roomData,
     isLoading: roomDataIsLoading,
@@ -61,7 +60,7 @@ const RoomDetail = () => {
   useEffect(() => {
     if (status === SOCKET_TIMER_STATUS.SET) {
       clearSyncedData();
-      queryClient.invalidateQueries({queryKey: ['rooms']});
+      queryClient.invalidateQueries({queryKey: [`rooms/${id}`]});
       queryClient.invalidateQueries({queryKey: ['rooms/users']});
       console.log(roomData, userData)
     }

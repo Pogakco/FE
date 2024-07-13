@@ -29,7 +29,7 @@ const useTimer = ({
 }: IuseTimer): { timerTime: number; status: TtimerStatus } => {
   const [timerTime, setTimerTime] = useState<number>(0);
   const [status, setStatus] = useState<TtimerStatus>(
-    SOCKET_TIMER_STATUS.SHORT_BREAK_TIME
+    SOCKET_TIMER_STATUS.SET
   );
 
   useEffect(() => {
@@ -38,7 +38,6 @@ const useTimer = ({
     const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
     if (!isRunning) {
       setTimerTime(roomData.focusTime);
-      setStatus(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME);
     }
 
     if (isRunning) {
