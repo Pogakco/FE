@@ -4,5 +4,5 @@ export const getDifferentTime = (serverStartTime: string) : number => {
     const timeDifferenceInMillis = now.getTime() - startDate.getTime();
     const timeDifferenceInSeconds = Math.floor(timeDifferenceInMillis / 1000);
 
-    return timeDifferenceInSeconds - 1;
+    return timeDifferenceInSeconds;
 }

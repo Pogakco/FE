@@ -1,5 +1,6 @@
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
+import { useEffect} from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -9,16 +10,31 @@ import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
 import useAlarm from "@/hooks/useAlarm";
 import RoomButtons from "@/components/roomDetail/RoomButtons";
+import useFetchRoomUsers from "@/hooks/queries/useFetchRoomUsers";
+import { useQueryClient } from "@tanstack/react-query";
+import { SOCKET_TIMER_STATUS } from "@/constants/socket";
+import Loading from "@/components/commons/Loading";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: roomData, isLoading, error } = useFetchRoomDetail(id);
+  const {
+    data: roomData,
+    isLoading: roomDataIsLoading,
+  } = useFetchRoomDetail(id);
+
+  const {
+    data: userData,
+    isLoading: userDataIsLoading,
+  } = useFetchRoomUsers(id);
+  const queryClient = useQueryClient();
+
   const {
     syncedIsRunning,
     syncedAllParticipants,
     syncedCurrentCycles,
     syncedStartedAt,
-    handleClickCyclesStartButton
+    handleClickCyclesStartButton,
+    clearSyncedData
   } = useEmitSocket();
 
   const {
@@ -29,8 +45,6 @@ const RoomDetail = () => {
     changeMute,
     isMute
   } = useAlarm();
-
-  console.log(syncedAllParticipants);
 
   const { timerTime, status } = useTimer({
     roomData,
@@ -43,17 +57,22 @@ const RoomDetail = () => {
     playEndAlarm
   });
 
-  if (isLoading) {
-    return <div>로딩중</div>;
+  useEffect(() => {
+    if (status === SOCKET_TIMER_STATUS.SET) {
+      clearSyncedData();
+      queryClient.invalidateQueries({queryKey: [`rooms/${id}`]});
+      queryClient.invalidateQueries({queryKey: ['rooms/users']});
+      console.log(roomData, userData)
+    }
+  }, [status, syncedIsRunning]);
+  
+
+
+  if (roomDataIsLoading || userDataIsLoading) {
+    return <div><Loading/></div>;
   }
 
-  if (error) {
-    return <div>에러 {error.message}</div>;
-  }
-
-  if (!roomData) {
-    return <div>방 정보 없음</div>;
-  }
+  if (!roomData || !userData) return null;
 
   return (
     <RoomDetailStyle>
@@ -62,9 +81,15 @@ const RoomDetail = () => {
       </div>
       <Drawer
         roomData={roomData}
-        isRunning={syncedIsRunning ? syncedIsRunning : roomData.isRunning}
+        isRunning={status !== SOCKET_TIMER_STATUS.SET}
         currentCycle={
-          syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles
+        }
+        participants={
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.users : syncedAllParticipants
+        }
+        activeUsers={
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length
         }
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />
