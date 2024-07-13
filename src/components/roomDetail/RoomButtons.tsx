@@ -1,4 +1,3 @@
-import useDeleteRoom from "@/hooks/mutations/useDeleteRoom";
 import useExitRoom from "@/hooks/mutations/useExitRoom";
 import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
@@ -26,10 +25,6 @@ const RoomButtons = ({ id, deleteButtonHandler }: Props) => {
 
   const exitButtonHandler = () => {
     exitRoom();
-  };
-
-  const deleteButtonHandler = () => {
-    deleteRoom();
   };
 
   const buttonList = [
@@ -70,24 +65,6 @@ const RoomButtons = ({ id, deleteButtonHandler }: Props) => {
               </CircleButton>
             </div>
           ))}
-          {/* <button className="item" onClick={deleteButtonHandler}>
-            방 삭제하기
-            <CircleButton buttonColor="active" buttonSize="small">
-              <MdOutlineDeleteOutline />
-            </CircleButton>
-          </button>
-          <button className="item" onClick={exitButtonHandler}>
-            방 나가기
-            <CircleButton buttonColor="active" buttonSize="small">
-              <RiLogoutBoxRLine className="small" />
-            </CircleButton>
-          </button>
-          <button className="item" onClick={lookArountButtonHandler}>
-            방 둘러보기
-            <CircleButton buttonColor="active" buttonSize="small">
-              <IoHomeOutline className="small" />
-            </CircleButton>
-          </button> */}
         </div>
       )}
     </RoomButtonsStyle>

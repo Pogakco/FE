@@ -4,7 +4,6 @@ import {
   signup,
   checkDuplicateEmail,
   checkDuplicateNickname,
-  getProfile,
   checkPassword,
   changeProfile
 } from "@/api/auth.api";
@@ -14,7 +13,6 @@ import {
   ICheckDuplicateEmail,
   ICheckDuplicateNickname,
   IResetPassword,
-  IProfile
 } from "@/models/auth.model";
 import { useAuthStore } from "@/store/authStore";
 import {

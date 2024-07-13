@@ -5,7 +5,7 @@ import {
   ICheckDuplicateNickname,
   IResetPassword
 } from "@/models/auth.model";
-import { createClient, httpClient, requestHandler } from "./apiClient";
+import { createClient, requestHandler } from "./apiClient";
 
 // auth
 export const auth = () => {
