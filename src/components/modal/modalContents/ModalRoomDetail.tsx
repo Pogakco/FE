@@ -21,14 +21,15 @@ const ModalRoomDetail = ({ roomData }: Props) => {
   const navigate = useNavigate();
 
   const handleWatchButton = () => {
-    navigate(`/rooms/${roomData.id}`);
+    navigate(`/rooms/${roomData.id}`, { state: { mode: "watch" } });
   };
 
   const handleJoinButton = () => {
-    if(roomData.isJoined) navigate(`/rooms/${roomData.id}`);
-    else mutate();
+    if (roomData.isJoined) {
+      navigate(`/rooms/${roomData.id}`, { state: { mode: "participant" } });
+    } else mutate();
   };
-  
+
   return (
     <ModalRoomDetailStyle>
       <ModalHeader>
@@ -52,30 +53,33 @@ const ModalRoomDetail = ({ roomData }: Props) => {
           scheme="default"
         />
       </span>
-      {isPending ?
-      <Loading/> :
-      <div className="buttons">
-        <SquareButton
-          buttonColor="active"
-          buttonSize="medium"
-          onClick={handleWatchButton}
-        >
-          관전하기
-        </SquareButton>
-        {isLoggedIn && (
+      {isPending ? (
+        <Loading />
+      ) : (
+        <div className="buttons">
           <SquareButton
-            buttonColor={isError ? "default" : "active"}
+            buttonColor="active"
             buttonSize="medium"
-            disabled={isError ? true : false}
-            onClick={handleJoinButton}
+            onClick={handleWatchButton}
           >
-            참가하기
+            관전하기
           </SquareButton>
-        )}
-      </div>
-      }
+          {isLoggedIn && (
+            <SquareButton
+              buttonColor={isError ? "default" : "active"}
+              buttonSize="medium"
+              disabled={isError ? true : false}
+              onClick={handleJoinButton}
+            >
+              참가하기
+            </SquareButton>
+          )}
+        </div>
+      )}
       {isError && error instanceof AxiosError && (
-        <div className="error">{error.response?.data?.message || "에러 발생"}</div>
+        <div className="error">
+          {error.response?.data?.message || "에러 발생"}
+        </div>
       )}
     </ModalRoomDetailStyle>
   );

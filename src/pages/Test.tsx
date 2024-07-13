@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import useAlarm from "@/hooks/useAlarm";
 import SquareButton from "@/components/buttons/SquareButton";
+import ModalRoomDelete from "@/components/modal/modalContents/ModalRoomDelete";
+import Modal from "@/components/modal/Modal";
 
 const Test = () => {
   const {
@@ -41,6 +43,9 @@ const Test = () => {
       >
         {isMute ? "소리 켜기" : "소리 끄기"}
       </SquareButton>
+      <Modal setIsModal={() => {}} onClose={() => {}} isRecheckType>
+        <ModalRoomDelete onCancel={() => {}} onDelete={() => {}} />
+      </Modal>
     </TestStyle>
   );
 };

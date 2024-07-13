@@ -1,31 +1,30 @@
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
 import useAlarm from "@/hooks/useAlarm";
-import RoomButtons from "@/components/roomDetail/RoomButtons";
+import RoomButtons, { TMode } from "@/components/roomDetail/RoomButtons";
 import useFetchRoomUsers from "@/hooks/queries/useFetchRoomUsers";
 import { useQueryClient } from "@tanstack/react-query";
 import { SOCKET_TIMER_STATUS } from "@/constants/socket";
 import Loading from "@/components/commons/Loading";
 
 const RoomDetail = () => {
-  const { id } = useParams<{ id: string }>();
-  const {
-    data: roomData,
-    isLoading: roomDataIsLoading,
-  } = useFetchRoomDetail(id);
+  const location = useLocation();
+  const mode: TMode = location.state?.mode;
 
-  const {
-    data: userData,
-    isLoading: userDataIsLoading,
-  } = useFetchRoomUsers(id);
+  const { id } = useParams<{ id: string }>();
+  const { data: roomData, isLoading: roomDataIsLoading } =
+    useFetchRoomDetail(id);
+
+  const { data: userData, isLoading: userDataIsLoading } =
+    useFetchRoomUsers(id);
   const queryClient = useQueryClient();
 
   const {
@@ -61,13 +60,17 @@ const RoomDetail = () => {
   useEffect(() => {
     if (status === SOCKET_TIMER_STATUS.SET) {
       clearSyncedData();
-      queryClient.invalidateQueries({queryKey: [`rooms/detail`]});
-      queryClient.invalidateQueries({queryKey: ['rooms/users']});
+      queryClient.invalidateQueries({ queryKey: [`rooms/detail`] });
+      queryClient.invalidateQueries({ queryKey: ["rooms/users"] });
     }
   }, [status, syncedIsRunning]);
-  
+
   if (roomDataIsLoading || userDataIsLoading) {
-    return <div><Loading/></div>;
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 
   if (!roomData || !userData) return;
@@ -75,19 +78,25 @@ const RoomDetail = () => {
   return (
     <RoomDetailStyle>
       <div className="muteIcon" onClick={changeMute}>
-        {isMute ? <FaVolumeHigh /> : <FaVolumeXmark />}
+        {isMute ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
       <Drawer
         roomData={roomData}
         isRunning={status !== SOCKET_TIMER_STATUS.SET}
         currentCycle={
-          (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles
+          status === SOCKET_TIMER_STATUS.SET || !syncedCurrentCycles
+            ? roomData.currentCycles
+            : syncedCurrentCycles
         }
         participants={
-          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.users : syncedAllParticipants
+          status === SOCKET_TIMER_STATUS.SET || !syncedAllParticipants
+            ? userData.users
+            : syncedAllParticipants
         }
         activeUsers={
-          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length
+          status === SOCKET_TIMER_STATUS.SET || !syncedAllParticipants
+            ? userData.activeParticipants
+            : syncedAllParticipants.length
         }
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />
@@ -98,7 +107,11 @@ const RoomDetail = () => {
       >
         시작하기
       </SquareButton>
-      <RoomButtons id={id} deleteButtonHandler={handleClickRoomDeleteButton} />
+      <RoomButtons
+        id={id}
+        deleteButtonHandler={handleClickRoomDeleteButton}
+        mode={mode}
+      />
     </RoomDetailStyle>
   );
 };
@@ -114,10 +127,15 @@ const RoomDetailStyle = styled.div`
   .muteIcon {
     position: absolute;
     top: 40px;
-    right: 50px;
+    right: 65px;
     font-size: 50px;
-    color: #ff8080;
+    color: ${({ theme }) => theme.color.pink6};
     cursor: pointer;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
   }
 `;
 export default RoomDetail;
