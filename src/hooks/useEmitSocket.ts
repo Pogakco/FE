@@ -16,7 +16,7 @@ const useEmitSocket = () => {
   const [syncedIsRunning, setSyncedIsRunning] = useState<boolean | null>(null);
   const [syncedStartedAt, setSyncedStartedAt] = useState<string | null>(null);
   const [syncedCurrentCycles, setSyncedCurrentCycles] = useState<number | null>(null);
-  const [syncedAlluserIds, setSyncedAllUserIds] = useState<number[] | null>(null);
+  const [syncedAllLinkeduserIds, setSyncedAllLinkedUserIds] = useState<number[] | null>(null);
   const [syncedAllParticipants, setSyncedAllParticipants] = useState<
     IParticipant[] | null
   >(null);
@@ -65,13 +65,11 @@ const useEmitSocket = () => {
       setSyncedCurrentCycles(currentCycles);
     };
     const onSyncedAllParticipants = (allParticipants: IParticipant[]) => {
-      console.log(allParticipants)
       setSyncedAllParticipants(allParticipants);
     };
 
     const onSyncedAllLinkedUserIds = (allLinkedUserIds : number[]) => {
-      console.log(allLinkedUserIds);
-      setSyncedAllUserIds(allLinkedUserIds);
+      setSyncedAllLinkedUserIds(allLinkedUserIds);
     }
 
     const onSyncedTimeError = (error: errorResponse) => {
@@ -100,7 +98,7 @@ const useEmitSocket = () => {
     syncedCurrentCycles,
     syncedStartedAt,
     syncedTimeError,
-    syncedAlluserIds,
+    syncedAllLinkeduserIds,
     handleClickCyclesStartButton,
     handleClickRoomDeleteButton,
     clearSyncedData

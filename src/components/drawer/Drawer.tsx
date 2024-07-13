@@ -22,7 +22,8 @@ interface IdrawerData {
     currentCycle : number | null,
     userData : IRoomUserData,  
     participants : IParticipant[]
-    activeUsers : number 
+    activeUsers : number,
+    linkedUserIds : number[] | null
   }>;
   icon: React.FC;
 }
@@ -32,7 +33,8 @@ interface Props {
   isRunning : boolean | null;
   currentCycle : number | null;
   participants : IParticipant[] | null;
-  activeUsers : number
+  activeUsers : number;
+  linkedUserIds : number[] | null;
 }
 
 const drawerData: IdrawerData[] = [
@@ -56,7 +58,7 @@ const drawerData: IdrawerData[] = [
   }
 ];
 
-const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers }: Props) => {
+const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers, linkedUserIds }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [selectDrawer, setSelectDrawer] = useState<string | null>(null);
@@ -82,7 +84,7 @@ const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers }
       <DrawerStyle open={open} ref={drawerRef}>
         <DrawerContents>
           {selectDrawer === "info" && <RoomInfo roomData={roomData} isRunning={isRunning} currentCycle={currentCycle} />}
-          {selectDrawer === "user" && <RoomActiveUser participants={participants} activeUsers={activeUsers}/>}
+          {selectDrawer === "user" && <RoomActiveUser participants={participants} activeUsers={activeUsers} linkedUserIds={linkedUserIds}/>}
           {selectDrawer === "community" && <RoomCommunity />}
         </DrawerContents>
         <DrawerController>

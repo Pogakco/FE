@@ -6,13 +6,14 @@ interface Props {
     nickname: string;
     profileImageUrl?: string;
     pomodoroCount: number;
+    isWaiting : boolean ;
     isActive: boolean;
   }
 }
 
 const UserListBox = ({ rank, user }: Props) => {
   return (
-    <UserListCardStyle $rank={rank}>
+    <UserListCardStyle $rank={rank} $isWaiting={user.isWaiting}>
       {rank <= 2 ? (
         <div className='userRank'>{rank + 1}</div>
       ) : (
@@ -25,7 +26,7 @@ const UserListBox = ({ rank, user }: Props) => {
   );
 };
 
-const UserListCardStyle = styled.div<{ $rank: number }>`
+const UserListCardStyle = styled.div<{ $rank: number, $isWaiting: boolean }>`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -34,6 +35,7 @@ const UserListCardStyle = styled.div<{ $rank: number }>`
   padding: 5px 5px;
   border-bottom: 1px solid ${({ theme }) => theme.color.grey2};
   transition: all 0.2s;
+  opacity: ${({$isWaiting}) => $isWaiting ? "1" : "0.5"};
 
   &:hover {
     scale: 1.05;

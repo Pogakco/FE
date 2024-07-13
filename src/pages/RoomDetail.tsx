@@ -33,6 +33,7 @@ const RoomDetail = () => {
     syncedAllParticipants,
     syncedCurrentCycles,
     syncedStartedAt,
+    syncedAllLinkeduserIds,
     handleClickCyclesStartButton,
     handleClickRoomDeleteButton,
     clearSyncedData
@@ -83,6 +84,7 @@ const RoomDetail = () => {
         currentCycle={
           (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles}
         participants={syncedAllParticipants}
+        linkedUserIds={syncedAllLinkeduserIds}
         activeUsers={(status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length}
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />
