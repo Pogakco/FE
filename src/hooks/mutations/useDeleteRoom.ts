@@ -1,4 +1,5 @@
 import { deleteRoom } from "@/api/roomDetail.api";
+import { errorResponse } from "@/models/error.model";
 import { useMutation, UseMutationResult, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
@@ -21,12 +22,9 @@ const useDeleteRoom = (
             queryClient.invalidateQueries({ queryKey: ['rooms'] });
             navigate(`/`);
         },
-        onError: (error: AxiosError | Error) => {
-            const message = error instanceof AxiosError 
-                ? error.response?.data?.message || '에러가 발생하였습니다'
-                : error.message;
-            toast.error(message);
-        }
+        onError: (error: AxiosError<errorResponse>) => {
+            toast.error(error.response?.data.message || "에러가 발생했습니다.");
+          }
     });
 }
 
