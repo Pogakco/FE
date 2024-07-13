@@ -59,7 +59,7 @@ const RoomDetail = () => {
   });
 
   useEffect(() => {
-    if (status === SOCKET_TIMER_STATUS.SET) {
+    if (status === SOCKET_TIMER_STATUS.END) {
       clearSyncedData();
       queryClient.invalidateQueries({queryKey: [`rooms/detail`]});
       queryClient.invalidateQueries({queryKey: ['rooms/users']});
@@ -79,16 +79,11 @@ const RoomDetail = () => {
       </div>
       <Drawer
         roomData={roomData}
-        isRunning={status !== SOCKET_TIMER_STATUS.SET}
+        isRunning={syncedIsRunning}
         currentCycle={
-          (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles
-        }
-        participants={
-          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.users : syncedAllParticipants
-        }
-        activeUsers={
-          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length
-        }
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles}
+        participants={syncedAllParticipants}
+        activeUsers={(status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length}
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />
       <SquareButton

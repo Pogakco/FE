@@ -4,12 +4,12 @@ import { IParticipant } from "@/models/roomDetail.model";
 import UserListBox from "./UserListBox";
 
 interface Props {
-  participants: IParticipant[];
+  participants: IParticipant[] | null;
   activeUsers: number;
 }
 
 const RoomActiveUser = ({ participants, activeUsers }: Props) => {
-  if (activeUsers === undefined || participants === undefined) {
+  if (activeUsers === null || participants === null) {
     return null;
   }
   const sortedParticipants = [...participants].sort((a, b) => b.pomodoroCount - a.pomodoroCount);

@@ -31,7 +31,7 @@ interface Props {
   roomData: IroomData;
   isRunning : boolean | null;
   currentCycle : number | null;
-  participants : IParticipant[]
+  participants : IParticipant[] | null;
   activeUsers : number
 }
 

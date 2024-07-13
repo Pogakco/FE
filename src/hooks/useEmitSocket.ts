@@ -15,9 +15,8 @@ const useEmitSocket = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [syncedIsRunning, setSyncedIsRunning] = useState<boolean | null>(null);
   const [syncedStartedAt, setSyncedStartedAt] = useState<string | null>(null);
-  const [syncedCurrentCycles, setSyncedCurrentCycles] = useState<number | null>(
-    null
-  );
+  const [syncedCurrentCycles, setSyncedCurrentCycles] = useState<number | null>(null);
+  const [syncedAlluserIds, setSyncedAllUserIds] = useState<number[] | null>(null);
   const [syncedAllParticipants, setSyncedAllParticipants] = useState<
     IParticipant[] | null
   >(null);
@@ -34,10 +33,8 @@ const useEmitSocket = () => {
   };
 
   const clearSyncedData = () => {
-    setSyncedIsRunning(null);
     setSyncedStartedAt(null);
     setSyncedCurrentCycles(null);
-    setSyncedAllParticipants(null);
     setSyncedTimeError(null);
   };
 
@@ -68,8 +65,14 @@ const useEmitSocket = () => {
       setSyncedCurrentCycles(currentCycles);
     };
     const onSyncedAllParticipants = (allParticipants: IParticipant[]) => {
+      console.log(allParticipants)
       setSyncedAllParticipants(allParticipants);
     };
+
+    const onSyncedAllLinkedUserIds = (allLinkedUserIds : number[]) => {
+      console.log(allLinkedUserIds);
+      setSyncedAllUserIds(allLinkedUserIds);
+    }
 
     const onSyncedTimeError = (error: errorResponse) => {
       toast.error(error.message);
@@ -84,6 +87,7 @@ const useEmitSocket = () => {
     socket.on(SOCKET_TIMER_EVENTS.SYNC_ALL_PARTICIPANTS,onSyncedAllParticipants);
     socket.on(SOCKET_TIMER_EVENTS.SYNC_ROOM_DELETED, onSyncedRoomDeleted);
     socket.on(SOCKET_TIMER_EVENTS.ERROR, onSyncedTimeError);
+    socket.on(SOCKET_TIMER_EVENTS.SYNC_ALL_LINKED_USERS, onSyncedAllLinkedUserIds);
 
     return () => {
       socket.disconnect();
@@ -96,6 +100,7 @@ const useEmitSocket = () => {
     syncedCurrentCycles,
     syncedStartedAt,
     syncedTimeError,
+    syncedAlluserIds,
     handleClickCyclesStartButton,
     handleClickRoomDeleteButton,
     clearSyncedData

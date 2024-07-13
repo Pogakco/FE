@@ -42,8 +42,6 @@ const useTimer = ({
     if (isRunning) {
       const interval = setInterval(() => {
         const differenceTime = getDifferentTime(startAt);
-        console.log()
-        console.log("차이시간", differenceTime);
         const { focusTime, shortBreakTime, totalCycles, longBreakTime } =
           roomData;
         const { status, timerData } = getTimerTime(
@@ -58,18 +56,9 @@ const useTimer = ({
           playEndAlarm
         );
         setStatus(status);
-
-        if (status === SOCKET_TIMER_STATUS.SET) {
-          console.log(
-            syncedStartedAt,
-            syncedCurrentCycles,
-            syncedIsRunning,
-            roomData
-          );
+        if (status === SOCKET_TIMER_STATUS.END) {
           setTimerTime(roomData.focusTime);
-
           clearInterval(interval);
-          setStatus(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME);
         } else if (status) {
           setTimerTime(timerData);
         }

@@ -43,6 +43,7 @@ interface TimerStyleProps {
 }
 const TimerStyle = styled.div<TimerStyleProps>`
   position: relative;
+  z-index: -1;
 
   .circular {
     width: 335px;
