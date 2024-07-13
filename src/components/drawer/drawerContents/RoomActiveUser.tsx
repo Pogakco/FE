@@ -1,60 +1,37 @@
 import styled from "styled-components";
 import { FaUser } from "react-icons/fa";
-import { IactiveUserData } from "@/models/room.model";
+import { IParticipant } from "@/models/roomDetail.model";
 import UserListBox from "./UserListBox";
 
-const activeUserData : IactiveUserData= {
-  activeParticipants: 5,
-  users: [{
-    nickname: 'changchangwoo',
-    profileImageUrl: 'url',
-    pomodoroCount: 3,
-    isActive: true,
-  },
-  {
-    nickname: 'changchangwoo',
-    profileImageUrl: 'url',
-    pomodoroCount: 3,
-    isActive: true,
-  },
-  {
-    nickname: 'changchangwoo',
-    profileImageUrl: 'url',
-    pomodoroCount: 3,
-    isActive: true,
-  },
-  {
-    nickname: 'changchangwoo',
-    profileImageUrl: 'url',
-    pomodoroCount: 3,
-    isActive: true,
-  },
-  {
-    nickname: 'changchangwoo',
-    profileImageUrl: 'url',
-    pomodoroCount: 3,
-    isActive: true,
-  }]
+interface Props {
+  participants: IParticipant[];
+  activeUsers: number;
 }
-const RoomActvieUser = () => {
+
+const RoomActiveUser = ({ participants, activeUsers }: Props) => {
+  if (activeUsers === undefined || participants === undefined) {
+    return null;
+  }
+  const sortedParticipants = [...participants].sort((a, b) => b.pomodoroCount - a.pomodoroCount);
+
   return (
-    <RoomActvieUserStyle>
+    <RoomActiveUserStyle>
       <div className="title">참여중인 유저</div>
       <div className="users">
-        <FaUser />{activeUserData.activeParticipants}
+        <FaUser />{activeUsers}
       </div>
       <hr />
 
       <div className="userList">
-        {activeUserData.users.map((user, index)=>(
-          <UserListBox rank={index} user={user} key={index}  />
+        {sortedParticipants && sortedParticipants.map((user, index) => (
+          <UserListBox rank={index} user={user} key={index} />
         ))}
       </div>
-    </RoomActvieUserStyle>
+    </RoomActiveUserStyle>
   );
 };
 
-const RoomActvieUserStyle = styled.div`
+const RoomActiveUserStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -67,7 +44,7 @@ const RoomActvieUserStyle = styled.div`
   .rankBox {
     width: 25px;
     height: 25px;
-    border-radius: ${({ theme }) => theme.borderRadius.default};;
+    border-radius: ${({ theme }) => theme.borderRadius.default};
     background-color: ${({ theme }) => theme.color.grey4};
   }
 
@@ -86,7 +63,7 @@ const RoomActvieUserStyle = styled.div`
     overflow-x: hidden;
     box-sizing: border-box;
     background-color: ${({ theme }) => theme.color.white};
-    border-radius: ${({ theme }) => theme.borderRadius.default};;
+    border-radius: ${({ theme }) => theme.borderRadius.default};
     border: 1px solid ${({ theme }) => theme.color.grey1};
   }
 
@@ -99,4 +76,4 @@ const RoomActvieUserStyle = styled.div`
   }
 `;
 
-export default RoomActvieUser;
+export default RoomActiveUser;

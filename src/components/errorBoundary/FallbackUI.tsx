@@ -13,6 +13,7 @@ import {
 import { NotFoundStyle } from "@/pages/NotFound";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { useAuthStore } from "@/store/authStore";
 
 interface IButtonProps {
   status: number;
@@ -31,6 +32,8 @@ const INITIAL_STATE: IButtonProps = {
 const FallbackUI = ({ error, resetErrorBoundary }: FallbackProps) => {
   const [button, setButton] = useState<IButtonProps>(INITIAL_STATE);
   const navigate = useNavigate();
+
+  const { storeLogout } = useAuthStore();
 
   useEffect(() => {
     if (isNetworkError(error)) {
@@ -58,14 +61,21 @@ const FallbackUI = ({ error, resetErrorBoundary }: FallbackProps) => {
       setButton({
         status: 401,
         message: ERROR_MESSAGE[401],
-        onButtonClick: () => navigate("/login"),
-        button: "로그인 페이지로 이동"
+        onButtonClick: () => {
+          resetErrorBoundary();
+          storeLogout();
+          navigate("/login");
+        },
+        button: "로그인 이동"
       });
     } else if (isAuthorityError(error)) {
       setButton({
         status: 403,
         message: ERROR_MESSAGE[403],
-        onButtonClick: () => navigate(-1),
+        onButtonClick: () => {
+          resetErrorBoundary();
+          navigate(-1);
+        },
         button: "뒤로가기"
       });
     } else if (isNotFoundError(error)) {

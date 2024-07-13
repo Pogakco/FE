@@ -6,55 +6,80 @@ import { getTimerTime } from "@/utils/getTimerTime";
 import { useEffect, useState } from "react";
 
 interface IuseTimer {
-    roomData: IroomData | undefined;
-    syncedIsRunning : boolean | null;
-    syncedStartedAt : string | null;
-    syncedCurrentCycles : number | null;
+  roomData: IroomData | undefined;
+  syncedIsRunning: boolean | null;
+  syncedStartedAt: string | null;
+  syncedCurrentCycles: number | null;
+  playFocusAlarm: () => void;
+  playShortBreakAlarm: () => void;
+  playLongBreakAlarm: () => void;
+  playEndAlarm: () => void;
 }
 
-const useTimer = ({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles} : IuseTimer) 
-: {timerTime : number, status : TtimerStatus} => {
-    const [timerTime, setTimerTime] = useState<number>(0);
-    const [status, setStatus] = useState<TtimerStatus>(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME);
+const useTimer = ({
+  roomData,
+  syncedStartedAt,
+  syncedIsRunning,
+  syncedCurrentCycles,
+  playFocusAlarm,
+  playShortBreakAlarm,
+  playLongBreakAlarm,
+  playEndAlarm
+}: IuseTimer): { timerTime: number; status: TtimerStatus } => {
+  const [timerTime, setTimerTime] = useState<number>(0);
+  const [status, setStatus] = useState<TtimerStatus>(
+    SOCKET_TIMER_STATUS.SET
+  );
 
-    useEffect(() => {
-        if (!roomData) return;
-        const startAt = syncedStartedAt ? syncedStartedAt : roomData.startedAt;
-        const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
-        if (!isRunning) {
+  useEffect(() => {
+    if (!roomData) return;
+    const startAt = syncedStartedAt ? syncedStartedAt : roomData.startedAt;
+    const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
+    if (!isRunning) {
+      setTimerTime(roomData.focusTime);
+    }
+
+    if (isRunning) {
+      const interval = setInterval(() => {
+        const differenceTime = getDifferentTime(startAt);
+        console.log()
+        console.log("차이시간", differenceTime);
+        const { focusTime, shortBreakTime, totalCycles, longBreakTime } =
+          roomData;
+        const { status, timerData } = getTimerTime(
+          differenceTime,
+          focusTime,
+          shortBreakTime,
+          totalCycles,
+          longBreakTime,
+          playFocusAlarm,
+          playShortBreakAlarm,
+          playLongBreakAlarm,
+          playEndAlarm
+        );
+        setStatus(status);
+
+        if (status === SOCKET_TIMER_STATUS.SET) {
+          console.log(
+            syncedStartedAt,
+            syncedCurrentCycles,
+            syncedIsRunning,
+            roomData
+          );
           setTimerTime(roomData.focusTime);
-          setStatus(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME)
-        }
-    
-        if (isRunning) {
-          const interval = setInterval(() => {
-            const differenceTime = getDifferentTime(startAt);
-            console.log('차이시간', differenceTime)
-            const { focusTime, shortBreakTime, totalCycles, longBreakTime } = roomData;
-            const { status, timerData } = getTimerTime(
-              differenceTime,
-              focusTime,
-              shortBreakTime,
-              totalCycles,
-              longBreakTime
-            );
-            setStatus(status);
-    
-            if (status === SOCKET_TIMER_STATUS.SET) {
-              console.log(syncedStartedAt, syncedCurrentCycles, syncedIsRunning, roomData)
-              setTimerTime(roomData.focusTime);
-              clearInterval(interval);
-              setStatus(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME)
-            } else if (status) {
-              setTimerTime(timerData);
-            }
-          }, 1000);
-    
-          return () => clearInterval(interval);
-        }
-      }, [syncedStartedAt, syncedCurrentCycles, syncedIsRunning, roomData]);
 
-      return { timerTime, status};
-}
+          clearInterval(interval);
+          setStatus(SOCKET_TIMER_STATUS.SHORT_BREAK_TIME);
+        } else if (status) {
+          setTimerTime(timerData);
+        }
+      }, 1000);
 
-export default useTimer
+      return () => clearInterval(interval);
+    }
+  }, [syncedStartedAt, syncedCurrentCycles, syncedIsRunning, roomData]);
+
+  return { timerTime, status };
+};
+
+export default useTimer;

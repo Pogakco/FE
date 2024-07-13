@@ -11,11 +11,19 @@ import {
 } from "./DrawerStyle";
 import { IroomData } from "@/models/room.model";
 import { handleOverlayClick } from "@/utils/handleOverlayClick";
+import { IParticipant, IRoomUserData } from "@/models/roomDetail.model";
 
 interface IdrawerData {
   id: number;
   title: string;
-  component: React.FC<{ roomData: IroomData, isRunning : boolean | null, currentCycle : number | null}>;
+  component: React.FC<{ 
+    roomData: IroomData, 
+    isRunning : boolean | null,
+    currentCycle : number | null,
+    userData : IRoomUserData,  
+    participants : IParticipant[]
+    activeUsers : number 
+  }>;
   icon: React.FC;
 }
 
@@ -23,6 +31,8 @@ interface Props {
   roomData: IroomData;
   isRunning : boolean | null;
   currentCycle : number | null;
+  participants : IParticipant[]
+  activeUsers : number
 }
 
 const drawerData: IdrawerData[] = [
@@ -46,11 +56,10 @@ const drawerData: IdrawerData[] = [
   }
 ];
 
-const Drawer = ({ roomData, isRunning, currentCycle }: Props) => {
+const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [selectDrawer, setSelectDrawer] = useState<string | null>(null);
-
   const toggleDrawer = (drawerType: string) => {
     if (selectDrawer === drawerType) {
       setOpen(!open);
@@ -73,7 +82,7 @@ const Drawer = ({ roomData, isRunning, currentCycle }: Props) => {
       <DrawerStyle open={open} ref={drawerRef}>
         <DrawerContents>
           {selectDrawer === "info" && <RoomInfo roomData={roomData} isRunning={isRunning} currentCycle={currentCycle} />}
-          {selectDrawer === "user" && <RoomActiveUser />}
+          {selectDrawer === "user" && <RoomActiveUser participants={participants} activeUsers={activeUsers}/>}
           {selectDrawer === "community" && <RoomCommunity />}
         </DrawerContents>
         <DrawerController>

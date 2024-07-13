@@ -1,65 +1,96 @@
-import CircleButton from "@/components/buttons/CircleButton";
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useState } from "react";
+import { useEffect} from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
-import { RiLogoutBoxRLine } from "react-icons/ri";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import SquareButton from "@/components/buttons/SquareButton";
 import useEmitSocket from "@/hooks/useEmitSocket";
 import useFetchRoomDetail from "@/hooks/queries/useFetchRoomDetail";
 import useTimer from "@/hooks/useTimer";
+import useAlarm from "@/hooks/useAlarm";
+import RoomButtons from "@/components/roomDetail/RoomButtons";
+import useFetchRoomUsers from "@/hooks/queries/useFetchRoomUsers";
+import { useQueryClient } from "@tanstack/react-query";
+import { SOCKET_TIMER_STATUS } from "@/constants/socket";
+import Loading from "@/components/commons/Loading";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [activeSound, setActiveSound] = useState<boolean>(false);
-  const { data: roomData, isLoading, error } = useFetchRoomDetail(id);
+  const {
+    data: roomData,
+    isLoading: roomDataIsLoading,
+  } = useFetchRoomDetail(id);
+
+  const {
+    data: userData,
+    isLoading: userDataIsLoading,
+  } = useFetchRoomUsers(id);
+  const queryClient = useQueryClient();
+
   const {
     syncedIsRunning,
     syncedAllParticipants,
     syncedCurrentCycles,
     syncedStartedAt,
-    handleClickCyclesStartButton
+    handleClickCyclesStartButton,
+    handleClickRoomDeleteButton,
+    clearSyncedData
   } = useEmitSocket();
-  const navigate = useNavigate();
 
-  console.log(syncedAllParticipants);
+  const {
+    playFocusAlarm,
+    playShortBreakAlarm,
+    playLongBreakAlarm,
+    playEndAlarm,
+    changeMute,
+    isMute
+  } = useAlarm();
 
-  const {timerTime, status} = useTimer({roomData, syncedStartedAt, syncedIsRunning, syncedCurrentCycles})
-  const soundHandler = () => {
-    setActiveSound(!activeSound);
-  };
+  const { timerTime, status } = useTimer({
+    roomData,
+    syncedStartedAt,
+    syncedIsRunning,
+    syncedCurrentCycles,
+    playFocusAlarm,
+    playShortBreakAlarm,
+    playLongBreakAlarm,
+    playEndAlarm
+  });
 
-  const exitButtonHandler = () => {
-    navigate("/");
-  };
-
-  if (isLoading) {
-    return <div>로딩중</div>;
+  useEffect(() => {
+    if (status === SOCKET_TIMER_STATUS.SET) {
+      clearSyncedData();
+      queryClient.invalidateQueries({queryKey: [`rooms/detail`]});
+      queryClient.invalidateQueries({queryKey: ['rooms/users']});
+    }
+  }, [status, syncedIsRunning]);
+  
+  if (roomDataIsLoading || userDataIsLoading) {
+    return <div><Loading/></div>;
   }
 
-  if (error) {
-    return <div>에러 {error.message}</div>;
-  }
-
-  if (!roomData) {
-    return <div>방 정보 없음</div>;
-  }
+  if (!roomData || !userData) return;
 
   return (
     <RoomDetailStyle>
-      <div className="muteIcon" onClick={soundHandler}>
-        {activeSound ? <FaVolumeXmark /> : <FaVolumeHigh />}
+      <div className="muteIcon" onClick={changeMute}>
+        {isMute ? <FaVolumeHigh /> : <FaVolumeXmark />}
       </div>
       <Drawer
         roomData={roomData}
-        isRunning={syncedIsRunning ? syncedIsRunning : roomData.isRunning}
+        isRunning={status !== SOCKET_TIMER_STATUS.SET}
         currentCycle={
-          syncedCurrentCycles ? syncedCurrentCycles : roomData.currentCycles
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles
+        }
+        participants={
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.users : syncedAllParticipants
+        }
+        activeUsers={
+          (status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length
         }
       />
-      <Timer timerTime={timerTime} status={status} />
+      <Timer timerTime={timerTime} status={status} roomData={roomData} />
       <SquareButton
         buttonColor="active"
         buttonSize="medium"
@@ -67,11 +98,7 @@ const RoomDetail = () => {
       >
         시작하기
       </SquareButton>
-      <div className="exitButton">
-        <CircleButton buttonSize={"large"} onClick={exitButtonHandler}>
-          <RiLogoutBoxRLine />
-        </CircleButton>
-      </div>
+      <RoomButtons id={id} deleteButtonHandler={handleClickRoomDeleteButton} />
     </RoomDetailStyle>
   );
 };
@@ -86,17 +113,11 @@ const RoomDetailStyle = styled.div`
 
   .muteIcon {
     position: absolute;
-    top:40px;
+    top: 40px;
     right: 50px;
     font-size: 50px;
     color: #ff8080;
     cursor: pointer;
-  }
-
-  .exitButton {
-    position: absolute;
-    bottom: 50px;
-    right: 50px;
   }
 `;
 export default RoomDetail;

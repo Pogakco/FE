@@ -4,17 +4,22 @@ import {
   signup,
   checkDuplicateEmail,
   checkDuplicateNickname,
-  getProfile
+  checkPassword,
+  changeProfile
 } from "@/api/auth.api";
 import {
   ILogin,
   ISignup,
   ICheckDuplicateEmail,
   ICheckDuplicateNickname,
-  IProfile
+  IResetPassword,
 } from "@/models/auth.model";
 import { useAuthStore } from "@/store/authStore";
-import { isConflictError, isTokenError } from "@/utils/error";
+import {
+  isConflictError,
+  isTokenError,
+  isBadRequestError
+} from "@/utils/error";
 import { AxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
@@ -33,6 +38,10 @@ const TOAST_MESSAGE = {
   logout: {
     success: "로그아웃 성공",
     error: "로그아웃 실패"
+  },
+  changeProfile: {
+    success: "프로필 변경 성공",
+    error: "프로필 변경 실패"
   }
 };
 
@@ -45,7 +54,6 @@ const useAuth = () => {
   const [isNicknameError, setIsNicknameError] = useState<AxiosError | null>(
     null
   );
-  const [profile, setProfile] = useState<IProfile | null>(null);
 
   const userSignup = (formData: ISignup) => {
     signup(formData)
@@ -121,15 +129,38 @@ const useAuth = () => {
       });
   };
 
-  const userProfile = useCallback(() => {
-    getProfile()
-      .then((data) => {
-        setProfile(data);
+  const userCheckPassword = useCallback(
+    (formData: IResetPassword) => {
+      checkPassword(formData)
+        .then(() => {
+          navigate("/profile");
+        })
+        .catch((err) => {
+          if (isBadRequestError(err)) {
+            setError(err);
+          } else {
+            showBoundary(err);
+          }
+        });
+    },
+    [showBoundary, navigate]
+  );
+
+  const userChangeProfile = (formdata: FormData) => {
+    changeProfile(formdata)
+      .then(() => {
+        setError(null);
+        toast.success(TOAST_MESSAGE.changeProfile.success);
       })
       .catch((err) => {
-        showBoundary(err);
+        if (isConflictError(err)) {
+          setError(err);
+        } else {
+          showBoundary(err);
+          toast.error(TOAST_MESSAGE.changeProfile.error);
+        }
       });
-  }, [showBoundary]);
+  };
 
   return {
     userSignup,
@@ -137,8 +168,8 @@ const useAuth = () => {
     userLogout,
     userCheckDuplicateEmail,
     userCheckDuplicateNickname,
-    userProfile,
-    profile,
+    userCheckPassword,
+    userChangeProfile,
     isError,
     isEmailError,
     isNicknameError

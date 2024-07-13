@@ -2,9 +2,10 @@ import {
   ILogin,
   ISignup,
   ICheckDuplicateEmail,
-  ICheckDuplicateNickname
+  ICheckDuplicateNickname,
+  IResetPassword
 } from "@/models/auth.model";
-import { requestHandler } from "./apiClient";
+import { createClient, requestHandler } from "./apiClient";
 
 // auth
 export const auth = () => {
@@ -36,7 +37,23 @@ export const checkDuplicateNickname = (formData: ICheckDuplicateNickname) => {
   return requestHandler("post", "/check-nickname", formData);
 };
 
+// check password
+export const checkPassword = (formData: IResetPassword) => {
+  return requestHandler("post", "/users/me/confirm-password", formData);
+};
+
 // my profile
 export const getProfile = () => {
   return requestHandler("get", "/users/me");
+};
+
+// change profile
+export const changeProfile = async (formData: FormData) => {
+  const client = createClient({
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  });
+
+  return (await client.post("/users/me", formData)).data;
 };

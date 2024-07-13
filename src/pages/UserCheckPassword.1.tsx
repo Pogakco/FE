@@ -2,22 +2,27 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { UserStyle } from "./UserStyle";
 import Title from "@/components/user/Title";
 import InputField from "@/components/inputField/InputField";
-import { IRessetPassword } from "@/models/auth.model";
+import { IResetPassword } from "@/models/auth.model";
 import SquareButton from "@/components/buttons/SquareButton";
 
 import {
   AUTH_INPUT_FIELD,
   AUTH_INPUT_FIELD_ERROR
 } from "@/constants/inputField";
+import useAuth from "@/hooks/useAuth";
 
 export const UserCheckPassword = () => {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<IRessetPassword>();
+  } = useForm<IResetPassword>();
 
-  const onSubmit: SubmitHandler<IRessetPassword> = (data) => console.log(data);
+  const { userCheckPassword, isError } = useAuth();
+
+  const onSubmit: SubmitHandler<IResetPassword> = (data: IResetPassword) => {
+    userCheckPassword(data);
+  };
 
   return (
     <UserStyle>
@@ -28,9 +33,9 @@ export const UserCheckPassword = () => {
             inputfield={AUTH_INPUT_FIELD.password}
             schema="auth"
             type="password"
-            {...register("passwordCheck", { required: true })}
+            {...register("password", { required: true })}
           />
-          {errors.passwordCheck && (
+          {errors.password && (
             <div className="help-message">
               {AUTH_INPUT_FIELD_ERROR.password}
             </div>
@@ -40,6 +45,7 @@ export const UserCheckPassword = () => {
         <SquareButton buttonColor="active" buttonSize="large" type="submit">
           수정페이지로 이동하기
         </SquareButton>
+        {isError && <div className="help-message">비밀번호가 틀렸습니다.</div>}
       </form>
     </UserStyle>
   );

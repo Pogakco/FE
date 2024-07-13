@@ -5,7 +5,7 @@ export const ModalStyle = styled.div`
   height: 100vh;
   position: fixed;
   top: 0;
-  left: 0; 
+  left: 0;
   background-color: ${({ theme }) => theme.overlay.default};
   z-index: 1000;
   display: flex;
@@ -16,10 +16,14 @@ export const ModalStyle = styled.div`
 export const ModalContainer = styled.div`
   position: relative;
   width: ${({ theme }) => theme.layoutWidth.modal};
+  max-height: 80vh;
   border-radius: ${({ theme }) => theme.borderRadius.default};
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   padding: 40px 20px;
   box-shadow: ${({ theme }) => theme.boxShadow.default};
+  overflow-y: scroll;
+  scrollbar-width: none;
+
 
   .exitButton {
     display: flex;
@@ -33,6 +37,7 @@ export const ModalContainer = styled.div`
     top: 10px;
     right: 10px;
     padding: 2px;
+
     cursor: pointer;
 
     svg {
@@ -50,7 +55,6 @@ export const ModalRoomCreateStyle = styled.div`
     font-size: ${({ theme }) => theme.fontSize.small};
     color: #ff0000;
   }
-
 
   form {
     display: flex;
@@ -97,6 +101,14 @@ export const ModalRoomDetailStyle = styled.div`
     margin-bottom: 20px;
     text-align: center;
     color: ${({ theme }) => theme.color.grey3};
+  }
+  .buttons {
+    display: flex;
+    gap: 20px;
+  }
+  .error {
+    font-size: ${({ theme }) => theme.fontSize.small};
+    color: #ff0000;
   }
 `;
 

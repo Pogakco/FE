@@ -1,15 +1,19 @@
+import { TButtonColor } from "@/style/theme";
 import React from "react";
 import styled from "styled-components";
 
 type TButtonSize = "large" | "small";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  buttonColor: Extract<TButtonColor, "active" | "delete">;
   children: React.ReactNode;
   buttonSize: TButtonSize;
 }
-const CircleButton = ({ children, buttonSize, ...props }: Props) => {
+const CircleButton = ({ children, buttonSize, buttonColor, ...props }: Props) => {
   return (
-    <CircleButtonStyle $buttonSize={buttonSize} {...props}>
+    <CircleButtonStyle $buttonSize={buttonSize} 
+    $buttonColor={buttonColor}
+    {...props}>
       {children}
     </CircleButtonStyle>
   );
@@ -17,6 +21,7 @@ const CircleButton = ({ children, buttonSize, ...props }: Props) => {
 
 interface CircleButtonStyleProps {
   $buttonSize: TButtonSize;
+  $buttonColor : TButtonColor;
 }
 const CircleButtonStyle = styled.button<CircleButtonStyleProps>`
   display: inline-flex;
@@ -25,9 +30,11 @@ const CircleButtonStyle = styled.button<CircleButtonStyleProps>`
 
   width: ${({ $buttonSize }) => ($buttonSize === "large" ? "70px" : "46px")};
   height: ${({ $buttonSize }) => ($buttonSize === "large" ? "70px" : "46px")};
-  color: ${({ theme }) => theme.color.pink6};
-  background-color:${({ theme}) => theme.color.purewhite};
-  border: 1px solid ${({ theme }) => theme.color.pink6};
+  color: ${({ theme, $buttonColor }) => theme.buttonColor[$buttonColor].color};
+  background-color: ${({ theme, $buttonColor }) =>
+    theme.buttonColor[$buttonColor].background};
+  border: 1px solid
+    ${({ theme, $buttonColor }) => theme.buttonColor[$buttonColor].stroke};
   border-radius: 50%;
   transition: all 0.2s;
   svg {
@@ -37,9 +44,8 @@ const CircleButtonStyle = styled.button<CircleButtonStyleProps>`
 
   cursor: pointer;
   &:hover {
-    color: ${({ theme }) => theme.color.white};
-    background-color: ${({ theme }) => theme.color.pink6};
-    border: none;
+    color: ${({ theme, $buttonColor }) => theme.buttonColor[`${$buttonColor}Hover`]?.color};
+    background-color: ${({ theme, $buttonColor }) => theme.buttonColor[`${$buttonColor}Hover`]?.background};
   }
 `;
 
