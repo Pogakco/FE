@@ -1,3 +1,4 @@
+import Profile from '@/components/profile/Profile';
 import styled from 'styled-components';
 
 interface Props {
@@ -18,7 +19,7 @@ const UserListBox = ({ rank, user }: Props) => {
       ) : (
         <div className='userRankPlaceholder'></div>
       )}
-      <div className='userImg'></div>
+      <Profile size='small' url={user.profileImageUrl}/>
       <div className='userName'>{user.nickname}</div>
       <div className='userCycle'>{user.pomodoroCount}회</div>
     </UserListCardStyle>

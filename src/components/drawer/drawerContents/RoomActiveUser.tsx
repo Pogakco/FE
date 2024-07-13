@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { FaUser } from "react-icons/fa";
 import { IParticipant } from "@/models/roomDetail.model";
 import UserListBox from "./UserListBox";
 
@@ -17,9 +16,12 @@ const RoomActiveUser = ({ participants, activeUsers }: Props) => {
   return (
     <RoomActiveUserStyle>
       <div className="title">참여중인 유저</div>
+      {/*
+      활성화 유저 미구현 
       <div className="users">
         <FaUser />{activeUsers}
-      </div>
+      </div> 
+      */}
       <hr />
 
       <div className="userList">

@@ -1,4 +1,3 @@
-import { FaMoon } from "react-icons/fa";
 import styled from "styled-components";
 import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router-dom";
@@ -50,9 +49,12 @@ const Header = () => {
         <button onClick={() => handleButtons("log")}>
           {isLoggedIn ? "로그아웃" : "로그인"}
         </button>
-        <button>
+        {/* 
+        다크모드 구현
+          <button>
           <FaMoon />
-        </button>
+        </button> 
+        */}
       </div>
     </HeaderStyle>
   );
