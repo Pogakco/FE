@@ -29,10 +29,9 @@ export const ModalContainer = styled.div`
     justify-content: center;
     align-items: center;
     position: absolute;
-    width: 15px;
-    height: 15px;
+    width: 40px;
+    height: 40px;
     border-radius: 15px;
-    background-color: ${({ theme }) => theme.color.pink6};
     top: 10px;
     right: 10px;
     padding: 2px;
@@ -40,7 +39,9 @@ export const ModalContainer = styled.div`
     cursor: pointer;
 
     svg {
-      color: ${({ theme }) => theme.color.white};
+      width: 22px;
+      height: 22px;
+      color: ${({ theme }) => theme.color.grey2};
     }
   }
 `;
