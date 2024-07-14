@@ -21,8 +21,7 @@ export const ModalContainer = styled.div`
   background-color: #ffffff;
   padding: 40px 20px;
   box-shadow: ${({ theme }) => theme.boxShadow.default};
-  overflow-y: scroll;
-  scrollbar-width: none;
+  overflow-y: auto;
 
   .exitButton {
     display: flex;
