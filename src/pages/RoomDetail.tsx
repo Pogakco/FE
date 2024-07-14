@@ -1,6 +1,6 @@
 import Drawer from "@/components/drawer/Drawer";
 import Timer from "@/components/timer/Timer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -15,6 +15,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { SOCKET_TIMER_STATUS } from "@/constants/socket";
 import Loading from "@/components/commons/Loading";
 import { getUserRankList } from "@/utils/getUserRankList";
+
+import { useModalExit } from "@/store/modalExit";
+import Modal from "@/components/modal/Modal";
+import ModalRoomExit from "@/components/modal/modalContents/ModalRoomExit";
 
 const RoomDetail = () => {
   const location = useLocation();
@@ -59,6 +63,10 @@ const RoomDetail = () => {
     playEndAlarm
   });
 
+  const { onClose, modalOpen } = useModalExit();
+
+  const [handleExit, setHandleExit] = useState<() => void>(() => {});
+
   useEffect(() => {
     if (status === SOCKET_TIMER_STATUS.END) {
       clearSyncedData();
@@ -79,6 +87,11 @@ const RoomDetail = () => {
 
   return (
     <RoomDetailStyle>
+      {modalOpen && (
+        <Modal onClose={onClose} setIsModal={() => {}} isRecheckType>
+          <ModalRoomExit onCancel={onClose} onExit={handleExit} />
+        </Modal>
+      )}
       <div className="muteIcon" onClick={changeMute}>
         {isMute ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
@@ -86,9 +99,19 @@ const RoomDetail = () => {
         roomData={roomData}
         isRunning={syncedIsRunning}
         currentCycle={
-         (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles}
-        participants={getUserRankList(syncedAllParticipants, syncedAllLinkeduserIds)}
-        activeUsers={(status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length}
+          status === SOCKET_TIMER_STATUS.SET || !syncedCurrentCycles
+            ? roomData.currentCycles
+            : syncedCurrentCycles
+        }
+        participants={getUserRankList(
+          syncedAllParticipants,
+          syncedAllLinkeduserIds
+        )}
+        activeUsers={
+          status === SOCKET_TIMER_STATUS.SET || !syncedAllParticipants
+            ? userData.activeParticipants
+            : syncedAllParticipants.length
+        }
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />
       <SquareButton
@@ -102,6 +125,7 @@ const RoomDetail = () => {
         id={id}
         deleteButtonHandler={handleClickRoomDeleteButton}
         mode={mode}
+        setExit={setHandleExit}
       />
     </RoomDetailStyle>
   );
