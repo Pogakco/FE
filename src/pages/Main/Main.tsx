@@ -65,6 +65,11 @@ const Main = () => {
   };
 
   const handleCreateButtonClick = () => {
+    if (!isLoggedIn) {
+      toast.error("로그인이 필요한 서비스입니다");
+      navigate("/login");
+      return;
+    }
     openModal("create");
   };
 
