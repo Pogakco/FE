@@ -9,7 +9,7 @@ import ModalRoomDetail from "@/components/modal/modalContents/ModalRoomDetail";
 import useModal from "@/hooks/useModal";
 import useFetchRooms from "@/hooks/queries/useFetchRooms";
 import Pagination from "@/components/pagination/Paginiation";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import MainSlider from "@/components/slider/Slider";
 import { useAuthStore } from "@/store/authStore";
 import RoomList from "./RoomList";
@@ -23,6 +23,7 @@ const Main = () => {
     useModal();
   const isLoggedIn = useAuthStore<boolean>((state) => state.isLoggedIn);
   const newSearchParams = new URLSearchParams(searchParams);
+  const navigate = useNavigate();
 
   const page = searchParams.get("page") || "1";
   const roomType: TRoomType =
