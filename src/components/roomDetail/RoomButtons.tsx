@@ -47,7 +47,7 @@ const RoomButtons = ({ id, deleteButtonHandler, mode, setExit }: Props) => {
       type: "delete"
     },
     {
-      name: "방 그룹 나가기",
+      name: "그룹 나가기",
       icon: <RiLogoutBoxRLine className="small" />,
       onClick: exitButtonHandler,
       show: isParticipant(mode),
