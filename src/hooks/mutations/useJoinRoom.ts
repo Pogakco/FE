@@ -14,12 +14,12 @@ const useJoinRoom = (
   return useMutation({
     mutationFn: () => joinRoom(roomId),
     onSuccess: () => {
-      navigate(`/rooms/${roomId}`)
+      navigate(`/rooms/${roomId}`, { state: { mode: "participant" } });
     },
-    onError: (error : AxiosError<errorResponse>) => {
-      if(error.response?.status === 401) showBoundary(error)
+    onError: (error: AxiosError<errorResponse>) => {
+      if (error.response?.status === 401) showBoundary(error);
     }
-})
+  });
 };
 
-export default useJoinRoom
+export default useJoinRoom;
