@@ -10,10 +10,10 @@ export interface IInputField {
 
 export interface ICreateInputField extends IInputField {
   field: string;
-  message : string;
-  regex : RegExp;
-  placeHolder? : string;
-  defaultValue : string;
+  message: string;
+  regex: RegExp;
+  placeHolder?: string;
+  defaultValue: string;
 }
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputfield: IInputField;
@@ -67,7 +67,7 @@ const InputFieldStyle = styled.div<InputFieldStyleProps>`
     color: ${({ theme }) => theme.color.grey2};
     font-size: ${({ theme }) => theme.fontSize.small};
     font-weight: 600;
-    margin: 2px 0 0 0;
+    margin: 4px 0 0 0;
   }
 
   input {
