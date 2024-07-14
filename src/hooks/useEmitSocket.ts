@@ -15,9 +15,8 @@ const useEmitSocket = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [syncedIsRunning, setSyncedIsRunning] = useState<boolean | null>(null);
   const [syncedStartedAt, setSyncedStartedAt] = useState<string | null>(null);
-  const [syncedCurrentCycles, setSyncedCurrentCycles] = useState<number | null>(
-    null
-  );
+  const [syncedCurrentCycles, setSyncedCurrentCycles] = useState<number | null>(null);
+  const [syncedAllLinkeduserIds, setSyncedAllLinkedUserIds] = useState<number[] | null>(null);
   const [syncedAllParticipants, setSyncedAllParticipants] = useState<
     IParticipant[] | null
   >(null);
@@ -34,10 +33,8 @@ const useEmitSocket = () => {
   };
 
   const clearSyncedData = () => {
-    setSyncedIsRunning(null);
     setSyncedStartedAt(null);
     setSyncedCurrentCycles(null);
-    setSyncedAllParticipants(null);
     setSyncedTimeError(null);
   };
 
@@ -71,6 +68,10 @@ const useEmitSocket = () => {
       setSyncedAllParticipants(allParticipants);
     };
 
+    const onSyncedAllLinkedUserIds = (allLinkedUserIds : number[]) => {
+      setSyncedAllLinkedUserIds(allLinkedUserIds);
+    }
+
     const onSyncedTimeError = (error: errorResponse) => {
       toast.error(error.message);
     };
@@ -84,6 +85,7 @@ const useEmitSocket = () => {
     socket.on(SOCKET_TIMER_EVENTS.SYNC_ALL_PARTICIPANTS,onSyncedAllParticipants);
     socket.on(SOCKET_TIMER_EVENTS.SYNC_ROOM_DELETED, onSyncedRoomDeleted);
     socket.on(SOCKET_TIMER_EVENTS.ERROR, onSyncedTimeError);
+    socket.on(SOCKET_TIMER_EVENTS.SYNC_ALL_LINKED_USERS, onSyncedAllLinkedUserIds);
 
     return () => {
       socket.disconnect();
@@ -96,6 +98,7 @@ const useEmitSocket = () => {
     syncedCurrentCycles,
     syncedStartedAt,
     syncedTimeError,
+    syncedAllLinkeduserIds,
     handleClickCyclesStartButton,
     handleClickRoomDeleteButton,
     clearSyncedData

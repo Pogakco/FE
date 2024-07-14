@@ -7,13 +7,15 @@ interface Props {
     nickname: string;
     profileImageUrl?: string;
     pomodoroCount: number;
+    isCurrentParticipant : boolean ;
     isActive: boolean;
   }
 }
 
 const UserListBox = ({ rank, user }: Props) => {
+  console.log(user)
   return (
-    <UserListCardStyle $rank={rank}>
+    <UserListCardStyle $rank={rank} $isCurrentParticipant={user.isCurrentParticipant}>
       {rank <= 2 ? (
         <div className='userRank'>{rank + 1}</div>
       ) : (
@@ -26,7 +28,7 @@ const UserListBox = ({ rank, user }: Props) => {
   );
 };
 
-const UserListCardStyle = styled.div<{ $rank: number }>`
+const UserListCardStyle = styled.div<{ $rank: number, $isCurrentParticipant: boolean }>`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -35,6 +37,7 @@ const UserListCardStyle = styled.div<{ $rank: number }>`
   padding: 5px 5px;
   border-bottom: 1px solid ${({ theme }) => theme.color.grey2};
   transition: all 0.2s;
+  opacity: ${({$isCurrentParticipant}) => $isCurrentParticipant ? "1" : "0.5"};
 
   &:hover {
     scale: 1.05;

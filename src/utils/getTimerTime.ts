@@ -19,7 +19,7 @@ export const getTimerTime = (
   if (differenceTime >= totalCycleAndLongBreakTime) {
     if (isEndTime()) playEndAlarm();
     return {
-      status: SOCKET_TIMER_STATUS.SET,
+      status: SOCKET_TIMER_STATUS.END,
       timerData: SOCKET_TIMER_STATUS.END_POINT
     };
   } else if (differenceTime >= totalCycleTime) {
