@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { BsGithub } from "react-icons/bs";
+import { RiNotionFill } from "react-icons/ri";
 
 import logoImg from "../../assets/imgs/footerLogo.png";
 
@@ -15,11 +16,15 @@ const Footer = () => {
           </div>
         </div>
         <div className="links">
-          <Link to="">팀 소개</Link>
           <Link to="">뽀각코 팀에게 피드백 전달하기</Link>
-          <Link to="https://github.com/Pogakco" className="i-github">
-            <BsGithub />
-          </Link>
+          <div className="icons">
+            <Link to="https://github.com/Pogakco" className="i">
+              <RiNotionFill />
+            </Link>
+            <Link to="https://github.com/Pogakco" className="i">
+              <BsGithub />
+            </Link>
+          </div>
         </div>
       </div>
     </FooterStyle>
@@ -53,13 +58,15 @@ const FooterStyle = styled.footer`
     .links {
       display: flex;
       flex-direction: column;
+      justify-content: end;
       align-items: flex-end;
+
       a {
         color: inherit;
       }
-      .i-github {
-        margin: 10px 0;
-
+      .i {
+        display: inline-block;
+        margin: 8px 0 0 10px;
         svg {
           width: 24px;
           height: 24px;
