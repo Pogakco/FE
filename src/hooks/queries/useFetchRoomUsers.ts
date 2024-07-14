@@ -6,7 +6,6 @@ const useFetchRoomUsers = (id : string | undefined) : UseQueryResult<IRoomUserDa
   return useQuery<IRoomUserData, Error>({
     queryKey: ['rooms/users'],
     queryFn: () => fetchRoomUsers(id!),
-    enabled: !!id,
     throwOnError: true
   })
 }

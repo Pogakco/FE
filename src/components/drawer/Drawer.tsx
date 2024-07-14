@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { FaInfoCircle, FaRegCommentAlt, FaUser } from "react-icons/fa";
+import { FaInfoCircle, FaUser } from "react-icons/fa";
 import RoomInfo from "./drawerContents/RoomInfo";
 import RoomActiveUser from "./drawerContents/RoomActiveUser";
 import RoomCommunity from "./drawerContents/RoomCommunity";
@@ -50,12 +50,12 @@ const drawerData: IdrawerData[] = [
     component: RoomActiveUser,
     icon: FaUser
   },
-  {
-    id: 3,
-    title: "community",
-    component: RoomCommunity,
-    icon: FaRegCommentAlt
-  }
+  // {
+  //   id: 3,
+  //   title: "community",
+  //   component: RoomCommunity,
+  //   icon: FaRegCommentAlt
+  // }
 ];
 
 const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers, linkedUserIds }: Props) => {

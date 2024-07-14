@@ -1,20 +1,35 @@
 import TimerDescriptCard from "@/components/cards/TimerDescriptCard";
 import RunningStatus from "@/components/commons/RunningStatus";
 import { IroomData } from "@/models/room.model";
+import { useRef } from "react";
+import toast from "react-hot-toast";
 import { FaCrown, FaPaperclip, FaUser } from "react-icons/fa";
 import styled from "styled-components";
 
 interface Props {
   roomData: IroomData;
-  isRunning : boolean | null;
-  currentCycle : number | null;
+  isRunning: boolean | null;
+  currentCycle: number | null;
 }
 
 const RoomInfo = ({ roomData, isRunning, currentCycle }: Props) => {
+  const urlRef = useRef<HTMLDivElement>(null);
+
+  const handleURL = () => {
+    if (urlRef.current) {
+      const urlText = urlRef.current.innerText;
+      navigator.clipboard.writeText(urlText).then(() => {
+        toast.success("URL이 클립보드에 복사되었습니다.");
+      }).catch(err => {
+        toast.error("클립보드 복사 중 오류가 발생했습니다:", err);
+      });
+    }
+  };
+
   return (
     <RoomInfoStyle>
       <div className="title">{roomData.roomTitle}</div>
-      <RunningStatus isRunning={isRunning}/>
+      <RunningStatus isRunning={isRunning ? isRunning : false} />
       <div className="avatar" style={{ backgroundImage: `url(${roomData.ownerProfileImageUrl})` }} />
       <div className="sub-title">
         <FaCrown />
@@ -30,7 +45,7 @@ const RoomInfo = ({ roomData, isRunning, currentCycle }: Props) => {
       <div className="section-title">타이머 정보</div>
       <TimerDescriptCard
         totalCycles={roomData.totalCycles}
-        currentCycle={currentCycle}
+        currentCycle={currentCycle ? currentCycle : 0}
         focusTime={roomData.focusTime}
         shortBreakTime={roomData.shortBreakTime}
         longBreakTime={roomData.longBreakTime}
@@ -40,7 +55,9 @@ const RoomInfo = ({ roomData, isRunning, currentCycle }: Props) => {
       <div className="section-title">공유하기</div>
       <span>
         <FaPaperclip />
-        <div className="description">https://www.figma.com/design</div>
+        <div className="description" ref={urlRef} onClick={handleURL} style={{ cursor: 'pointer' }}>
+          {window.location.href}
+        </div>
       </span>
     </RoomInfoStyle>
   );
@@ -76,6 +93,7 @@ const RoomInfoStyle = styled.div`
   .description {
     font-size: ${({ theme }) => theme.fontSize.small};
     font-weight: 400;
+    cursor: pointer;
   }
 
   .avatar {
@@ -101,7 +119,6 @@ const RoomInfoStyle = styled.div`
     border: none;
     margin: 10px 0;
   }
-
 `;
 
 export default RoomInfo;

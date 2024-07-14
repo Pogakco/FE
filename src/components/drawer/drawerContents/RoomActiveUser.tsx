@@ -21,7 +21,6 @@ const RoomActiveUser = ({ participants, activeUsers, linkedUserIds }: Props) => 
     // 소켓에 연결됐지만 && Joined가 아니다 => 대기 중
   }));
 
-  console.log(userList)
   return (
     <RoomActiveUserStyle>
       <div className="title">참여중인 유저</div>
