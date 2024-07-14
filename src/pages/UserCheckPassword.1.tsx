@@ -10,19 +10,32 @@ import {
   AUTH_INPUT_FIELD_ERROR
 } from "@/constants/inputField";
 import useAuth from "@/hooks/useAuth";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const UserCheckPassword = () => {
+interface Props {
+  onPasswordConfirmed: () => void;
+}
+export const UserCheckPassword = ({ onPasswordConfirmed }: Props) => {
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<IResetPassword>();
 
-  const { userCheckPassword, isError } = useAuth();
+  const navigate = useNavigate();
+  const { userCheckPassword, isError, isSuccess } = useAuth();
 
   const onSubmit: SubmitHandler<IResetPassword> = (data: IResetPassword) => {
     userCheckPassword(data);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      onPasswordConfirmed();
+      navigate("/profile");
+    }
+  }, [isSuccess, navigate, onPasswordConfirmed]);
 
   return (
     <UserStyle>

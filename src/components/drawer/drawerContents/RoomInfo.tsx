@@ -1,5 +1,6 @@
 import TimerDescriptCard from "@/components/cards/TimerDescriptCard";
 import RunningStatus from "@/components/commons/RunningStatus";
+import Profile from "@/components/profile/Profile";
 import { IroomData } from "@/models/room.model";
 import { useRef } from "react";
 import toast from "react-hot-toast";
@@ -29,8 +30,8 @@ const RoomInfo = ({ roomData, isRunning, currentCycle }: Props) => {
   return (
     <RoomInfoStyle>
       <div className="title">{roomData.roomTitle}</div>
-      <RunningStatus isRunning={isRunning ? isRunning : false} />
-      <div className="avatar" style={{ backgroundImage: `url(${roomData.ownerProfileImageUrl})` }} />
+      <RunningStatus isRunning={isRunning}/>
+      <Profile size="medium" url={roomData.ownerProfileImageUrl} />
       <div className="sub-title">
         <FaCrown />
         {roomData.ownerName}

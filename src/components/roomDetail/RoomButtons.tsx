@@ -8,12 +8,19 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CircleButton from "../buttons/CircleButton";
 
+export type TMode = "watch" | "participant" | undefined; // 관전모드/ 참여자모드/ undefined: url창에 방 아이디를 바로 입력한 경우를 대비
+
 interface Props {
   id: string | undefined;
-  deleteButtonHandler : () => void;
+  deleteButtonHandler: () => void;
+  mode?: TMode;
 }
 
-const RoomButtons = ({ id, deleteButtonHandler }: Props) => {
+const isParticipant = (mode: TMode) => {
+  return mode && mode === "participant";
+};
+
+const RoomButtons = ({ id, deleteButtonHandler, mode }: Props) => {
   const { mutate: exitRoom } = useExitRoom(id);
   const navigate = useNavigate();
 
@@ -31,19 +38,23 @@ const RoomButtons = ({ id, deleteButtonHandler }: Props) => {
     {
       name: "방 삭제하기",
       icon: <MdOutlineDeleteOutline />,
-      onClick: deleteButtonHandler
+      onClick: deleteButtonHandler,
+      show: isParticipant(mode)
     },
     {
       name: "방 나가기",
       icon: <RiLogoutBoxRLine className="small" />,
-      onClick: exitButtonHandler
+      onClick: exitButtonHandler,
+      show: isParticipant(mode)
     },
     {
       name: "방 둘러보기",
       icon: <IoHomeOutline className="small" />,
-      onClick: lookArountButtonHandler
+      onClick: lookArountButtonHandler,
+      show: true
     }
-  ];
+  ].filter((item) => item.show); // 관전 모드인 것들만 보이게
+
   return (
     <RoomButtonsStyle>
       <div className="exit-button">
@@ -85,10 +96,13 @@ const RoomButtonsStyle = styled.div`
   }
   .buttons {
     position: absolute;
-    top: -170px;
+    top: -180px;
     right: 12px;
+    width: 130px;
+    height: 160px;
     display: flex;
     flex-direction: column;
+    justify-content: end;
     align-items: flex-end;
     gap: 10px;
 
