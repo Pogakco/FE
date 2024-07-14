@@ -1,4 +1,4 @@
-import { IroomData } from "@/models/room.model";
+import { IcreateRoomForm, IroomData } from "@/models/room.model";
 import { TtimerStatus } from "@/models/timer.model";
 import { DefaultTheme } from "styled-components";
 
@@ -61,4 +61,18 @@ export const getMessageByStatus = (status: TtimerStatus) => {
     default:
       return "시작버튼을 눌러주세요";
   }
+};
+
+export const getDefaultValue = (key: keyof IcreateRoomForm) => {
+  const defaultValues: Record<keyof IcreateRoomForm, string> = {
+    roomTitle: "",
+    roomDescription: "",
+    focusTime: "25",
+    shortBreakTime: "5",
+    longBreakTime: "30",
+    totalCycles: "4",
+    maxParticipants: "10"
+  };
+
+  return defaultValues[key];
 };

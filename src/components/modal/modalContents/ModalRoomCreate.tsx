@@ -3,25 +3,37 @@ import SquareButton from "@/components/buttons/SquareButton";
 import { ModalHeader, ModalRoomCreateStyle } from "../ModalStyle";
 import { IcreateRoomForm } from "@/models/room.model";
 import { createRoom } from "@/api/roomList.api";
-import { ROOM_CREATE_INFO_FIELD, ROOM_CREATE_TIMER_FIELD } from "@/constants/inputField";
+import {
+  ROOM_CREATE_INFO_FIELD,
+  ROOM_CREATE_TIMER_FIELD
+} from "@/constants/inputField";
 import InputField from "@/components/inputField/InputField";
 import { deleteSession, getFromSession, saveToSession } from "@/utils/session";
 import { useNavigate } from "react-router-dom";
+import { getDefaultValue } from "@/utils/timerUi";
 
 const ModalRoomCreate = () => {
   const navigate = useNavigate();
   const initialValues = {
     ...ROOM_CREATE_INFO_FIELD.reduce((acc, item) => {
-      acc[item.field as keyof IcreateRoomForm] = getFromSession(item.field as keyof IcreateRoomForm);
+      acc[item.field as keyof IcreateRoomForm] = getFromSession(
+        item.field as keyof IcreateRoomForm
+      );
       return acc;
     }, {} as IcreateRoomForm),
     ...ROOM_CREATE_TIMER_FIELD.reduce((acc, item) => {
-      acc[item.field as keyof IcreateRoomForm] = getFromSession(item.field as keyof IcreateRoomForm);
+      acc[item.field as keyof IcreateRoomForm] =
+        getFromSession(item.field as keyof IcreateRoomForm) ||
+        getDefaultValue(item.field as keyof IcreateRoomForm);
       return acc;
     }, {} as IcreateRoomForm)
   };
 
-  const { register, handleSubmit, formState: { errors } } = useForm<IcreateRoomForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<IcreateRoomForm>({
     defaultValues: initialValues
   });
 
@@ -30,12 +42,14 @@ const ModalRoomCreate = () => {
   };
 
   const onSubmit: SubmitHandler<IcreateRoomForm> = (data) => {
-    createRoom(data).then((response) => {
-      deleteSession("deleteCreateRoomSession");
-      navigate(`rooms/${response.roomId}`);
-    }).catch((error) => {
-      throw error;
-    });
+    createRoom(data)
+      .then((response) => {
+        deleteSession("deleteCreateRoomSession");
+        navigate(`rooms/${response.roomId}`);
+      })
+      .catch((error) => {
+        throw error;
+      });
   };
 
   return (
@@ -50,9 +64,9 @@ const ModalRoomCreate = () => {
           <div key={index}>
             <InputField
               inputfield={item}
-              type={item.field === "maxParticipants" ? "number" : "input"} 
+              type={item.field === "maxParticipants" ? "number" : "input"}
               schema="auth"
-              placeholder={item.placeHolder? item.placeHolder : ""}
+              placeholder={item.placeHolder ? item.placeHolder : ""}
               defaultValue={initialValues[item.field as keyof IcreateRoomForm]}
               {...register(item.field as keyof IcreateRoomForm, {
                 required: {
@@ -64,10 +78,17 @@ const ModalRoomCreate = () => {
                   message: item.message
                 }
               })}
-              onBlur={(e) => handleInputBlur(item.field as keyof IcreateRoomForm, e.target.value)}
+              onBlur={(e) =>
+                handleInputBlur(
+                  item.field as keyof IcreateRoomForm,
+                  e.target.value
+                )
+              }
             />
             {errors[item.field as keyof IcreateRoomForm] && (
-              <div className="help-message">{errors[item.field as keyof IcreateRoomForm]?.message}</div>
+              <div className="help-message">
+                {errors[item.field as keyof IcreateRoomForm]?.message}
+              </div>
             )}
           </div>
         ))}
@@ -77,7 +98,7 @@ const ModalRoomCreate = () => {
             <InputField
               type="number"
               inputfield={item}
-              placeholder={item.placeHolder? item.placeHolder : ""}
+              placeholder={item.placeHolder ? item.placeHolder : ""}
               schema="auth"
               defaultValue={initialValues[item.field as keyof IcreateRoomForm]}
               {...register(item.field as keyof IcreateRoomForm, {
@@ -90,10 +111,17 @@ const ModalRoomCreate = () => {
                   message: item.message
                 }
               })}
-              onBlur={(e) => handleInputBlur(item.field as keyof IcreateRoomForm, e.target.value)}
+              onBlur={(e) =>
+                handleInputBlur(
+                  item.field as keyof IcreateRoomForm,
+                  e.target.value
+                )
+              }
             />
             {errors[item.field as keyof IcreateRoomForm] && (
-              <div className="help-message">{errors[item.field as keyof IcreateRoomForm]?.message}</div>
+              <div className="help-message">
+                {errors[item.field as keyof IcreateRoomForm]?.message}
+              </div>
             )}
           </div>
         ))}
