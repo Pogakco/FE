@@ -15,6 +15,8 @@ export const SOCKET_TIMER_EVENTS = {
     SYNC_ALL_LINKED_USERS : "sync-all-linked-user-ids",
     DELETE_ROOM: "delete-room",
     ERROR: "timer-error",
+    REQUEST_AUTH: "request-auth",
+    AUTH_ERROR: "auth-error",
 };
 
 export const SOCKET_TIMER_STATUS = {
