@@ -13,6 +13,7 @@ import { useSearchParams } from "react-router-dom";
 import MainSlider from "@/components/slider/Slider";
 import { useAuthStore } from "@/store/authStore";
 import RoomList from "./RoomList";
+import toast from "react-hot-toast";
 
 const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,10 +27,11 @@ const Main = () => {
   const page = searchParams.get("page") || "1";
   const roomType: TRoomType =
     (searchParams.get("roomType") as TRoomType) || "all";
-  const {
-    data: response,
-    isLoading,
-  } = useFetchRooms(page, isRunning, roomType);
+  const { data: response, isLoading } = useFetchRooms(
+    page,
+    isRunning,
+    roomType
+  );
 
   const roomListDatas = response?.data ?? [];
   const pagination = response?.pagination ?? null;
@@ -42,6 +44,10 @@ const Main = () => {
     if (type === "all") {
       newSearchParams.delete("roomType");
     } else {
+      if (!isLoggedIn) {
+        toast.error("로그인이 필요한 서비스입니다");
+        return;
+      }
       newSearchParams.set("roomType", type);
     }
     const pageValue = newSearchParams.get("page");
