@@ -1,20 +1,23 @@
 import styled from "styled-components";
 import SquareButton from "@/components/buttons/SquareButton";
+import { useModalExit } from "@/store/modalExit";
+import { DELETE_TYPE_CASE } from "@/constants/deleteMessage";
 
 interface Props {
   onCancel: () => void;
-  onDelete: () => void;
+  onExit: () => void;
 }
-const ModalRoomDelete = ({ onCancel, onDelete }: Props) => {
+
+const ModalRoomExit = ({ onCancel, onExit }: Props) => {
+  const { type } = useModalExit();
+  const { onClose } = useModalExit();
   return (
-    <ModalRoomDeleteStyle>
+    <ModalRoomExitStyle>
       <div className="header">
-        <h1>방을 정말 삭제하시겠습니까?</h1>
+        <h1>{DELETE_TYPE_CASE[type].title}</h1>
       </div>
-      <p className="notice">
-        삭제 즉시 모든 정보가 삭제되며, 데이터 복구가 불가해요.
-      </p>
-      <div className="buttons">
+      <p className="notice">{DELETE_TYPE_CASE[type].desc}</p>
+      <div className="choose-button">
         <SquareButton
           buttonColor="default"
           buttonSize="medium"
@@ -25,16 +28,19 @@ const ModalRoomDelete = ({ onCancel, onDelete }: Props) => {
         <SquareButton
           buttonColor="active"
           buttonSize="medium"
-          onClick={onDelete}
+          onClick={() => {
+            onExit();
+            onClose();
+          }}
         >
-          삭제
+          {DELETE_TYPE_CASE[type].button}
         </SquareButton>
       </div>
-    </ModalRoomDeleteStyle>
+    </ModalRoomExitStyle>
   );
 };
 
-const ModalRoomDeleteStyle = styled.div`
+const ModalRoomExitStyle = styled.div`
   width: 408px;
   padding: 36px 24px;
   text-align: center;
@@ -52,11 +58,12 @@ const ModalRoomDeleteStyle = styled.div`
     color: ${({ theme }) => theme.color.grey3};
     line-height: 1.5;
     margin: 0 0 20px 0;
+    word-break: keep-all;
   }
-  .buttons {
+  .choose-button {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: 14px;
     width: 100%;
 
     button {
@@ -64,4 +71,4 @@ const ModalRoomDeleteStyle = styled.div`
     }
   }
 `;
-export default ModalRoomDelete;
+export default ModalRoomExit;
