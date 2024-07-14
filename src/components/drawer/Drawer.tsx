@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { FaInfoCircle, FaRegCommentAlt, FaUser } from "react-icons/fa";
+import { FaInfoCircle, FaUser } from "react-icons/fa";
 import RoomInfo from "./drawerContents/RoomInfo";
 import RoomActiveUser from "./drawerContents/RoomActiveUser";
 import RoomCommunity from "./drawerContents/RoomCommunity";
@@ -22,7 +22,7 @@ interface IdrawerData {
     currentCycle : number | null,
     userData : IRoomUserData,  
     participants : IParticipant[]
-    activeUsers : number 
+    activeUsers : number,
   }>;
   icon: React.FC;
 }
@@ -31,8 +31,8 @@ interface Props {
   roomData: IroomData;
   isRunning : boolean | null;
   currentCycle : number | null;
-  participants : IParticipant[]
-  activeUsers : number
+  participants : IParticipant[] | null;
+  activeUsers : number;
 }
 
 const drawerData: IdrawerData[] = [
@@ -48,12 +48,12 @@ const drawerData: IdrawerData[] = [
     component: RoomActiveUser,
     icon: FaUser
   },
-  {
-    id: 3,
-    title: "community",
-    component: RoomCommunity,
-    icon: FaRegCommentAlt
-  }
+  // {
+  //   id: 3,
+  //   title: "community",
+  //   component: RoomCommunity,
+  //   icon: FaRegCommentAlt
+  // }
 ];
 
 const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers }: Props) => {

@@ -24,7 +24,6 @@ export const ModalContainer = styled.div`
   overflow-y: scroll;
   scrollbar-width: none;
 
-
   .exitButton {
     display: flex;
     justify-content: center;
@@ -96,11 +95,20 @@ export const ModalRoomDetailStyle = styled.div`
   }
   .descript {
     width: 100%;
-    height: 42px;
+    height: 62px;
     font-size: ${({ theme }) => theme.fontSize.small};
     margin-bottom: 20px;
     text-align: center;
     color: ${({ theme }) => theme.color.grey3};
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: box;
+    overflow: hidden;
+    vertical-align: top;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
   .buttons {
     display: flex;

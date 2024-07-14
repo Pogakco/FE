@@ -1,29 +1,30 @@
 import styled from "styled-components";
-import { FaUser } from "react-icons/fa";
 import { IParticipant } from "@/models/roomDetail.model";
 import UserListBox from "./UserListBox";
 
 interface Props {
-  participants: IParticipant[];
+  participants: IParticipant[] | null;
   activeUsers: number;
 }
 
 const RoomActiveUser = ({ participants, activeUsers }: Props) => {
-  if (activeUsers === undefined || participants === undefined) {
+  if (activeUsers === null || participants === null) {
     return null;
   }
-  const sortedParticipants = [...participants].sort((a, b) => b.pomodoroCount - a.pomodoroCount);
 
   return (
     <RoomActiveUserStyle>
       <div className="title">참여중인 유저</div>
+      {/*
+      활성화 유저 미구현 
       <div className="users">
         <FaUser />{activeUsers}
-      </div>
+      </div> 
+      */}
       <hr />
 
       <div className="userList">
-        {sortedParticipants && sortedParticipants.map((user, index) => (
+        {participants && participants.map((user, index) => (
           <UserListBox rank={index} user={user} key={index} />
         ))}
       </div>

@@ -1,3 +1,4 @@
+import Profile from '@/components/profile/Profile';
 import styled from 'styled-components';
 
 interface Props {
@@ -6,26 +7,28 @@ interface Props {
     nickname: string;
     profileImageUrl?: string;
     pomodoroCount: number;
+    isCurrentParticipant : boolean ;
     isActive: boolean;
   }
 }
 
 const UserListBox = ({ rank, user }: Props) => {
+  console.log(user)
   return (
-    <UserListCardStyle $rank={rank}>
+    <UserListCardStyle $rank={rank} $isCurrentParticipant={user.isCurrentParticipant}>
       {rank <= 2 ? (
         <div className='userRank'>{rank + 1}</div>
       ) : (
         <div className='userRankPlaceholder'></div>
       )}
-      <div className='userImg'></div>
+      <Profile size='small' url={user.profileImageUrl}/>
       <div className='userName'>{user.nickname}</div>
       <div className='userCycle'>{user.pomodoroCount}회</div>
     </UserListCardStyle>
   );
 };
 
-const UserListCardStyle = styled.div<{ $rank: number }>`
+const UserListCardStyle = styled.div<{ $rank: number, $isCurrentParticipant: boolean }>`
   display: flex;
   gap: 10px;
   align-items: center;
@@ -34,6 +37,7 @@ const UserListCardStyle = styled.div<{ $rank: number }>`
   padding: 5px 5px;
   border-bottom: 1px solid ${({ theme }) => theme.color.grey2};
   transition: all 0.2s;
+  opacity: ${({$isCurrentParticipant}) => $isCurrentParticipant ? "1" : "0.5"};
 
   &:hover {
     scale: 1.05;
