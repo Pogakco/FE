@@ -14,8 +14,7 @@ export const fetchRooms = async (page: string = "1", isRunningChecked?: boolean,
 }
 
 export const createRoom = async (roomDatas: IcreateRoomForm) => {
-    console.log(roomDatas);
-    return await requestHandler("post", "rooms", {
+        return await requestHandler("post", "rooms", {
         roomTitle: roomDatas.roomTitle,
         roomDescription: roomDatas.roomDescription,
         focusTime: Number(roomDatas.focusTime),

@@ -14,6 +14,7 @@ import useFetchRoomUsers from "@/hooks/queries/useFetchRoomUsers";
 import { useQueryClient } from "@tanstack/react-query";
 import { SOCKET_TIMER_STATUS } from "@/constants/socket";
 import Loading from "@/components/commons/Loading";
+import { getUserRankList } from "@/utils/getUserRankList";
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -83,8 +84,7 @@ const RoomDetail = () => {
         isRunning={syncedIsRunning}
         currentCycle={
           (status === SOCKET_TIMER_STATUS.SET) || !syncedCurrentCycles ? roomData.currentCycles : syncedCurrentCycles}
-        participants={syncedAllParticipants}
-        linkedUserIds={syncedAllLinkeduserIds}
+        participants={getUserRankList(syncedAllParticipants, syncedAllLinkeduserIds)}
         activeUsers={(status === SOCKET_TIMER_STATUS.SET) || !syncedAllParticipants ? userData.activeParticipants : syncedAllParticipants.length}
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />

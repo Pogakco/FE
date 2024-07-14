@@ -6,20 +6,12 @@ import UserListBox from "./UserListBox";
 interface Props {
   participants: IParticipant[] | null;
   activeUsers: number;
-  linkedUserIds: number[] | null;
 }
 
-const RoomActiveUser = ({ participants, activeUsers, linkedUserIds }: Props) => {
-  if (activeUsers === null || participants === null || linkedUserIds === null) {
+const RoomActiveUser = ({ participants, activeUsers }: Props) => {
+  if (activeUsers === null || participants === null) {
     return null;
   }
-  const sortedParticipants = [...participants].sort((a, b) => b.pomodoroCount - a.pomodoroCount);
-  const userList = sortedParticipants.map((user) => ({
-    ...user,
-    isWaiting: user.id ? (linkedUserIds.includes(user.id) && user.isActive) : false
-    // 소켓에 연결됐으면서 && Joined 상태이다 => 실시간 참여
-    // 소켓에 연결됐지만 && Joined가 아니다 => 대기 중
-  }));
 
   return (
     <RoomActiveUserStyle>
@@ -30,7 +22,7 @@ const RoomActiveUser = ({ participants, activeUsers, linkedUserIds }: Props) => 
       <hr />
 
       <div className="userList">
-        {userList && userList.map((user, index) => (
+        {participants && participants.map((user, index) => (
           <UserListBox rank={index} user={user} key={index} />
         ))}
       </div>
