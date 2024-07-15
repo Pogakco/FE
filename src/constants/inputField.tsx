@@ -43,8 +43,8 @@ export const AUTH_INPUT_FIELD_ERROR: { [key in AUTH_TYPE]: string } = {
 type IcreateRoomFormKeys = keyof IcreateRoomForm;
 
 export const CREATE_ROOM_INPUT_FIELD_ERROR : { [key in IcreateRoomFormKeys] : string} = {
-  roomTitle: "",
-  roomDescription: "",
+  roomTitle: "방 제목은 20자 이내여야 합니다.",
+  roomDescription: "방 상세 설명은 80자 이내여야 합니다.",
   focusTime : "집중 시간은 25분에서 60분 사이여야 합니다.",
   shortBreakTime : "짧은 휴식 시간은 5분에서 15분 사이여야 합니다.",
   longBreakTime : "긴 휴식 시간은 30분에서 60분 사이여야 합니다.",
@@ -57,6 +57,7 @@ export const ROOM_CREATE_INFO_FIELD: ICreateInputField[] = [
   {
     name: "방 제목",
     field: "roomTitle",
+    placeHolder: "20자 이내",
     message: CREATE_ROOM_INPUT_FIELD_ERROR.roomTitle,
     regex : CREATE_ROOM_REGEX.roomTitle,
     defaultValue : "",
@@ -64,6 +65,7 @@ export const ROOM_CREATE_INFO_FIELD: ICreateInputField[] = [
   {
     name: "상세 설명",
     field: "roomDescription",
+    placeHolder: "80자 이내",
     message: CREATE_ROOM_INPUT_FIELD_ERROR.roomDescription,
     regex : CREATE_ROOM_REGEX.roomDescription,
     defaultValue : "",

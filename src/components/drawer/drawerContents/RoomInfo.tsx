@@ -56,7 +56,7 @@ const RoomInfo = ({ roomData, isRunning, currentCycle }: Props) => {
       <div className="section-title">공유하기</div>
       <span>
         <FaPaperclip />
-        <div className="description" ref={urlRef} onClick={handleURL} style={{ cursor: 'pointer' }}>
+        <div className="clipboard" ref={urlRef} onClick={handleURL} style={{ cursor: 'pointer' }}>
           {window.location.href}
         </div>
       </span>
@@ -92,6 +92,11 @@ const RoomInfoStyle = styled.div`
   }
 
   .description {
+    font-size: ${({ theme }) => theme.fontSize.small};
+    font-weight: 400;
+  }
+
+  .clipboard {
     font-size: ${({ theme }) => theme.fontSize.small};
     font-weight: 400;
     cursor: pointer;
