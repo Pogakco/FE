@@ -23,6 +23,7 @@ interface IdrawerData {
     userData : IRoomUserData,  
     participants : IParticipant[]
     activeUsers : number,
+    currentParticipants : number | null
   }>;
   icon: React.FC;
 }
@@ -81,7 +82,7 @@ const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers }
       <Overlay open={open} onClick={(e) => handleOverlayClick(e, drawerRef, setOpen, handleSelectDrawer)} />
       <DrawerStyle open={open} ref={drawerRef}>
         <DrawerContents>
-          {selectDrawer === "info" && <RoomInfo roomData={roomData} isRunning={isRunning} currentCycle={currentCycle} />}
+          {selectDrawer === "info" && <RoomInfo roomData={roomData} isRunning={isRunning} currentCycle={currentCycle} currentParticipants={participants? participants.length : 0} />}
           {selectDrawer === "user" && <RoomActiveUser participants={participants} activeUsers={activeUsers}/>}
           {selectDrawer === "community" && <RoomCommunity />}
         </DrawerContents>
