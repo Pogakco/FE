@@ -1,8 +1,10 @@
+import { ERROR_MESSAGE } from "@/constants/errorMessage";
 import {
   SOCKET_CONNECTION,
   SOCKET_TIMER_EVENTS,
   SOCKET_URL
 } from "@/constants/socket";
+import useInitialize from "@/hooks/useInitialize";
 import { errorResponse } from "@/models/error.model";
 import { IParticipant } from "@/models/roomDetail.model";
 import { useEffect, useState } from "react";
@@ -12,6 +14,7 @@ import { Socket, io } from "socket.io-client";
 
 const useEmitSocket = () => {
   const navigate = useNavigate();
+  const { userInitializeAuth } = useInitialize();
   const [socket, setSocket] = useState<Socket | null>(null);
   const [syncedIsRunning, setSyncedIsRunning] = useState<boolean | null>(null);
   const [syncedStartedAt, setSyncedStartedAt] = useState<string | null>(null);
@@ -79,6 +82,13 @@ const useEmitSocket = () => {
       toast.error("방이 삭제되었습니다");
       navigate("/");
     };
+    const onRequestedAuthenticate = () => {
+      userInitializeAuth();
+    };
+    const onAuthError = () => {
+      userInitializeAuth();
+      toast.error(ERROR_MESSAGE['401']);
+    };
     socket.on(SOCKET_TIMER_EVENTS.SYNC_IS_RUNNING, onSyncedIsRunning);
     socket.on(SOCKET_TIMER_EVENTS.SYNC_STARTED_AT, onSyncedStartedAt);
     socket.on(SOCKET_TIMER_EVENTS.SYNC_CURRENT_CYCLES, onSyncedCurrentCycles);
@@ -86,6 +96,8 @@ const useEmitSocket = () => {
     socket.on(SOCKET_TIMER_EVENTS.SYNC_ROOM_DELETED, onSyncedRoomDeleted);
     socket.on(SOCKET_TIMER_EVENTS.ERROR, onSyncedTimeError);
     socket.on(SOCKET_TIMER_EVENTS.SYNC_ALL_LINKED_USERS, onSyncedAllLinkedUserIds);
+    socket.on(SOCKET_TIMER_EVENTS.REQUEST_AUTH, onRequestedAuthenticate);
+    socket.on(SOCKET_TIMER_EVENTS.AUTH_ERROR, onAuthError);
 
     return () => {
       socket.disconnect();
