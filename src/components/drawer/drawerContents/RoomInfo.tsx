@@ -11,9 +11,10 @@ interface Props {
   roomData: IroomData;
   isRunning: boolean | null;
   currentCycle: number | null;
+  currentParticipants : number | null;
 }
 
-const RoomInfo = ({ roomData, isRunning, currentCycle }: Props) => {
+const RoomInfo = ({ roomData, isRunning, currentCycle, currentParticipants }: Props) => {
   const urlRef = useRef<HTMLDivElement>(null);
 
   const handleURL = () => {
@@ -38,7 +39,7 @@ const RoomInfo = ({ roomData, isRunning, currentCycle }: Props) => {
       </div>
       <div className="users">
         <FaUser />
-        {roomData.currentParticipants}/{roomData.maxParticipants}
+        {currentParticipants}/{roomData.maxParticipants}
       </div>
       <hr />
       <div className="section-title">방 정보</div>

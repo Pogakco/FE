@@ -13,7 +13,6 @@ interface Props {
 }
 
 const UserListBox = ({ rank, user }: Props) => {
-  console.log(user)
   return (
     <UserListCardStyle $rank={rank} $isCurrentParticipant={user.isCurrentParticipant}>
       {rank <= 2 ? (
