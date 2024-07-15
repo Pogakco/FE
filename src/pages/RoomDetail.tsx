@@ -104,8 +104,10 @@ const RoomDetail = () => {
             : syncedCurrentCycles
         }
         participants={getUserRankList(
-          syncedAllParticipants,
-          syncedAllLinkeduserIds
+          status === SOCKET_TIMER_STATUS.SET || !syncedAllParticipants 
+            ? userData.users
+            : syncedAllParticipants,
+          syncedAllLinkeduserIds  
         )}
         activeUsers={
           status === SOCKET_TIMER_STATUS.SET || !syncedAllParticipants
