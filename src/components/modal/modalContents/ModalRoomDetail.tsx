@@ -66,9 +66,9 @@ const ModalRoomDetail = ({ roomData }: Props) => {
           </SquareButton>
           {isLoggedIn && (
             <SquareButton
-              buttonColor={isError ? "default" : "active"}
+              buttonColor={(isError || roomData.isRunning) ? "default" : "active"}
               buttonSize="medium"
-              disabled={isError ? true : false}
+              disabled={(isError || roomData.isRunning) ? true : false}
               onClick={handleJoinButton}
             >
               참가하기
