@@ -16,24 +16,24 @@ import { IParticipant, IRoomUserData } from "@/models/roomDetail.model";
 interface IdrawerData {
   id: number;
   title: string;
-  component: React.FC<{ 
-    roomData: IroomData, 
-    isRunning : boolean | null,
-    currentCycle : number | null,
-    userData : IRoomUserData,  
-    participants : IParticipant[]
-    activeUsers : number,
-    currentParticipants : number | null
+  component: React.FC<{
+    roomData: IroomData;
+    isRunning: boolean | null;
+    currentCycle: number | null;
+    userData: IRoomUserData;
+    participants: IParticipant[];
+    activeUsers: number;
+    currentParticipants: number | null;
   }>;
   icon: React.FC;
 }
 
 interface Props {
   roomData: IroomData;
-  isRunning : boolean | null;
-  currentCycle : number | null;
-  participants : IParticipant[] | null;
-  activeUsers : number;
+  isRunning: boolean | null;
+  currentCycle: number | null;
+  participants: IParticipant[] | null;
+  activeUsers: number;
 }
 
 const drawerData: IdrawerData[] = [
@@ -48,7 +48,7 @@ const drawerData: IdrawerData[] = [
     title: "user",
     component: RoomActiveUser,
     icon: FaUser
-  },
+  }
   // {
   //   id: 3,
   //   title: "community",
@@ -57,7 +57,23 @@ const drawerData: IdrawerData[] = [
   // }
 ];
 
-const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers }: Props) => {
+const drawerVariants = {
+  hidden: { left: -365 },
+  visible: { left: 0 }
+};
+
+const overlayVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+};
+
+const Drawer = ({
+  roomData,
+  isRunning,
+  currentCycle,
+  participants,
+  activeUsers
+}: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const [selectDrawer, setSelectDrawer] = useState<string | null>(null);
@@ -79,11 +95,39 @@ const Drawer = ({ roomData, isRunning, currentCycle, participants, activeUsers }
 
   return (
     <>
-      <Overlay open={open} onClick={(e) => handleOverlayClick(e, drawerRef, setOpen, handleSelectDrawer)} />
-      <DrawerStyle open={open} ref={drawerRef}>
+      <Overlay
+        open={open}
+        initial="hidden"
+        animate={open ? "visible" : "hidden"}
+        variants={overlayVariants}
+        transition={{ duration: 0.3 }}
+        onClick={(e) =>
+          handleOverlayClick(e, drawerRef, setOpen, handleSelectDrawer)
+        }
+      />
+      <DrawerStyle
+        open={open}
+        ref={drawerRef}
+        initial="hidden"
+        animate={open ? "visible" : "hidden"}
+        variants={drawerVariants}
+        transition={{ type: "spring", stiffness: 200, damping: 40 }}
+      >
         <DrawerContents>
-          {selectDrawer === "info" && <RoomInfo roomData={roomData} isRunning={isRunning} currentCycle={currentCycle} currentParticipants={participants? participants.length : 0} />}
-          {selectDrawer === "user" && <RoomActiveUser participants={participants} activeUsers={activeUsers}/>}
+          {selectDrawer === "info" && (
+            <RoomInfo
+              roomData={roomData}
+              isRunning={isRunning}
+              currentCycle={currentCycle}
+              currentParticipants={participants ? participants.length : 0}
+            />
+          )}
+          {selectDrawer === "user" && (
+            <RoomActiveUser
+              participants={participants}
+              activeUsers={activeUsers}
+            />
+          )}
           {selectDrawer === "community" && <RoomCommunity />}
         </DrawerContents>
         <DrawerController>
