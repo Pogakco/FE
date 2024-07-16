@@ -69,11 +69,21 @@ const RoomListCardStyle = styled.div`
 
   .roomTitle {
     margin-top: 10px;
+    width: 80%;
     font-weight: bold;
     font-size: ${({ theme }) => theme.fontSize.medium};
     display: flex;
     justify-content: center;
     align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: box;
+    overflow: hidden;
+    vertical-align: top;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
   }
 
   .roomStatus {

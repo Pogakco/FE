@@ -15,7 +15,6 @@ import UserProfile from "./pages/UserProfile";
 import Layout from "./components/layout/Layout";
 import useInitialize from "./hooks/useInitialize";
 import { useEffect, useState } from "react";
-import Test from "./pages/Test";
 import CustomToaster from "./components/toaster/CustomToaster";
 import PrivateLayout from "./components/layout/PrivateLayout";
 
@@ -67,10 +66,6 @@ function App() {
         {
           path: "/rooms/:id",
           element: <RoomDetail />
-        },
-        {
-          path: "/test",
-          element: <Test />
         },
         {
           path: "*",

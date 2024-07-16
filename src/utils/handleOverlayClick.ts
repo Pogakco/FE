@@ -4,12 +4,13 @@ export const handleOverlayClick = (
   e: React.MouseEvent,
   ref: React.RefObject<HTMLElement>,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  callback: () => void
+  callback: () => void,
+  delay: number = 200
 ) => {
   if (ref.current && !ref.current.contains(e.target as Node)) {
     setOpen(false);
     setTimeout(() => {
       callback();
-    }, 200);
+    }, delay);
   }
 };

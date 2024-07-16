@@ -7,8 +7,8 @@ export const AUTH_REGEX = {
 };
 
 export const CREATE_ROOM_REGEX = {
-  roomTitle : /.*/,
-  roomDescription: /.*/,
+  roomTitle: /^.{0,20}$/,
+  roomDescription: /^.{0,80}$/,
   focusTime: /^(2[5-9]|[3-5][0-9]|60)$/, // 25에서 60 사이의 숫자
   shortBreakTime: /^[5-9]|1[0-5]$/, // 5에서 15 사이의 숫자
   longBreakTime: /^(3[0-9]|[4-5][0-9]|60)$/, // 30에서 60 사이의 숫자

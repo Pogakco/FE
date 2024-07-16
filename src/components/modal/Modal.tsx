@@ -7,15 +7,18 @@ interface Props {
   children: React.ReactNode;
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
   onClose: () => void;
-  isRecheckType?: boolean;
+  isRecheckType?: boolean; // 나가기 버튼 모달에서만 사용
 }
 
 const Modal = ({ children, setIsModal, onClose, isRecheckType }: Props) => {
   const modalRef = useRef(null);
+  const delay = isRecheckType ? 0 : 200;
 
   return (
     <ModalStyle
-      onClick={(e) => handleOverlayClick(e, modalRef, setIsModal, onClose)}
+      onClick={(e) =>
+        handleOverlayClick(e, modalRef, setIsModal, onClose, delay)
+      }
     >
       {isRecheckType && <div ref={modalRef}>{children}</div>}
       {!isRecheckType && (
