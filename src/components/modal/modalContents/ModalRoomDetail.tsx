@@ -66,9 +66,9 @@ const ModalRoomDetail = ({ roomData }: Props) => {
           </SquareButton>
           {isLoggedIn && (
             <SquareButton
-              buttonColor={(isError || roomData.isRunning) ? "default" : "active"}
+              buttonColor={isError || roomData.isRunning ? "default" : "active"}
               buttonSize="medium"
-              disabled={(isError || roomData.isRunning) ? true : false}
+              disabled={isError || roomData.isRunning ? true : false}
               onClick={handleJoinButton}
             >
               참가하기
@@ -76,6 +76,9 @@ const ModalRoomDetail = ({ roomData }: Props) => {
           )}
         </div>
       )}
+      {roomData.isRunning ? (
+        <div className="error">집중중인 방에는 참가할 수 없습니다</div>
+      ) : ""}
       {isError && error instanceof AxiosError && (
         <div className="error">
           {error.response?.data?.message || "에러 발생"}
