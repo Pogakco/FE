@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { BsGithub } from "react-icons/bs";
 import { RiNotionFill } from "react-icons/ri";
+import FeedBack from "./FeedBack";
 
 import logoImg from "../../assets/imgs/footerLogo.png";
 
@@ -16,7 +17,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="links">
-          <Link to="">뽀각코 팀에게 피드백 전달하기</Link>
+          <FeedBack />
           <div className="icons">
             <Link to="https://github.com/Pogakco" className="i">
               <RiNotionFill />
@@ -75,4 +76,5 @@ const FooterStyle = styled.footer`
     }
   }
 `;
+
 export default Footer;
