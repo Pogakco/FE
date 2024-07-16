@@ -115,7 +115,8 @@ const RoomDetail = () => {
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />
       <SquareButton
-        buttonColor="active"
+        buttonColor={syncedIsRunning ? "default" : "active"}
+        disabled={syncedIsRunning ? true : false}
         buttonSize="medium"
         onClick={handleClickCyclesStartButton}
       >
