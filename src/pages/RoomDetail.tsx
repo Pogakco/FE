@@ -161,5 +161,21 @@ const RoomDetailStyle = styled.div`
       height: 40px;
     }
   }
+
+  .mode {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    top: 40px;
+    left: 110px;
+    white-space: nowrap;
+    height: 40px;
+    color: #d9d9d9;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
 `;
 export default RoomDetail;
