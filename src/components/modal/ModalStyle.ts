@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const ModalStyle = styled.div`
@@ -13,7 +14,7 @@ export const ModalStyle = styled.div`
   align-items: center;
 `;
 
-export const ModalContainer = styled.div`
+export const ModalContainer = styled(motion.div)`
   position: relative;
   width: ${({ theme }) => theme.layoutWidth.modal};
   max-height: 80vh;
