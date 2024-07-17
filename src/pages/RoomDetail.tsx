@@ -19,6 +19,7 @@ import { getUserRankList } from "@/utils/getUserRankList";
 import { useModalExit } from "@/store/modalExit";
 import Modal from "@/components/modal/Modal";
 import ModalRoomExit from "@/components/modal/modalContents/ModalRoomExit";
+import { IoEye } from "react-icons/io5";
 
 const RoomDetail = () => {
   const location = useLocation();
@@ -95,6 +96,14 @@ const RoomDetail = () => {
       <div className="muteIcon" onClick={changeMute}>
         {isMute ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
+      <div className="mode">
+        {mode === "watch" && (
+          <>
+            <IoEye />
+            관전모드
+          </>
+        )}
+      </div>
       <Drawer
         roomData={roomData}
         isRunning={syncedIsRunning}
@@ -150,6 +159,22 @@ const RoomDetailStyle = styled.div`
     svg {
       width: 40px;
       height: 40px;
+    }
+  }
+
+  .mode {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    top: 40px;
+    left: 110px;
+    white-space: nowrap;
+    height: 40px;
+    color: #d9d9d9;
+    svg {
+      width: 100%;
+      height: 100%;
     }
   }
 `;
