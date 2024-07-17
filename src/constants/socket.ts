@@ -25,7 +25,7 @@ export const SOCKET_TIMER_STATUS = {
     END : "end",
     LONG_BREAK_TIME : "longBreakTime",
     FOCUS_TIME : "focusTime",
-    END_POINT : -9999,
+    END_POINT : -9999999,
 }
 
 export const SOCKET_CONNECTION = {
@@ -33,3 +33,7 @@ export const SOCKET_CONNECTION = {
     CONNECT_ERROR : "connect_error",
     DISCONNECT : "disconnect"
 }
+
+export const SECOND_MS = 1;
+export const MINUTE_MS = 60 * SECOND_MS;
+export const IS_DEV_MODE = process.env.NODE_ENV === 'development';

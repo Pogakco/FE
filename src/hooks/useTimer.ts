@@ -1,9 +1,11 @@
-import { SOCKET_TIMER_STATUS } from "@/constants/socket";
+import { IS_DEV_MODE, MINUTE_MS, SECOND_MS, SOCKET_TIMER_STATUS } from "@/constants/socket";
 import { IroomData } from "@/models/room.model";
 import { TtimerStatus } from "@/models/timer.model";
 import { getDifferentTime } from "@/utils/getDifferentTime";
 import { getTimerTime } from "@/utils/getTimerTime";
 import { useEffect, useState } from "react";
+
+const TIME_UNIT = IS_DEV_MODE? SECOND_MS : MINUTE_MS;
 
 interface IuseTimer {
   roomData: IroomData | undefined;
@@ -36,7 +38,7 @@ const useTimer = ({
     const startAt = syncedStartedAt ? syncedStartedAt : roomData.startedAt;
     const isRunning = syncedIsRunning ? syncedIsRunning : roomData.isRunning;
     if (!isRunning) {
-      setTimerTime(roomData.focusTime);
+      setTimerTime(roomData.focusTime * TIME_UNIT);
     }
 
     if (isRunning) {
@@ -46,10 +48,10 @@ const useTimer = ({
           roomData;
         const { status, timerData } = getTimerTime(
           differenceTime,
-          focusTime,
-          shortBreakTime,
+          focusTime * TIME_UNIT,
+          shortBreakTime * TIME_UNIT,
           totalCycles,
-          longBreakTime,
+          longBreakTime * TIME_UNIT,
           playFocusAlarm,
           playShortBreakAlarm,
           playLongBreakAlarm,
@@ -57,7 +59,7 @@ const useTimer = ({
         );
         setStatus(status);
         if (status === SOCKET_TIMER_STATUS.END) {
-          setTimerTime(roomData.focusTime);
+          setTimerTime(roomData.focusTime * TIME_UNIT);
           clearInterval(interval);
         } else if (status) {
           setTimerTime(timerData);

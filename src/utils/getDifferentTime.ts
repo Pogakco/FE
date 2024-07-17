@@ -3,6 +3,7 @@ export const getDifferentTime = (serverStartTime: string) : number => {
     const now = new Date();
     const timeDifferenceInMillis = now.getTime() - startDate.getTime();
     const timeDifferenceInSeconds = Math.round(timeDifferenceInMillis / 1000);
+    console.log(timeDifferenceInSeconds)
 
     return timeDifferenceInSeconds;
 }
