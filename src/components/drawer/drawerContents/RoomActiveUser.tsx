@@ -57,16 +57,32 @@ const RoomActiveUserStyle = styled.div`
   }
 
   .userList {
-    width: 100%;
-    padding: 20px;
-    min-height: 500px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    background-color: ${({ theme }) => theme.color.white};
-    border-radius: ${({ theme }) => theme.borderRadius.default};
-    border: 1px solid ${({ theme }) => theme.color.grey1};
-  }
+  width: 100%;
+  padding: 20px;
+  height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  background-color: ${({ theme }) => theme.color.white};
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+  border: 1px solid ${({ theme }) => theme.color.grey1};
+}
+
+.userList::-webkit-scrollbar {
+}
+
+.userList::-webkit-scrollbar-thumb {
+  background-color: ${({ theme }) => theme.color.grey1}; 
+  border-radius: 10px;
+}
+
+.userList::-webkit-scrollbar-track {
+  background-color: ${({ theme }) => theme.color.white};
+}
+
+.userList::-webkit-scrollbar-thumb:hover {
+  background-color: ${({ theme }) => theme.color.grey2};
+}
 
   .users {
     font-size: ${({ theme }) => theme.fontSize.medium};

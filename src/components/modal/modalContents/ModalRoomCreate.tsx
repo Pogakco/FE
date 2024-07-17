@@ -45,7 +45,9 @@ const ModalRoomCreate = () => {
     createRoom(data)
       .then((response) => {
         deleteSession("deleteCreateRoomSession");
-        navigate(`rooms/${response.roomId}`);
+        navigate(`rooms/${response.roomId}`, {
+          state: { mode: "participant" }
+        });
       })
       .catch((error) => {
         throw error;
