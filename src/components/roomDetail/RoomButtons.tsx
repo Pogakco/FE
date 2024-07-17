@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CircleButton from "../buttons/CircleButton";
 import { TExitButton, useModalExit } from "@/store/modalExit";
+import { AnimatePresence, motion } from "framer-motion";
+import { FLOATING_BOX_ANIMATION, FLOATING_LIST_ANIMATION } from "@/constants/animation";
 
 export type TMode = "watch" | "participant" | undefined; // 관전모드/ 참여자모드/ undefined: url창에 방 아이디를 바로 입력한 경우를 대비
 
@@ -73,27 +75,40 @@ const RoomButtons = ({ id, deleteButtonHandler, mode, setExit }: Props) => {
           {isFloating ? <IoMdAdd className="x-button" /> : <RiLogoutBoxRLine />}
         </CircleButton>
       </div>
-      {isFloating && (
-        <div className="floating-buttons">
-          {buttonList.map((item, i) => (
-            <div
-              className="item"
-              onClick={() => {
-                changeType(item.type as TExitButton);
-                setExit(() => item.onClick);
-              }}
-              key={i}
-            >
-              {item.name}
-              <CircleButton buttonColor="active" buttonSize="small">
-                {item.icon}
-              </CircleButton>
-            </div>
-          ))}
-        </div>
-      )}
+      <AnimatePresence>
+        {isFloating && (
+          <motion.div
+            className="floating-buttons"
+            initial={FLOATING_BOX_ANIMATION.initial}
+            animate={FLOATING_BOX_ANIMATION.animate}
+            exit={FLOATING_BOX_ANIMATION.exit}
+            transition={FLOATING_BOX_ANIMATION.transition}
+          >
+            {buttonList.map((item, i) => (
+              <motion.div
+                className="item"
+                onClick={() => {
+                  changeType(item.type as TExitButton);
+                  setExit(() => item.onClick);
+                }}
+                key={i}
+                initial={FLOATING_LIST_ANIMATION.initial}
+                animate={FLOATING_LIST_ANIMATION.animate}
+                exit={FLOATING_LIST_ANIMATION.exit}
+                transition={{ duration: 0.3, delay: i * 0.1 }}
+              >
+                {item.name}
+                <CircleButton buttonColor="active" buttonSize="small">
+                  {item.icon}
+                </CircleButton>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </RoomButtonsStyle>
   );
+  
 };
 
 const RoomButtonsStyle = styled.div`

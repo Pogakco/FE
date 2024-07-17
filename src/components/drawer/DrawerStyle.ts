@@ -1,17 +1,16 @@
+import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 
 interface DrawerContainerProps {
   open: boolean;
 }
 
-export const DrawerStyle = styled.div<DrawerContainerProps>`
+export const DrawerStyle = styled(motion.div)<DrawerContainerProps>`
   height: 100vh;
   width: 425px;
   background-color: ${({ theme }) => theme.color.pink5};
   position: fixed;
   top: 0;
-  left: -365px;
-  transition: left 0.3s ease;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,7 +63,7 @@ export const DrawerContents = styled.div`
   padding: 30px;
 `;
 
-export const Overlay = styled.div<DrawerContainerProps>`
+export const Overlay = styled(motion.div)<DrawerContainerProps>`
   position: fixed;
   top: 0;
   left: 0;

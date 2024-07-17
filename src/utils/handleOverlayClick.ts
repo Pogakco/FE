@@ -5,7 +5,7 @@ export const handleOverlayClick = (
   ref: React.RefObject<HTMLElement>,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>,
   callback: () => void,
-  delay: number = 200
+  delay: number = 500
 ) => {
   if (ref.current && !ref.current.contains(e.target as Node)) {
     setOpen(false);

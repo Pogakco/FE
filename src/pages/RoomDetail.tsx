@@ -15,10 +15,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { SOCKET_TIMER_STATUS } from "@/constants/socket";
 import Loading from "@/components/commons/Loading";
 import { getUserRankList } from "@/utils/getUserRankList";
-
 import { useModalExit } from "@/store/modalExit";
 import Modal from "@/components/modal/Modal";
 import ModalRoomExit from "@/components/modal/modalContents/ModalRoomExit";
+import { IoEye } from "react-icons/io5";
 
 const RoomDetail = () => {
   const location = useLocation();
@@ -30,6 +30,7 @@ const RoomDetail = () => {
 
   const { data: userData, isLoading: userDataIsLoading } =
     useFetchRoomUsers(id);
+
   const queryClient = useQueryClient();
 
   const {
@@ -64,7 +65,6 @@ const RoomDetail = () => {
   });
 
   const { onClose, modalOpen } = useModalExit();
-
   const [handleExit, setHandleExit] = useState<() => void>(() => {});
 
   useEffect(() => {
@@ -95,6 +95,14 @@ const RoomDetail = () => {
       <div className="muteIcon" onClick={changeMute}>
         {isMute ? <FaVolumeXmark /> : <FaVolumeHigh />}
       </div>
+      <div className="mode">
+        {mode === "watch" && (
+          <>
+            <IoEye />
+            관전모드
+          </>
+        )}
+      </div>
       <Drawer
         roomData={roomData}
         isRunning={syncedIsRunning}
@@ -115,7 +123,8 @@ const RoomDetail = () => {
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />
       <SquareButton
-        buttonColor="active"
+        buttonColor={(syncedIsRunning) ? "default" : "active"}
+        disabled={syncedIsRunning ? true : false}
         buttonSize="medium"
         onClick={handleClickCyclesStartButton}
       >
@@ -150,6 +159,22 @@ const RoomDetailStyle = styled.div`
     svg {
       width: 40px;
       height: 40px;
+    }
+  }
+
+  .mode {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    top: 40px;
+    left: 110px;
+    white-space: nowrap;
+    height: 40px;
+    color: #d9d9d9;
+    svg {
+      width: 100%;
+      height: 100%;
     }
   }
 `;
