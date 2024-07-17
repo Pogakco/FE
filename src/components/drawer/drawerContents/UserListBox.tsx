@@ -22,6 +22,7 @@ const UserListBox = ({ rank, user }: Props) => {
       )}
       <Profile size='small' url={user.profileImageUrl}/>
       <div className='userName'>{user.nickname}</div>
+      <div className='userActive'>{user.isActive ? "🔥" : ""}</div>
       <div className='userCycle'>{user.pomodoroCount}회</div>
     </UserListCardStyle>
   );
@@ -36,7 +37,7 @@ const UserListCardStyle = styled.div<{ $rank: number, $isCurrentParticipant: boo
   padding: 5px 5px;
   border-bottom: 1px solid ${({ theme }) => theme.color.grey2};
   transition: all 0.2s;
-  opacity: ${({$isCurrentParticipant}) => $isCurrentParticipant ? "1" : "0.5"};
+  opacity: ${({$isCurrentParticipant}) => $isCurrentParticipant ? "1" : "0.3"};
 
   &:hover {
     scale: 1.05;
@@ -64,6 +65,11 @@ const UserListCardStyle = styled.div<{ $rank: number, $isCurrentParticipant: boo
     background-color: transparent;
   }
 
+  .userActive {
+    width: 20px;
+    margin-left: auto;
+  }
+
   .userImg {
     width: 30px;
     height: 30px;
@@ -77,7 +83,6 @@ const UserListCardStyle = styled.div<{ $rank: number, $isCurrentParticipant: boo
   }
 
   .userCycle {
-    margin-left: auto;
     color: ${({ theme }) => theme.color.black};
     font-size: ${({ theme }) => theme.fontSize.small};
     font-weight: bold;
