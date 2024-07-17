@@ -1,6 +1,9 @@
+import { IS_DEV_MODE, MINUTE_MS, SECOND_MS } from "@/constants/socket";
 import { IcreateRoomForm, IroomData } from "@/models/room.model";
 import { TtimerStatus } from "@/models/timer.model";
 import { DefaultTheme } from "styled-components";
+
+const TIME_UNIT = IS_DEV_MODE? SECOND_MS : MINUTE_MS;
 
 export const percent = (
   status: TtimerStatus,
@@ -10,13 +13,13 @@ export const percent = (
   let total;
   switch (status) {
     case "focusTime":
-      total = roomData.focusTime;
+      total = roomData.focusTime * TIME_UNIT;
       return ((total - current + 1) / total) * 100;
     case "shortBreakTime":
-      total = roomData.shortBreakTime;
+      total = roomData.shortBreakTime * TIME_UNIT;
       return 100 - ((total - current + 1) / total) * 100;
     case "longBreakTime":
-      total = roomData.longBreakTime;
+      total = roomData.longBreakTime * TIME_UNIT;
       return ((total - current + 1) / total) * 100;
     default:
       return 0;
