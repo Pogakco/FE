@@ -15,7 +15,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { SOCKET_TIMER_STATUS } from "@/constants/socket";
 import Loading from "@/components/commons/Loading";
 import { getUserRankList } from "@/utils/getUserRankList";
-
 import { useModalExit } from "@/store/modalExit";
 import Modal from "@/components/modal/Modal";
 import ModalRoomExit from "@/components/modal/modalContents/ModalRoomExit";
@@ -31,6 +30,7 @@ const RoomDetail = () => {
 
   const { data: userData, isLoading: userDataIsLoading } =
     useFetchRoomUsers(id);
+
   const queryClient = useQueryClient();
 
   const {
@@ -65,7 +65,6 @@ const RoomDetail = () => {
   });
 
   const { onClose, modalOpen } = useModalExit();
-
   const [handleExit, setHandleExit] = useState<() => void>(() => {});
 
   useEffect(() => {
@@ -124,7 +123,8 @@ const RoomDetail = () => {
       />
       <Timer timerTime={timerTime} status={status} roomData={roomData} />
       <SquareButton
-        buttonColor="active"
+        buttonColor={(syncedIsRunning) ? "default" : "active"}
+        disabled={syncedIsRunning ? true : false}
         buttonSize="medium"
         onClick={handleClickCyclesStartButton}
       >
