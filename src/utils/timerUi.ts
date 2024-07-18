@@ -73,7 +73,7 @@ export const getDefaultValue = (key: keyof IcreateRoomForm) => {
     focusTime: "25",
     shortBreakTime: "5",
     longBreakTime: "30",
-    totalCycles: "4",
+    totalCycles: "2",
     maxParticipants: "10"
   };
 
