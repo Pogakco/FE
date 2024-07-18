@@ -12,6 +12,6 @@ export const CREATE_ROOM_REGEX = {
   focusTime: /^(2[5-9]|[3-5][0-9]|60)$/, // 25에서 60 사이의 숫자
   shortBreakTime: /^[5-9]|1[0-5]$/, // 5에서 15 사이의 숫자
   longBreakTime: /^(3[0-9]|[4-5][0-9]|60)$/, // 30에서 60 사이의 숫자
-  totalCycles: /^([1-9]|1[0-2])$/, // 1에서 12 사이의 숫자
+  totalCycles: /^([1-4])$/, // 1에서 12 사이의 숫자
   maxParticipants: /^[1-9][0-9]*$/ // 최소 1명 이상의 숫자
 };
