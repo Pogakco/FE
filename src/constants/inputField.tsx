@@ -85,7 +85,7 @@ export const ROOM_CREATE_INFO_FIELD: ICreateInputField[] = [
 export const ROOM_CREATE_TIMER_FIELD: ICreateInputField[] = [
   {
     icon: <FaBook />,
-    name: "집중시간",
+    name: "집중시간 (분)",
     field: "focusTime",
     placeHolder: "25 - 60분",
     message: CREATE_ROOM_INPUT_FIELD_ERROR.focusTime,
@@ -95,7 +95,7 @@ export const ROOM_CREATE_TIMER_FIELD: ICreateInputField[] = [
   },
   {
     icon: <CgSandClock />,
-    name: "휴식시간",
+    name: "휴식시간 (분)",
     field: "shortBreakTime",
     placeHolder: "5 - 15분",
     message: CREATE_ROOM_INPUT_FIELD_ERROR.shortBreakTime,
@@ -105,7 +105,7 @@ export const ROOM_CREATE_TIMER_FIELD: ICreateInputField[] = [
   },
   {
     icon: <IoIosAlarm />,
-    name: "대 휴식",
+    name: "대 휴식 (분) ",
     field: "longBreakTime",
     placeHolder: "30 - 60분",
     message: CREATE_ROOM_INPUT_FIELD_ERROR.longBreakTime,
@@ -115,9 +115,9 @@ export const ROOM_CREATE_TIMER_FIELD: ICreateInputField[] = [
   },
   {
     icon: <GiTomato />,
-    name: "뽀모도로 사이클",
+    name: "뽀모도로 사이클 (횟수) ",
     field: "totalCycles",
-    placeHolder: "1 - 12회",
+    placeHolder: "1 - 4회",
     message: CREATE_ROOM_INPUT_FIELD_ERROR.totalCycles,
     regex: CREATE_ROOM_REGEX.totalCycles,
     defaultValue : "",
