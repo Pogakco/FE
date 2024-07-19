@@ -48,7 +48,7 @@ export const CREATE_ROOM_INPUT_FIELD_ERROR : { [key in IcreateRoomFormKeys] : st
   focusTime : "집중 시간은 25분에서 60분 사이여야 합니다.",
   shortBreakTime : "짧은 휴식 시간은 5분에서 15분 사이여야 합니다.",
   longBreakTime : "긴 휴식 시간은 30분에서 60분 사이여야 합니다.",
-  totalCycles : "총 사이클 수는 1에서 12사이여야 합니다",
+  totalCycles : "뽀모도로 사이클 수는 1회에서 4회 사이여야 합니다",
   maxParticipants : "수용 인원 수는 최소 1명 이상이어야 합니다.",
 
 } 
