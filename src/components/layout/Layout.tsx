@@ -4,12 +4,15 @@ import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import { ErrorBoundary } from "react-error-boundary";
 import FallbackUI from "../errorBoundary/FallbackUI";
+import useAnalytics from "@/hooks/useAnalytics";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const Layout = ({ children }: Props) => {
+  useAnalytics();
+
   const location = useLocation();
   const noFooterPaths = ["/rooms/:id"];
 
