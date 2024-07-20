@@ -7,6 +7,7 @@ import {
 import useInitialize from "@/hooks/useInitialize";
 import { errorResponse } from "@/models/error.model";
 import { IParticipant } from "@/models/roomDetail.model";
+import { ServerTime } from "@/utils/serverTime";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ const useEmitSocket = () => {
   const [syncedStartedAt, setSyncedStartedAt] = useState<string | null>(null);
   const [syncedCurrentCycles, setSyncedCurrentCycles] = useState<number | null>(null);
   const [syncedAllLinkeduserIds, setSyncedAllLinkedUserIds] = useState<number[] | null>(null);
+  const [syncedCurrentServerTime, setSyncedCurrentServerTime] = useState<ServerTime | null>(null);
   const [syncedAllParticipants, setSyncedAllParticipants] = useState<
     IParticipant[] | null
   >(null);
@@ -34,6 +36,14 @@ const useEmitSocket = () => {
     if (!socket) return;
     socket.emit(SOCKET_TIMER_EVENTS.DELETE_ROOM);
   };
+
+  const getServerTime = () => {
+    if (!socket) return;
+    socket.emit(SOCKET_TIMER_EVENTS.SERVER_TIME)
+  }
+
+  getServerTime();
+
 
   const clearSyncedData = () => {
     setSyncedStartedAt(null);
@@ -75,6 +85,11 @@ const useEmitSocket = () => {
       setSyncedAllLinkedUserIds(allLinkedUserIds);
     }
 
+    const onSyncedCurrentServerTime = (currentServerTime : Date) => {
+      const serverTime = new ServerTime(currentServerTime);
+      setSyncedCurrentServerTime(serverTime);
+    }
+
     const onSyncedTimeError = (error: errorResponse) => {
       toast.error(error.message);
     };
@@ -96,6 +111,7 @@ const useEmitSocket = () => {
     socket.on(SOCKET_TIMER_EVENTS.SYNC_ROOM_DELETED, onSyncedRoomDeleted);
     socket.on(SOCKET_TIMER_EVENTS.ERROR, onSyncedTimeError);
     socket.on(SOCKET_TIMER_EVENTS.SYNC_ALL_LINKED_USERS, onSyncedAllLinkedUserIds);
+    socket.on(SOCKET_TIMER_EVENTS.SYNC_CURRENT_SERVER_TIME, onSyncedCurrentServerTime);
     socket.on(SOCKET_TIMER_EVENTS.REQUEST_AUTH, onRequestedAuthenticate);
     socket.on(SOCKET_TIMER_EVENTS.AUTH_ERROR, onAuthError);
 
@@ -111,6 +127,7 @@ const useEmitSocket = () => {
     syncedStartedAt,
     syncedTimeError,
     syncedAllLinkeduserIds,
+    syncedCurrentServerTime,
     handleClickCyclesStartButton,
     handleClickRoomDeleteButton,
     clearSyncedData

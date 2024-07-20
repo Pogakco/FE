@@ -3,6 +3,7 @@ import { IroomData } from "@/models/room.model";
 import { TtimerStatus } from "@/models/timer.model";
 import { getDifferentTime } from "@/utils/getDifferentTime";
 import { getTimerTime } from "@/utils/getTimerTime";
+import { ServerTime } from "@/utils/serverTime";
 import { useEffect, useState } from "react";
 
 const TIME_UNIT = IS_DEV_MODE? SECOND_MS : MINUTE_MS;
@@ -12,6 +13,7 @@ interface IuseTimer {
   syncedIsRunning: boolean | null;
   syncedStartedAt: string | null;
   syncedCurrentCycles: number | null;
+  syncedCurrentServerTime : ServerTime | null;
   playFocusAlarm: () => void;
   playShortBreakAlarm: () => void;
   playLongBreakAlarm: () => void;
@@ -23,6 +25,7 @@ const useTimer = ({
   syncedStartedAt,
   syncedIsRunning,
   syncedCurrentCycles,
+  syncedCurrentServerTime,
   playFocusAlarm,
   playShortBreakAlarm,
   playLongBreakAlarm,
@@ -43,7 +46,7 @@ const useTimer = ({
 
     if (isRunning) {
       const interval = setInterval(() => {
-        const differenceTime = getDifferentTime(startAt);
+        const differenceTime = getDifferentTime(startAt, syncedCurrentServerTime);
         const { focusTime, shortBreakTime, totalCycles, longBreakTime } =
           roomData;
         const { status, timerData } = getTimerTime(
@@ -52,6 +55,7 @@ const useTimer = ({
           shortBreakTime * TIME_UNIT,
           totalCycles,
           longBreakTime * TIME_UNIT,
+          syncedCurrentServerTime,
           playFocusAlarm,
           playShortBreakAlarm,
           playLongBreakAlarm,
