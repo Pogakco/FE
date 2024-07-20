@@ -19,7 +19,7 @@ const Footer = () => {
         <div className="links">
           <FeedBack />
           <div className="icons">
-            <Link to="https://noble-binder-13f.notion.site/POGAKCO-cfc3ab1ae6324b8fbf04fc6ade2eea63" className="i">
+            <Link to="https://pogakco.notion.site/POGAKCO-cfc3ab1ae6324b8fbf04fc6ade2eea63" className="i">
               <RiNotionFill />
             </Link>
             <Link to="https://github.com/Pogakco" className="i">
