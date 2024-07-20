@@ -55,7 +55,6 @@ const useTimer = ({
           shortBreakTime * TIME_UNIT,
           totalCycles,
           longBreakTime * TIME_UNIT,
-          syncedCurrentServerTime,
           playFocusAlarm,
           playShortBreakAlarm,
           playLongBreakAlarm,
