@@ -1,5 +1,6 @@
 import { SOCKET_TIMER_STATUS } from "@/constants/socket";
 import { ItimerStatus } from "@/models/timer.model";
+import { ServerTime } from "./serverTime";
 
 export const getTimerTime = (
   differenceTime: number,
@@ -7,11 +8,14 @@ export const getTimerTime = (
   shortBreakTime: number,
   totalCycles: number,
   longBreakTime: number,
+  syncedCurrentServerTime : ServerTime | null,
   playFocusAlarm: () => void,
   playShortBreakAlarm: () => void,
   playLongBreakAlarm: () => void,
   playEndAlarm: () => void
 ): ItimerStatus => {
+  const syncTime = syncedCurrentServerTime ? syncedCurrentServerTime.getSyncTime() : 0
+  differenceTime = differenceTime-syncTime
   const cycleDuration = focusTime + shortBreakTime;
   const totalCycleTime = cycleDuration * totalCycles;
   const totalCycleAndLongBreakTime = totalCycleTime + longBreakTime;
