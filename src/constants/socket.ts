@@ -14,7 +14,6 @@ export const SOCKET_TIMER_EVENTS = {
     SYNC_ROOM_DELETED: "room-deleted",
     SYNC_ALL_LINKED_USERS : "sync-all-linked-user-ids",
     SYNC_CURRENT_SERVER_TIME : "sync-current-server-time",
-    SERVER_TIME : "get-server-current-time",
     DELETE_ROOM: "delete-room",
     ERROR: "timer-error",
     REQUEST_AUTH: "request-auth",
