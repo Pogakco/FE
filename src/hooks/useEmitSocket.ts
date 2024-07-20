@@ -37,14 +37,6 @@ const useEmitSocket = () => {
     socket.emit(SOCKET_TIMER_EVENTS.DELETE_ROOM);
   };
 
-  const getServerTime = () => {
-    if (!socket) return;
-    socket.emit(SOCKET_TIMER_EVENTS.SERVER_TIME)
-  }
-
-  getServerTime();
-
-
   const clearSyncedData = () => {
     setSyncedStartedAt(null);
     setSyncedCurrentCycles(null);
