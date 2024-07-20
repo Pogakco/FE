@@ -15,9 +15,7 @@ export const getTimerTime = (
   playEndAlarm: () => void
 ): ItimerStatus => {
   const syncTime = syncedCurrentServerTime ? syncedCurrentServerTime.getSyncTime() : 0
-  console.log(syncTime)
   differenceTime = differenceTime-syncTime
-  console.log(differenceTime, syncTime)
   const cycleDuration = focusTime + shortBreakTime;
   const totalCycleTime = cycleDuration * totalCycles;
   const totalCycleAndLongBreakTime = totalCycleTime + longBreakTime;

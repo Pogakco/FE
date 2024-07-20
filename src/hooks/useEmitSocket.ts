@@ -69,7 +69,6 @@ const useEmitSocket = () => {
 
     setSocket(socket);
     const onSyncedIsRunning = (isRunning: boolean) => {
-      console.log(isRunning)
       setSyncedIsRunning(isRunning);
     };
     const onSyncedStartedAt = (startedAt: string) => {
