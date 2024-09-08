@@ -1,15 +1,24 @@
+import google from "@/assets/imgs/google.png";
+import kakao from "@/assets/imgs/kakao.png";
+import SquareButton from "@/components/buttons/SquareButton";
 import InputField from "@/components/inputField/InputField";
 import Title from "@/components/user/Title";
-import SquareButton from "@/components/buttons/SquareButton";
-import { Link } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { ILogin } from "@/models/auth.model";
-import useAuth from "@/hooks/useAuth";
 import {
   AUTH_INPUT_FIELD,
   AUTH_INPUT_FIELD_ERROR
 } from "@/constants/inputField";
+import useAuth from "@/hooks/useAuth";
+import { ILogin } from "@/models/auth.model";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { styled } from "styled-components";
 import { UserStyle } from "./UserStyle";
+
+const isDevMode = import.meta.env.DEV;
+const BASE_URL = isDevMode ? "http://localhost:5173" : "https://pogakco.site";
+
+const GOOGLE_OAUTH_REDIRECT_URI = `${BASE_URL}/oauth/google`;
+const KAKAO_OAUTH_REDIRECT_URI = `${BASE_URL}/oauth/kakao`;
 
 const UserLogin = () => {
   const {
@@ -23,6 +32,14 @@ const UserLogin = () => {
   const onSubmit: SubmitHandler<ILogin> = (data) => {
     userLogin(data);
   };
+
+  const handleKakaoLogin = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri: KAKAO_OAUTH_REDIRECT_URI
+    });
+  };
+
+  const handleGoogleLogin = () => {};
 
   return (
     <UserStyle>
@@ -58,6 +75,15 @@ const UserLogin = () => {
       {isError && (
         <div className="help-message">이메일 또는 비밀번호가 틀렸습니다.</div>
       )}
+      <Seperator>또는</Seperator>
+      <SocialButtons>
+        <button onClick={handleKakaoLogin}>
+          <img src={kakao} />
+        </button>
+        <button onClick={handleGoogleLogin}>
+          <img src={google} />
+        </button>
+      </SocialButtons>
       <div className="login-check">
         계정이 없으신가요? <Link to="/signup">회원가입</Link>
       </div>
@@ -65,4 +91,31 @@ const UserLogin = () => {
   );
 };
 
+const Seperator = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  margin: 32px 0 16px 0;
+
+  &::before,
+  &::after {
+    content: "";
+    width: 50%;
+    height: 1px;
+    background-color: #d0d0d0;
+  }
+`;
+
+const SocialButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  img,
+  button {
+    width: 48px;
+    height: 48px;
+  }
+`;
 export default UserLogin;
