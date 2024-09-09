@@ -3,7 +3,7 @@ import {
   requestKaKao,
   socialAuth,
   socialSignup
-} from "@/api/oauth";
+} from "@/api/oauth.api";
 import { ISocialSignup, TProvider } from "@/models/oauth.model";
 import { useAuthStore } from "@/store/authStore";
 import { useMutation } from "@tanstack/react-query";
