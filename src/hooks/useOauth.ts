@@ -49,9 +49,9 @@ export const useSocialLogin = () => {
     onSuccess: async (data, variables) => {
       if (data.isExistingUser) {
         storeLogin();
-        navigate("/");
+        navigate("/", { replace: true });
       } else {
-        navigate(`/social-signup?provider=${variables}`);
+        navigate(`/social-signup?provider=${variables}`, { replace: true });
       }
     }
   });
