@@ -6,7 +6,6 @@ import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const KaKaoCallback = () => {
-  console.log("몇번 실행됏을까~?");
   const [searchParams] = useSearchParams();
 
   const getCode = (): string | null => {

@@ -48,7 +48,6 @@ const UserLogin = () => {
       response_type: "code",
       scope: "email"
     });
-    console.log(`${url}?${query}`);
 
     window.location.href = `${url}?${query}`;
   };
