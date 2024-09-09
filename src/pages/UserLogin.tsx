@@ -9,6 +9,7 @@ import {
 } from "@/constants/inputField";
 import useAuth from "@/hooks/useAuth";
 import { ILogin } from "@/models/auth.model";
+import qs from "qs";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
@@ -39,7 +40,18 @@ const UserLogin = () => {
     });
   };
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleLogin = () => {
+    const url = `https://accounts.google.com/o/oauth2/v2/auth`;
+    const query = qs.stringify({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      redirect_uri: GOOGLE_OAUTH_REDIRECT_URI,
+      response_type: "code",
+      scope: "email"
+    });
+    console.log(`${url}?${query}`);
+
+    window.location.href = `${url}?${query}`;
+  };
 
   return (
     <UserStyle>
@@ -77,10 +89,10 @@ const UserLogin = () => {
       )}
       <Seperator>또는</Seperator>
       <SocialButtons>
-        <button onClick={handleKakaoLogin}>
+        <button onClick={handleKakaoLogin} type="button">
           <img src={kakao} />
         </button>
-        <button onClick={handleGoogleLogin}>
+        <button onClick={handleGoogleLogin} type="button">
           <img src={google} />
         </button>
       </SocialButtons>

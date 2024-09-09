@@ -8,6 +8,7 @@ import Layout from "./components/layout/Layout";
 import PrivateLayout from "./components/layout/PrivateLayout";
 import CustomToaster from "./components/toaster/CustomToaster";
 import { useAuth } from "./hooks/mutations/useAuth";
+import GoogleCallback from "./pages/GoogleCallback";
 import KaKaoCallback from "./pages/KaKaoCallback";
 import Main from "./pages/Main/Main";
 import NotFound from "./pages/NotFound";
@@ -49,6 +50,10 @@ function App() {
         {
           path: "/oauth/kakao",
           element: <KaKaoCallback />
+        },
+        {
+          path: "/oauth/google",
+          element: <GoogleCallback />
         },
         {
           path: "/social-signup",

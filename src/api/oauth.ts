@@ -11,7 +11,7 @@ export const requestKaKao = async (code: string, currentUri: string) => {
     code: code
   });
 
-  const resposne = await axios.post(
+  const response = await axios.post(
     "https://kauth.kakao.com/oauth/token",
     query,
     {
@@ -21,7 +21,24 @@ export const requestKaKao = async (code: string, currentUri: string) => {
     }
   );
 
-  return resposne.data;
+  return response.data;
+};
+
+export const requestGoogle = async (code: string, currentUri: string) => {
+  const query = qs.stringify({
+    grant_type: "authorization_code",
+    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
+    redirect_uri: currentUri,
+    code: code
+  });
+
+  const response = await axios.post(
+    "https://oauth2.googleapis.com/token",
+    query
+  );
+
+  return response.data;
 };
 
 export const socialAuth = async (provider: TProvider) => {

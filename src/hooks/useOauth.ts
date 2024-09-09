@@ -1,4 +1,9 @@
-import { requestKaKao, socialAuth, socialSignup } from "@/api/oauth";
+import {
+  requestGoogle,
+  requestKaKao,
+  socialAuth,
+  socialSignup
+} from "@/api/oauth";
 import { ISocialSignup, TProvider } from "@/models/oauth.model";
 import { useAuthStore } from "@/store/authStore";
 import { useMutation } from "@tanstack/react-query";
@@ -12,6 +17,19 @@ export const useRequestKaKao = () => {
     { code: string; currentUri: string }
   >({
     mutationFn: ({ code, currentUri }) => requestKaKao(code, currentUri)
+  });
+
+  return { mutate };
+};
+
+export const useRequestGoogle = () => {
+  const { mutate } = useMutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    Error,
+    { code: string; currentUri: string }
+  >({
+    mutationFn: ({ code, currentUri }) => requestGoogle(code, currentUri)
   });
 
   return { mutate };
