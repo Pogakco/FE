@@ -28,12 +28,12 @@ export const useSocialLogin = () => {
     TProvider
   >({
     mutationFn: (provider) => socialAuth(provider),
-    onSuccess: async (data) => {
+    onSuccess: async (data, variables) => {
       if (data.isExistingUser) {
         storeLogin();
         navigate("/");
       } else {
-        navigate("/social-signup");
+        navigate(`/social-signup?provider=${variables}`);
       }
     }
   });
