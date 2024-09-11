@@ -6,6 +6,7 @@ import {
 } from "@/api/oauth.api";
 import { ISocialSignup, TProvider } from "@/models/oauth.model";
 import { useAuthStore } from "@/store/authStore";
+import { setLocalStorage } from "@/utils/localStorage";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -49,6 +50,7 @@ export const useSocialLogin = () => {
     onSuccess: async (data, variables) => {
       if (data.isExistingUser) {
         storeLogin();
+        setLocalStorage("provider", variables);
         navigate("/", { replace: true });
       } else {
         navigate(`/social-signup?provider=${variables}`, { replace: true });
@@ -71,8 +73,9 @@ export const useSocialSignup = () => {
   >({
     mutationFn: ({ email, nickname, provider }) =>
       socialSignup(email, nickname, provider),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       storeLogin();
+      setLocalStorage("provider", variables.provider);
       navigate("/");
     }
   });
