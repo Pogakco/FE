@@ -2,6 +2,7 @@ import google from "@/assets/imgs/google.png";
 import kakao from "@/assets/imgs/kakao.png";
 import SquareButton from "@/components/buttons/SquareButton";
 import InputField from "@/components/inputField/InputField";
+import Tooltip from "@/components/tooltip/Tooltip";
 import Title from "@/components/user/Title";
 import {
   AUTH_INPUT_FIELD,
@@ -9,6 +10,7 @@ import {
 } from "@/constants/inputField";
 import useAuth from "@/hooks/useAuth";
 import { ILogin } from "@/models/auth.model";
+import { getLocalStorage } from "@/utils/localStorage";
 import qs from "qs";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -88,11 +90,17 @@ const UserLogin = () => {
       )}
       <Seperator>또는</Seperator>
       <SocialButtons>
-        <button onClick={handleKakaoLogin} type="button">
+        <button onClick={handleKakaoLogin} type="button" className="KAKAO">
           <img src={kakao} />
+          {getLocalStorage("provider") === "KAKAO" && (
+            <Tooltip>최근 로그인한 계정</Tooltip>
+          )}
         </button>
-        <button onClick={handleGoogleLogin} type="button">
+        <button onClick={handleGoogleLogin} type="button" className="GOOGLE">
           <img src={google} />
+          {getLocalStorage("provider") === "GOOGLE" && (
+            <Tooltip>최근 로그인한 계정</Tooltip>
+          )}
         </button>
       </SocialButtons>
       <div className="login-check">
@@ -122,11 +130,13 @@ const SocialButtons = styled.div`
   display: flex;
   justify-content: center;
   gap: 20px;
+  margin-bottom: 40px;
 
   img,
   button {
     width: 48px;
     height: 48px;
+    position: relative;
   }
 `;
 export default UserLogin;
