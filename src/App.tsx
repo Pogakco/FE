@@ -3,9 +3,8 @@ import { ThemeProvider } from "styled-components";
 
 import "@/style/font.css";
 import "@/style/reset.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Layout from "./components/layout/Layout";
-import PrivateLayout from "./components/layout/PrivateLayout";
 import CustomToaster from "./components/toaster/CustomToaster";
 import { useAuth } from "./hooks/mutations/useAuth";
 import GoogleCallback from "./pages/GoogleCallback";
@@ -14,7 +13,6 @@ import Main from "./pages/Main/Main";
 import NotFound from "./pages/NotFound";
 import RoomDetail from "./pages/RoomDetail";
 import SocialSignup from "./pages/SocialSignup";
-import { UserCheckPassword } from "./pages/UserCheckPassword.1";
 import UserLogin from "./pages/UserLogin";
 import UserProfile from "./pages/UserProfile";
 import UserSignup from "./pages/UserSignup";
@@ -23,8 +21,6 @@ import { light } from "./style/theme";
 
 function App() {
   const { mutate } = useAuth();
-
-  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
 
   useEffect(() => {
     mutate();
@@ -59,21 +55,10 @@ function App() {
           path: "/social-signup",
           element: <SocialSignup />
         },
-        {
-          path: "/check-password",
-          element: (
-            <UserCheckPassword
-              onPasswordConfirmed={() => setIsPasswordConfirmed(true)}
-            />
-          )
-        },
+
         {
           path: "/profile",
-          element: (
-            <PrivateLayout isAccess={isPasswordConfirmed}>
-              <UserProfile />
-            </PrivateLayout>
-          )
+          element: <UserProfile />
         },
         {
           path: "/",
