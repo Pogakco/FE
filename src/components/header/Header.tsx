@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { useAuthStore } from "@/store/authStore";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import LogoutToast from "./LogoutToast";
 import useAuth from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/authStore";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import LogoutToast from "./LogoutToast";
 
 import logoImg from "../../assets/imgs/headerLogo.png";
 
@@ -19,7 +19,7 @@ const Header = () => {
         navigate("/");
       },
       profile: () => {
-        navigate("/check-password");
+        navigate("/profile");
       },
       login: () => {
         navigate("/login");

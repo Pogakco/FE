@@ -1,18 +1,19 @@
 import SquareButton from "@/components/buttons/SquareButton";
 import InputField from "@/components/inputField/InputField";
 
-import { SubmitHandler } from "react-hook-form";
-import { UserProfileStyle } from "./UserStyle";
-import { AUTH_REGEX } from "@/constants/regex";
+import UserImage from "@/components/user/userProfile/UserImage";
 import {
   AUTH_INPUT_FIELD,
   AUTH_INPUT_FIELD_ERROR
 } from "@/constants/inputField";
-import useAuth from "@/hooks/useAuth";
-import { useEffect, useState } from "react";
-import useFormValidation from "@/hooks/useFormValidation";
-import UserImage from "@/components/user/userProfile/UserImage";
+import { AUTH_REGEX } from "@/constants/regex";
 import useFetchProfile from "@/hooks/queries/useFetchProfile";
+import useAuth from "@/hooks/useAuth";
+import useFormValidation from "@/hooks/useFormValidation";
+import { getLocalStorage } from "@/utils/localStorage";
+import { useEffect, useState } from "react";
+import { SubmitHandler } from "react-hook-form";
+import { UserProfileStyle } from "./UserStyle";
 
 interface IValidate {
   nickname: string;
@@ -23,6 +24,7 @@ interface IValidate {
 const UserProfile = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const provider = getLocalStorage("provider");
 
   const {
     register,
@@ -94,6 +96,7 @@ const UserProfile = () => {
                   message: AUTH_INPUT_FIELD_ERROR.nickname
                 }
               })}
+              autoFocus
             />
             {errors.nickname && (
               <div className="help-message">{errors.nickname?.message}</div>
@@ -107,41 +110,45 @@ const UserProfile = () => {
               중복확인
             </SquareButton>
           </fieldset>
-          <fieldset>
-            <InputField
-              inputfield={AUTH_INPUT_FIELD.password}
-              schema="auth"
-              type="password"
-              {...register("password", {
-                pattern: AUTH_REGEX.password
-              })}
-            />
-            {errors.password && (
-              <div className="help-message">
-                {AUTH_INPUT_FIELD_ERROR.password}
-              </div>
-            )}
-          </fieldset>
-          <fieldset>
-            <InputField
-              inputfield={AUTH_INPUT_FIELD.checkPassword}
-              schema="auth"
-              type="password"
-              {...register("passwordCheck", {
-                validate: {
-                  matchPassword: (value) => {
-                    const { password } = getValues();
-                    return password === value;
-                  }
-                }
-              })}
-            />
-            {errors.passwordCheck && (
-              <div className="help-message">
-                {AUTH_INPUT_FIELD_ERROR.checkPassword}
-              </div>
-            )}
-          </fieldset>
+          {!provider && (
+            <>
+              <fieldset>
+                <InputField
+                  inputfield={AUTH_INPUT_FIELD.password}
+                  schema="auth"
+                  type="password"
+                  {...register("password", {
+                    pattern: AUTH_REGEX.password
+                  })}
+                />
+                {errors.password && (
+                  <div className="help-message">
+                    {AUTH_INPUT_FIELD_ERROR.password}
+                  </div>
+                )}
+              </fieldset>
+              <fieldset>
+                <InputField
+                  inputfield={AUTH_INPUT_FIELD.checkPassword}
+                  schema="auth"
+                  type="password"
+                  {...register("passwordCheck", {
+                    validate: {
+                      matchPassword: (value) => {
+                        const { password } = getValues();
+                        return password === value;
+                      }
+                    }
+                  })}
+                />
+                {errors.passwordCheck && (
+                  <div className="help-message">
+                    {AUTH_INPUT_FIELD_ERROR.checkPassword}
+                  </div>
+                )}
+              </fieldset>
+            </>
+          )}
           <SquareButton buttonColor="active" buttonSize="large" type="submit">
             프로필 수정하기
           </SquareButton>

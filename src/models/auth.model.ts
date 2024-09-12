@@ -27,3 +27,7 @@ export interface IProfile {
   nickname: string;
   profileImageUrl: string | null;
 }
+
+export interface IAuth {
+  isLogin: boolean;
+}

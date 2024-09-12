@@ -1,25 +1,26 @@
 import {
-  login,
-  logout,
-  signup,
+  changeProfile,
   checkDuplicateEmail,
   checkDuplicateNickname,
   checkPassword,
-  changeProfile
+  login,
+  logout,
+  signup
 } from "@/api/auth.api";
 import {
-  ILogin,
-  ISignup,
   ICheckDuplicateEmail,
   ICheckDuplicateNickname,
-  IResetPassword
+  ILogin,
+  IResetPassword,
+  ISignup
 } from "@/models/auth.model";
 import { useAuthStore } from "@/store/authStore";
 import {
+  isBadRequestError,
   isConflictError,
-  isTokenError,
-  isBadRequestError
+  isTokenError
 } from "@/utils/error";
+import { removeLocalStorage } from "@/utils/localStorage";
 import { AxiosError } from "axios";
 import { useCallback, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
@@ -77,6 +78,7 @@ const useAuth = () => {
       .then(() => {
         storeLogin();
         navigate("/");
+        removeLocalStorage("provider");
         toast.success(TOAST_MESSAGE.login.success);
       })
       .catch((err) => {
