@@ -1,17 +1,26 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 interface Props {
   children: React.ReactNode;
 }
-const Tootip = ({ children }: Props) => {
-  return <Wrapper>{children}</Wrapper>;
+
+const Tooltip = ({ children }: Props) => {
+  return (
+    <Wrapper
+      initial={{ y: -10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", delay: 0.3 }}
+    >
+      {children}
+    </Wrapper>
+  );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   position: absolute;
   bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: -75%;
   border-radius: 8px;
   padding: 0.25rem 0.5rem;
   white-space: nowrap;
@@ -35,4 +44,4 @@ const Wrapper = styled.div`
   }
 `;
 
-export default Tootip;
+export default Tooltip;
