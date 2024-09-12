@@ -23,6 +23,12 @@ const GlobalStyle = createGlobalStyle<Props>`
         themeName === "light" ? "#F8F9FA" : "#333333"};
   }
 
+  button {
+    border: none;
+    cursor: pointer;
+ 
+  }
+
   h1 {
       margin: 0;
   }

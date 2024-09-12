@@ -1,15 +1,15 @@
 import {
-  ILogin,
-  ISignup,
   ICheckDuplicateEmail,
   ICheckDuplicateNickname,
-  IResetPassword
+  ILogin,
+  IResetPassword,
+  ISignup
 } from "@/models/auth.model";
 import { createClient, requestHandler } from "./apiClient";
 
 // auth
-export const auth = () => {
-  return requestHandler("post", "/auth");
+export const auth = async () => {
+  return await requestHandler("post", "/auth");
 };
 
 // signup

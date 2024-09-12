@@ -1,30 +1,30 @@
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
-import { light } from "./style/theme";
-import GlobalStyle from "./style/global";
-import UserSignup from "./pages/UserSignup";
-import UserLogin from "./pages/UserLogin";
-import RoomDetail from "./pages/RoomDetail";
-import "@/style/reset.css";
 import "@/style/font.css";
+import "@/style/reset.css";
+import { useEffect } from "react";
+import Layout from "./components/layout/Layout";
+import CustomToaster from "./components/toaster/CustomToaster";
+import { useAuth } from "./hooks/mutations/useAuth";
+import GoogleCallback from "./pages/GoogleCallback";
+import KaKaoCallback from "./pages/KaKaoCallback";
 import Main from "./pages/Main/Main";
 import NotFound from "./pages/NotFound";
-import { UserCheckPassword } from "./pages/UserCheckPassword.1";
+import RoomDetail from "./pages/RoomDetail";
+import SocialSignup from "./pages/SocialSignup";
+import UserLogin from "./pages/UserLogin";
 import UserProfile from "./pages/UserProfile";
-import Layout from "./components/layout/Layout";
-import useInitialize from "./hooks/useInitialize";
-import { useEffect, useState } from "react";
-import CustomToaster from "./components/toaster/CustomToaster";
-import PrivateLayout from "./components/layout/PrivateLayout";
+import UserSignup from "./pages/UserSignup";
+import GlobalStyle from "./style/global";
+import { light } from "./style/theme";
 
 function App() {
-  const { userInitializeAuth } = useInitialize();
-  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
+  const { mutate } = useAuth();
 
   useEffect(() => {
-    userInitializeAuth();
-  }, [userInitializeAuth]);
+    mutate();
+  }, [mutate]);
 
   const router = createBrowserRouter([
     {
@@ -44,20 +44,21 @@ function App() {
           element: <UserLogin />
         },
         {
-          path: "/check-password",
-          element: (
-            <UserCheckPassword
-              onPasswordConfirmed={() => setIsPasswordConfirmed(true)}
-            />
-          )
+          path: "/oauth/kakao",
+          element: <KaKaoCallback />
         },
         {
+          path: "/oauth/google",
+          element: <GoogleCallback />
+        },
+        {
+          path: "/social-signup",
+          element: <SocialSignup />
+        },
+
+        {
           path: "/profile",
-          element: (
-            <PrivateLayout isAccess={isPasswordConfirmed}>
-              <UserProfile />
-            </PrivateLayout>
-          )
+          element: <UserProfile />
         },
         {
           path: "/",
