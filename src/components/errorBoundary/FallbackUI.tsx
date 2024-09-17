@@ -1,19 +1,19 @@
+import { ERROR_MESSAGE } from "@/constants/errorMessage";
+import { NotFoundStyle } from "@/pages/NotFound";
+import { useAuthStore } from "@/store/authStore";
+import {
+  isAuthorityError,
+  isNetworkError,
+  isNotFoundError,
+  isServerError,
+  isTimeoutError,
+  isTokenError
+} from "@/utils/error";
 import { useEffect, useState } from "react";
 import { FallbackProps } from "react-error-boundary";
-import { ERROR_MESSAGE } from "@/constants/errorMessage";
-import SquareButton from "../buttons/SquareButton";
-import {
-  isNetworkError,
-  isTimeoutError,
-  isServerError,
-  isTokenError,
-  isAuthorityError,
-  isNotFoundError
-} from "@/utils/error";
-import { NotFoundStyle } from "@/pages/NotFound";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { useAuthStore } from "@/store/authStore";
+import SquareButton from "../buttons/SquareButton";
 
 interface IButtonProps {
   status: number;
@@ -93,7 +93,7 @@ const FallbackUI = ({ error, resetErrorBoundary }: FallbackProps) => {
         button: "뒤로가기"
       });
     }
-  }, [error, resetErrorBoundary, navigate]);
+  }, [error, resetErrorBoundary, navigate, storeLogout]);
 
   return (
     <FallbackUIStyle>
