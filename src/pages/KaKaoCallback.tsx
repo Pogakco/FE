@@ -29,10 +29,10 @@ const KaKaoCallback = () => {
           httpClient.defaults.headers.Authorization = `Bearer ${data.access_token}`;
 
           socialLogin("KAKAO");
-        },
-        onError: (error) => {}
+        }
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
